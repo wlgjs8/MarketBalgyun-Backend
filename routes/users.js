@@ -1,41 +1,39 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   return res.json(users);
-})
+});
 
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   const id = parseInt(req.params.id, 10);
-  if(!id){
-    return res.status(400).json({err: 'Incorrect id'});
+  if (!id) {
+    return res.status(400).json({ err: "Incorrect id" });
   }
 
-  let user = users.filter(user => user.id == id)[0]
-  if(!user){
-    return res.status(404).json({err: 'Unknown user'});
+  let user = users.filter((user) => user.id == id)[0];
+  if (!user) {
+    return res.status(404).json({ err: "Unknown user" });
   }
   return res.json(user);
-})
-
+});
 
 let users = [
   {
     id: 1,
-    name: 'Hyun'
+    name: "Hyun",
   },
   {
     id: 2,
-    name: 'Alice'
+    name: "Alice",
   },
   {
     id: 3,
-    name: 'Kelly'
-  }
-]
+    name: "Kelly",
+  },
+];
 
 module.exports = router;
-
 
 /*
 var express = require('express');
