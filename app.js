@@ -9,6 +9,8 @@ var connect = require('./model');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const passportConfig = require('passport');
 
 var app = express();
 connect();

@@ -22,4 +22,6 @@ const userSchema = new Schema({
 		type:String,
 		requried:true,
 	}
-})
+});
+
+module.exports = mongoose.model('User', userSchema);
