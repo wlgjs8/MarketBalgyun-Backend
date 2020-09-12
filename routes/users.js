@@ -1,48 +1,41 @@
 var express = require("express");
 var router = express.Router();
-var customerDB = require("../tempDB/Customers");
 
 router.get("/", (req, res) => {
   return res.json(customerDB);
 });
 
-router.get("/:id", (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  if (!id) {
-    return res.status(400).json({ err: "Incorrect id" });
-  }
-
-  let user = users.filter((user) => user.id == id)[0];
-  if (!user) {
-    return res.status(404).json({ err: "Unknown user" });
-  }
-  return res.json(user);
-});
-
-let users = [
+let customerDB = [
   {
-    id: 1,
-    name: "Hyun",
+    name: "변지현",
+    phone: "01021491111",
+    taste: "",
+    boolSMS: false,
+    boolLecture: false,
+    likeCategory: "고가구",
+    something: "생축",
+    email: "bjh@naver.com",
+    birthday: "990830",
+    gender: "M",
+    address: "사가정",
+    mainNumber: 1,
+    point: 3400,
   },
   {
-    id: 2,
-    name: "Alice",
-  },
-  {
-    id: 3,
-    name: "Kelly",
+    name: "손예진",
+    phone: "01021492222",
+    taste: "",
+    boolSMS: false,
+    boolLecture: true,
+    likeCategory: "브랜드 의류",
+    something: "곤듀님은 오늘도 아름답다.",
+    email: "",
+    birthday: "",
+    gender: "F",
+    address: "",
+    mainNumber: 1,
+    point: 2700,
   },
 ];
 
 module.exports = router;
-
-/*
-var express = require('express');
-var router = express.Router();
-
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
-*/
