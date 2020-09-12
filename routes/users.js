@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
+var customerDB = require("../tempDB/Customers");
 
 router.get("/", (req, res) => {
-  return res.json(users);
+  return res.json(customerDB);
 });
 
 router.get("/:id", (req, res) => {
