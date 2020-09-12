@@ -38,7 +38,8 @@ app.use(session({
   },
 }));
 app.use(flash());
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -60,8 +61,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.use(flash());
-app.use(passport.initialize());
-app.use(passport.session());
 
 module.exports = app;

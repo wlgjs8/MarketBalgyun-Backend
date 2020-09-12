@@ -10,18 +10,13 @@ const router = express.Router();
 router.post('/join', isNotLoggedIn, async (req, res, next) => {
 	const { ID , password, name, level } = req.body;
 	try{
-		console.log('hi1');
-		const exUser = await User.find({ ID: ID });
-		console.log('hi2');
-		console.log(exUser === true);
-		console.log(exUser);
+		const exUser = await User.find({ ID:ID });
 		if(exUser.length !== 0){
 			console.log(exUser);
 			req.flash('joinError', '이미 가입된 ID입니다.');
 			console.log('이미 가입된 ID입니다.');
 			return res.redirect('/join');
 		}
-		console.log('hi3');
 		const hash = await bycrypt.hash(password, 12);
 		await User.create({
 			ID,
@@ -42,7 +37,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
 			console.error(authError);
 			return next(authError);
 		}
-		if(!User){
+		if(!user){
 			req.flash('loginError', info.message);
 			return res.redirect('/');
 		}
