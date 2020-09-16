@@ -5,17 +5,13 @@ const User = require("../models/User");
 router.use(express.json());
 
 router.get("/", async (req, res) => {
-  const userTemp = await User.find({ ID: "0001" });
-  userJson = JSON.stringify(userTemp);
-  console.log(userJson);
+  req.body.postPhone = "01021492222";
+  const postPhone = req.body.postPhone;
 
-  return res.json(customerDB);
-});
-
-router.post("/", (req, res) => {
-  req.body.phone = "2222";
-  res.send(customerDB);
-  // console.log(m)
+  // const userTemp = await Customers.find({ phone: postPhone });
+  // const userTemp = await User.find({ phone: postPhone });
+  userJson = JSON.stringify(Customers);
+  res.send(userJson);
 });
 
 module.exports = router;

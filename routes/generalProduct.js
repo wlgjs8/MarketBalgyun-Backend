@@ -5,6 +5,23 @@ router.get("/", (req, res) => {
   return res.json(GeneralProducts);
 });
 
+router.post("/", (req, res) => {});
+
+function setGeneralProduct(req) {
+  const {
+    id,
+    first_category,
+    second_category,
+    third_category,
+    name,
+    cost,
+    price,
+    quantity,
+    place,
+    date,
+  } = req.body;
+}
+
 let GeneralProducts = [
   {
     id: 102132,
