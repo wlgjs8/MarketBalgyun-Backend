@@ -26,4 +26,5 @@ module.exports = () => {
 		connect();
 	});
 	require('./User');
+	require('./Customer');
 };
