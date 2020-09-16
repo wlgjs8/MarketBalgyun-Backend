@@ -10,13 +10,7 @@ module.exports = (passport) => {
 		//passReqToCallback:true,
 	}, async (ID, password, done) => {
 		try{
-			//console.log('!!!!!', ID);
 			const exUser = await User.findOne({ ID:ID });
-			// console.log('!!!!!!',ID);
-			// console.log('??????', exUser.ID);			
-			// console.log('??????', exUser.password);
-			console.log('!!!!!', exUser);
-			// console.log('!!!!!!',User.find({ ID:ID }));
 			if (exUser) {
 				const result = await bcrypt.compare(password, exUser.password);
 				if (result) {
