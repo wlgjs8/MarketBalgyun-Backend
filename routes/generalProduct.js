@@ -5,7 +5,11 @@ router.get("/", (req, res) => {
   return res.json(GeneralProducts);
 });
 
-router.post("/", (req, res) => {});
+router.post("/", (req, res) => {
+  // setGeneralProduct(req);
+  console.log("HELLO POST");
+  res.send("HELLO POST");
+});
 
 function setGeneralProduct(req) {
   const {
@@ -20,6 +24,7 @@ function setGeneralProduct(req) {
     place,
     date,
   } = req.body;
+  // const generalProduct = await GeneralProducts.insert
 }
 
 let GeneralProducts = [
