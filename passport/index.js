@@ -7,7 +7,7 @@ module.exports = (passport) => {
 	});
 
 	passport.deserializeUser((ID, done) => {
-		User.findOne({ ID:ID }[0])
+		User.findOne({ ID:ID })
 		.then(user => done(null, user))
 		.catch(err => done(err));
 	});
