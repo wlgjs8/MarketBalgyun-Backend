@@ -8,20 +8,19 @@ const { NotExtended } = require("http-errors");
 const router = express.Router();
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
-  const { ID, password, name, level } = req.body;
+  const { name, password, level } = req.body;
   try {
-    const exUser = await User.find({ ID: ID });
+    const exUser = await User.find({ name: name });
     if (exUser.length !== 0) {
       console.log(exUser);
-      req.flash("joinError", "이미 가입된 ID입니다.");
-      console.log("이미 가입된 ID입니다.");
+      req.flash("joinError", "이미 가입된 name입니다.");
+      console.log("이미 가입된 name입니다.");
       return res.redirect("/join");
     }
     const hash = await bycrypt.hash(password, 12);
     await User.create({
-      ID,
-      password: hash,
       name,
+      password: hash,
       level,
     });
     return res.redirect("/");
