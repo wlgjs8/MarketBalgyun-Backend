@@ -7,7 +7,7 @@ const { NotExtended } = require("http-errors");
 
 const router = express.Router();
 
-router.post("/join", isNotLoggedIn, async (req, res, next) => {
+router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
   const { name, password, level } = req.body;
   try {
     const exUser = await User.find({ name: name });
