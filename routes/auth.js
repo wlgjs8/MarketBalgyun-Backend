@@ -13,9 +13,9 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
     const exUser = await User.find({ name: name });
     if (exUser.length !== 0) {
       console.log(exUser);
-      req.flash("joinError", "이미 가입된 name입니다.");
+      req.flash("sign up Error", "이미 가입된 name입니다.");
       console.log("이미 가입된 name입니다.");
-      return res.redirect("/join");
+      return res.redirect("/sign-up");
     }
     const hash = await bycrypt.hash(password, 12);
     await User.create({
@@ -30,14 +30,14 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post("/login", isNotLoggedIn, (req, res, next) => {
+router.post("/sign-in", isNotLoggedIn, (req, res, next) => {
   passport.authenticate("local", (authError, user, info) => {
     if (authError) {
       console.error(authError);
       return next(authError);
     }
     if (!user) {
-      req.flash("loginError", info.message);
+      req.flash("signinError", info.message);
       return res.redirect("/");
     }
     return req.login(user, (loginError) => {
@@ -50,7 +50,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
   })(req, res, next);
 });
 
-router.get("/logout", isLoggedIn, (req, res) => {
+router.get("/sign-out", isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.redirect("/");
