@@ -14,7 +14,7 @@ module.exports = (passport) => {
 			if (exUser) {
 				const result = await bcrypt.compare(password, exUser.password);
 				if (result) {
-					console.log('login clear')
+					console.log('sign in clear')
 					done(null, exUser);
 				}
 				else {
