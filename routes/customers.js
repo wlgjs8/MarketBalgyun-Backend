@@ -5,7 +5,7 @@ router.use(express.json());
 
 router.get("/", async (req, res) => {
   try {
-    const postPhone = req.query.postPhone;
+    const postPhone = req.query.phone;
     const userTemp = await Customer.findOne({ phone: postPhone });
 
     userJson = JSON.stringify(userTemp);
@@ -17,27 +17,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  setCustomerInfo(req);
+  Customer.insertMany([req.body]);
   res.send("Posting Success");
 });
-
-function setCustomerInfo(req) {
-  const customerInfo = ({
-    name,
-    phone,
-    taste,
-    boolSMS,
-    boolLecture,
-    likeCategory,
-    something,
-    email,
-    birthday,
-    gender,
-    address,
-    mainNumber,
-    point,
-  } = req.body);
-  Customer.insertMany([customerInfo]);
-}
 
 module.exports = router;
