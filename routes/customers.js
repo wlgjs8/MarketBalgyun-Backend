@@ -17,7 +17,27 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  console.log("HELLO POST");
+  setCustomerInfo(req);
+  res.send("Posting Success");
 });
+
+function setCustomerInfo(req) {
+  const customerInfo = ({
+    name,
+    phone,
+    taste,
+    boolSMS,
+    boolLecture,
+    likeCategory,
+    something,
+    email,
+    birthday,
+    gender,
+    address,
+    mainNumber,
+    point,
+  } = req.body);
+  Customer.insertMany([customerInfo]);
+}
 
 module.exports = router;
