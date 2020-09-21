@@ -5,13 +5,31 @@ const User = require("../models/User");
 router.use(express.json());
 
 router.get("/", async (req, res) => {
-  req.body.postPhone = "01021492222";
-  const postPhone = req.body.postPhone;
+  try {
+    const userName = req.query.name;
+    const userTemp = await User.find({
+      name: userName,
+    });
+    if (userTemp.length != 0) {
+      userJson = JSON.stringify(userTemp);
+      res.send(userJson);
+    } else {
+      res.send("No User");
+    }
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+});
 
-  // const userTemp = await Customers.find({ phone: postPhone });
-  // const userTemp = await User.find({ phone: postPhone });
-  userJson = JSON.stringify(Customers);
-  res.send(userJson);
+router.post("/", (req, res) => {
+  try {
+    User.insertMany([req.body]);
+    res.send("Posting Success");
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
 });
 
 module.exports = router;

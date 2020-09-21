@@ -21,25 +21,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  // setGeneralProduct(req);
-  console.log("HELLO POST");
-  res.send("HELLO POST");
+  try {
+    GeneralProduct.insertMany([req.body]);
+    res.send("Posting Success");
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
 });
-
-function setGeneralProduct(req) {
-  const {
-    id,
-    first_category,
-    second_category,
-    third_category,
-    name,
-    cost,
-    price,
-    quantity,
-    place,
-    date,
-  } = req.body;
-  // const generalProduct = await GeneralProducts.insert
-}
 
 module.exports = router;
