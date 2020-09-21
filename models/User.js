@@ -1,12 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 // const User = require('../models/User');
 const { Schema } = mongoose;
-const passportLocalMongoose = require("passport-local-mongoose");
+const passportLocalMongoose = require('passport-local-mongoose');
 //const passport = require('passport');
 
 const userSchema = new Schema({
-<<<<<<< HEAD
-	name:{
+	ID:{
 		type:String,
 		required:true,
 		unique:true,
@@ -17,11 +16,17 @@ const userSchema = new Schema({
 		required:true,
 		trim:true,
 	},
+	name:{
+		type:String,
+		required:true,
+		trim:true,
+	},
 	level:{
 		type:String,
 		requried:true,
 	}
 });
 
-userSchema.plugin(passportLocalMongoose, {usernameField:'name'});
-module.exports = mongoose.model("User", userSchema);
+userSchema.plugin(passportLocalMongoose, {usernameField:'ID'});
+
+module.exports = mongoose.model('User', userSchema);
