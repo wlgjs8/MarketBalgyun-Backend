@@ -4,9 +4,9 @@ const GeneralProduct = require("../models/categories/GeneralProduct");
 
 router.get("/", async (req, res) => {
   try {
-    const searchID = req.query.name;
+    const searchID = req.query.id;
     const generalProductTemp = await GeneralProduct.find({
-      name: searchID,
+      id: searchID,
     });
     if (generalProductTemp.length != 0) {
       generalProductJson = JSON.stringify(generalProductTemp);
