@@ -6,10 +6,15 @@ router.use(express.json());
 router.get("/", async (req, res) => {
   try {
     const postPhone = req.query.phone;
-    const userTemp = await Customer.findOne({ phone: postPhone });
-
-    userJson = JSON.stringify(userTemp);
-    res.send(userJson);
+    const userTemp = await Customer.find({
+      phone: { $regex: postPhone + "$" },
+    });
+    if (userTemp.length != 0) {
+      userJson = JSON.stringify(userTemp);
+      res.send(userJson);
+    } else {
+      res.send("No Customer");
+    }
   } catch (error) {
     console.log(error);
     return next(error);
@@ -17,8 +22,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  Customer.insertMany([req.body]);
-  res.send("Posting Success");
+  try {
+    Customer.insertMany([req.body]);
+    res.send("Posting Success");
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
 });
 
 module.exports = router;
