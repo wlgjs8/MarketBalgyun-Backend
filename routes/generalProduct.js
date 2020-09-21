@@ -1,8 +1,23 @@
 var express = require("express");
 var router = express.Router();
+const GeneralProduct = require("../models/categories/GeneralProduct");
 
-router.get("/", (req, res) => {
-  return res.json(GeneralProducts);
+router.get("/", async (req, res) => {
+  try {
+    const searchID = req.query.name;
+    const generalProductTemp = await GeneralProduct.find({
+      name: searchID,
+    });
+    if (generalProductTemp.length != 0) {
+      generalProductJson = JSON.stringify(generalProductTemp);
+      res.send(generalProductJson);
+    } else {
+      res.send("No General Product");
+    }
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
 });
 
 router.post("/", (req, res) => {
@@ -27,7 +42,7 @@ function setGeneralProduct(req) {
   // const generalProduct = await GeneralProducts.insert
 }
 
-let GeneralProducts = [
+let temptemp = [
   {
     id: 102132,
     first_category: "유아동",
