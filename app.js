@@ -21,6 +21,8 @@ var customerRouter = require("./routes/customers");
 var app = express();
 connect();
 passportConfig(passport);
+const cors = require("cors");
+app.use(cors());
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");

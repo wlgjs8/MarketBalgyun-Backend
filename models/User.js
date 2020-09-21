@@ -5,28 +5,23 @@ const passportLocalMongoose = require("passport-local-mongoose");
 //const passport = require('passport');
 
 const userSchema = new Schema({
-  ID: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  level: {
-    type: String,
-    requried: true,
-  },
+<<<<<<< HEAD
+	name:{
+		type:String,
+		required:true,
+		unique:true,
+		trim:true,
+	},
+	password:{
+		type:String,
+		required:true,
+		trim:true,
+	},
+	level:{
+		type:String,
+		requried:true,
+	}
 });
 
-userSchema.plugin(passportLocalMongoose, { usernameField: "ID" });
-
+userSchema.plugin(passportLocalMongoose, {usernameField:'name'});
 module.exports = mongoose.model("User", userSchema);
