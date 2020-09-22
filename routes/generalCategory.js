@@ -13,16 +13,18 @@ router.get("/", async (req, res) => {
     const secondTemp = await SecondCategory.find();
     const thirdTemp = await ThirdCategory.find();
 
-    // temp1 = JSON.stringify(firstTemp);
-    console.log(firstTemp);
+    var firstTemp_Nickname = {
+      first_category: firstTemp,
+    };
+    var secondTemp_Nickname = {
+      second_category: secondTemp,
+    };
+    var thirdTemp_Nickname = {
+      third_category: thirdTemp,
+    };
 
-    // console.log(
-    //   JSON.stringify({ x: [10, undefined, function () {}, Symbol("")] })
-    // );
-    // expected output: "{"x":[10,null,null,null]}
-
-    var resultTemp = mergeJSON.merge(firstTemp, secondTemp);
-    var resultJson = mergeJSON.merge(resultTemp, thirdTemp);
+    var resultTemp = mergeJSON.merge(firstTemp_Nickname, secondTemp_Nickname);
+    var resultJson = mergeJSON.merge(resultTemp, thirdTemp_Nickname);
 
     res.send(resultJson);
   } catch (error) {
