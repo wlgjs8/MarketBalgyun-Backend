@@ -8,7 +8,7 @@ const ThirdCategorySchema = new Schema({
     trim: true,
   },
   ID: {
-    type: Number,
+    type: String,
     required: true,
   },
 });

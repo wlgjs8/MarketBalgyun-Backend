@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const GeneralProductSchema = new Schema({
   id: {
-    type: String, //int형인가 String인가
+    type: String,
     required: true,
     trim: true,
   },
