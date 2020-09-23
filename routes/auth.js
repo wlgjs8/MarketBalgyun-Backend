@@ -12,7 +12,6 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
   try {
     const exUser = await User.find({ name: name });
     if (exUser.length !== 0) {
-      console.log(exUser);
       req.flash("sign up Error", "이미 가입된 name입니다.");
       console.log("이미 가입된 name입니다.");
       return res.redirect("/sign-up");
