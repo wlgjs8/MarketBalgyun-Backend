@@ -1,27 +1,25 @@
-const mongoose = require("mongoose");
-// const User = require('../models/User');
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const passportLocalMongoose = require("passport-local-mongoose");
-//const passport = require('passport');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  level: {
-    type: String,
-    requried: true,
-  },
+	name:{
+		type: String,
+		required: true,
+		unique: true,
+		trim: true,
+	},
+	password:{
+		type:String,
+		required:true,
+		trim:true,
+	},
+	level:{
+		type:String,
+		required:true,
+	}
 });
 
-userSchema.plugin(passportLocalMongoose, { usernameField: "ID" });
+userSchema.plugin(passportLocalMongoose, {usernameField:'name'});
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);
