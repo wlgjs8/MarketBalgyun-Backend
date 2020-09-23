@@ -1,17 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const SecondCategorySchema = new Schema({
-	SecondCategory:{
-		type:String,
-		required:true,
-		trim:true,
-	},
-	ID:{
-		type:Number,
-		required:true,
-	}
-
+  SecondCategory: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  ID: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('SecondCategory', SecondCategorySchema);
+module.exports = mongoose.model("SecondCategory", SecondCategorySchema);
