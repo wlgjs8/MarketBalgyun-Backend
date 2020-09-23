@@ -31,4 +31,12 @@ router.post("/", (req, res) => {
   }
 });
 
+router.put("/", (req, res) => {
+  Customer.update({});
+});
+
+router.delete("/", (req, res) => {
+  Customer.remove({});
+});
+
 module.exports = router;
