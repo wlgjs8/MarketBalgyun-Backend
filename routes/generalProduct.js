@@ -34,7 +34,6 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    //TODO
     const searchFirstCategory = req.body.FirstCategory;
     var tempID = await setFirstCategory(searchFirstCategory);
 
