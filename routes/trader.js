@@ -1,19 +1,18 @@
 var express = require("express");
 var router = express.Router();
-const Customer = require("../models/Customer");
-router.use(express.json());
+const Trader = require("../models/Trader");
 
 router.get("/", async (req, res) => {
   try {
-    const postPhone = req.query.phone;
-    const customerTemp = await Customer.find({
-      phone: { $regex: postPhone + "$" },
+    const postName = req.query.name;
+    const traderTemp = await Trader.find({
+      name: postName,
     });
-    if (customerTemp.length != 0) {
-      customerJson = JSON.stringify(customerTemp);
-      res.send(customerJson);
+    if (traderTemp.length != 0) {
+      traderJson = JSON.stringify(traderTemp);
+      res.send(traderJson);
     } else {
-      res.send("No Customer");
+      res.send("No Trader");
     }
   } catch (error) {
     console.log(error);
@@ -23,7 +22,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", (req, res) => {
   try {
-    Customer.insertMany([req.body]);
+    Trader.insertMany([req.body]);
     res.send("Posting Success");
   } catch (error) {
     console.log(error);

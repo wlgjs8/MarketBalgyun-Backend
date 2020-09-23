@@ -17,6 +17,7 @@
     "express-session": "^1.17.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "merge-json": "0.1.0-b.3",
     "mongodb": "^3.6.1",
     "mongoose": "^5.10.2",
     "morgan": "~1.9.1",

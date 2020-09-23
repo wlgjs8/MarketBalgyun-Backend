@@ -17,6 +17,8 @@ const authRouter = require("./routes/auth");
 const passportConfig = require("./passport");
 var generalProductRouter = require("./routes/generalProduct");
 var customerRouter = require("./routes/customers");
+var traderRouter = require("./routes/trader");
+var generalCategoryRouter = require("./routes/generalCategory");
 
 var app = express();
 connect();
@@ -53,6 +55,8 @@ app.use("/user", usersRouter);
 app.use("/auth", authRouter);
 app.use("/generalProduct", generalProductRouter);
 app.use("/customer", customerRouter);
+app.use("/trader", traderRouter);
+app.use("/generalCategory", generalCategoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
