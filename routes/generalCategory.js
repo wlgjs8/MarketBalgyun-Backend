@@ -1,9 +1,9 @@
 var express = require("express");
 var mergeJSON = require("merge-json");
 var router = express.Router();
-const FirstCategory = require("../models/categories/FirstCategory");
-const SecondCategory = require("../models/categories/SecondCategory");
-const ThirdCategory = require("../models/categories/ThirdCategory");
+const FirstCategory = require("../models/products/FirstCategory");
+const SecondCategory = require("../models/products/SecondCategory");
+const ThirdCategory = require("../models/products/ThirdCategory");
 
 router.use(express.json());
 

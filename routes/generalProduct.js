@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
-const GeneralProduct = require("../models/categories/GeneralProduct");
-const FirstCategory = require("../models/categories/FirstCategory");
-const SecondCategory = require("../models/categories/SecondCategory");
-const ThirdCategory = require("../models/categories/ThirdCategory");
-const NameCategory = require("../models/categories/NameCategory");
+const GeneralProduct = require("../models/products/GeneralProduct");
+const FirstCategory = require("../models/products/FirstCategory");
+const SecondCategory = require("../models/products/SecondCategory");
+const ThirdCategory = require("../models/products/ThirdCategory");
+const NameCategory = require("../models/products/NameCategory");
 
 router.use(express.json());
 

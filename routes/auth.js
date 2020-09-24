@@ -45,13 +45,13 @@ router.post("/log-in", isNotLoggedIn, (req, res, next) => {
         return next(loginError);
       }
       console.log({
-        name:user.name,
-        password:user.password,
-        level:user.level,
+        name: user.name,
+        password: user.password,
+        level: user.level,
       }); //debug
       return res.send(200, {
-        name:user.name,
-        level:user.level,
+        name: user.name,
+        level: user.level,
       });
     });
   })(req, res, next);
@@ -63,9 +63,9 @@ router.get("/log-out", isLoggedIn, (req, res) => {
   res.redirect("/");
 });
 
-router.post("/sign-out", isLoggedIn, (req, res) => {
+router.post("/sign-out", isLoggedIn, async (req, res) => {
   const currentUser = await User.find({ name: name });
-  User.deleteOne({ name:currentUser.name });
+  User.deleteOne({ name: currentUser.name });
   req.logout();
   req.session.destroy();
 });
