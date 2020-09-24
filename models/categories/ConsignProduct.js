@@ -47,7 +47,7 @@ var ConsignProductSchema = new Schema({
 	},
 });
 
-ConsignedProductSchema.virtual('expire_date').get(function(){
+ConsignProductSchema.virtual('expire_date').get(function(){
 	return moment().add(90, 'days').calendar().format('LL');
 })
 
