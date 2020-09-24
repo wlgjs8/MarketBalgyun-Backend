@@ -4,25 +4,26 @@ const User = require("../models/User");
 
 
 router.get("/", async (req, res) => {
+    // excel
+});
+
+router.post("/", async (req, res) => {
+    var saledProduct = req.body.ID;
     try {
-        const userName = req.query.name;
-        const userTemp = await User.find({
-            name: userName,
+        const searchID = req.query.id;
+        const generalProductTemp = await GeneralProduct.find({
+            id: searchID,
         });
-        if (userTemp.length != 0) {
-            userJson = JSON.stringify(userTemp);
-            res.send(userJson);
+        if (generalProductTemp.length != 0) {
+            generalProductJson = JSON.stringify(generalProductTemp);
+            res.send(generalProductJson);
         } else {
-            res.send("No User");
+            res.send("No General Product");
         }
     } catch (error) {
         console.log(error);
         return next(error);
     }
-});
-
-router.post("/", async (req, res) => {
-    var saledProduct = req.body.ID;
 })
 
 module.exports = router;
