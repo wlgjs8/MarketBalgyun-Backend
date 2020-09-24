@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 router.use(express.json());
 
-// User.insertMany([
+// GeneralCustomer.insertMany([
 //   { name: "0000", password: "0000", level: "1234" },
 //   { name: "0001", password: "1111", level: "2345" },
 //   { name: "0002", password: "2222", level: "3456" },
@@ -44,7 +44,6 @@ router.put("/", async (req, res) => {
     let userName = req.body.name;
 
     if (req.body.password) {
-      console.log("req.body.password : " + req.body.password);
       User.update(
         { name: userName },
         { $set: { password: req.body.password } },
@@ -54,7 +53,6 @@ router.put("/", async (req, res) => {
       );
     }
     if (req.body.level) {
-      console.log("req.body.level : " + req.body.level);
       User.update(
         { name: userName },
         { $set: { level: req.body.level } },

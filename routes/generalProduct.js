@@ -4,14 +4,16 @@ const GeneralProduct = require("../models/categories/GeneralProduct");
 const FirstCategory = require("../models/categories/FirstCategory");
 const SecondCategory = require("../models/categories/SecondCategory");
 const ThirdCategory = require("../models/categories/ThirdCategory");
+const NameCategory = require("../models/categories/NameCategory");
 
 router.use(express.json());
 
-// ThirdCategory.insertMany([
-//   { ThirdCategory: "에어컨", ID: "01" },
-//   { ThirdCategory: "히터", ID: "02" },
-//   { ThirdCategory: "공기청정기", ID: "03" },
-//   { ThirdCategory: "선풍기", ID: "04" },
+var fieldNum;
+// NameCategory.insertMany([
+//   { NameCategory: "빨간세탁기", ID: "01" },
+//   { NameCategory: "검은세탁기", ID: "02" },
+//   { NameCategory: "파랑공기청정기", ID: "03" },
+//   { NameCategory: "노랑선풍기", ID: "04" },
 // ]);
 
 router.get("/", async (req, res) => {
@@ -93,6 +95,8 @@ async function setThirdCategory(searchThirdCategory) {
   }
 }
 
-// function setNameCategory(req) {}
+function setNameCategory(fieldNum) {
+
+}
 
 module.exports = router;
