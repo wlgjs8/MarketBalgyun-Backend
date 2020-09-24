@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-
+    var saledProduct = req.body.ID;
 })
 
 module.exports = router;
