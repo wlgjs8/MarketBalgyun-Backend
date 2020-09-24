@@ -30,7 +30,7 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post("/sign-in", isNotLoggedIn, (req, res, next) => {
+router.post("/log-in", isNotLoggedIn, (req, res, next) => {
   passport.authenticate("local", (authError, user, info) => {
     if (authError) {
       console.error(authError);
@@ -38,21 +38,37 @@ router.post("/sign-in", isNotLoggedIn, (req, res, next) => {
     }
     if (!user) {
       req.flash("signinError", info.message);
-      return res.redirect("/");
+      return res.status(404);
     }
     return req.login(user, (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect("/");
+      console.log({
+        name:user.name,
+        password:user.password,
+        level:user.level,
+      }); //debug
+      return res.send(200, {
+        name:user.name,
+        level:user.level,
+      });
     });
   })(req, res, next);
 });
 
-router.get("/sign-out", isLoggedIn, (req, res) => {
+router.get("/log-out", isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.redirect("/");
 });
+
+router.post("/sign-out", isLoggedIn, (req, res) => {
+  const currentUser = await User.find({ name: name });
+  User.deleteOne({ name:currentUser.name });
+  req.logout();
+  req.session.destroy();
+});
+
 module.exports = router;
