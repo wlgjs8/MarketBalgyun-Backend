@@ -4,9 +4,9 @@ const Trader = require("../models/Trader");
 
 router.get("/", async (req, res) => {
   try {
-    const postName = req.query.name;
+    const traderName = req.query.name;
     const traderTemp = await Trader.find({
-      name: postName,
+      name: traderName,
     });
     if (traderTemp.length != 0) {
       traderJson = JSON.stringify(traderTemp);

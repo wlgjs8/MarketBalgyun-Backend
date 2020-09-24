@@ -4,22 +4,22 @@ const { Schema } = mongoose;
 const saleLogSchema = new Schema({
 	time: {
 		type: Date,
-		default:Date.now,
+		default: Date.now,
 	},
-	product:{
-		type:String,
-		required:true,
+	product: {
+		type: String,
+		required: true,
 	},
-	trader:{
-		type:String,
+	trader: {
+		type: String,
 	},
 	quantity: {
 		type: Number,
-		default:1,
+		default: 1,
 	},
 	customer: {
 		type: String,
-		required:true,
+		required: true,
 	},
 	card: {
 		type: Number,
@@ -32,7 +32,7 @@ const saleLogSchema = new Schema({
 	},
 	phone: {
 		type: String,
-		required:true,
+		required: true,
 		trim: true,
 	},
 	staff: {
