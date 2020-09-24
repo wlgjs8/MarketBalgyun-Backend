@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const mongoose_csv = require('mongoose-csv');
 
 const saleLogSchema = new Schema({
 	time: {
@@ -40,5 +41,7 @@ const saleLogSchema = new Schema({
 		trim: true,
 	},
 });
+
+saleLogSchema.plugin(mongoose_csv);
 
 module.exports = mongoose.model("saleLog", saleLogSchema);
