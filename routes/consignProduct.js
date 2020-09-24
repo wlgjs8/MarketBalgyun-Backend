@@ -21,7 +21,6 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    // var tempID = "A" + ID.toString();
     try {
         ConsignProduct.insertMany([req.body]);
         res.send("Posting Success");
@@ -29,6 +28,120 @@ router.post("/", async (req, res) => {
         console.log(error);
         return next(error);
     }
+});
+
+router.put("/", (req, res => {
+    try {
+        let searchID = req.body.id;
+
+        //name
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //price
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //wanted_price
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //cost
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //quantity
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //story
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //max_discount
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //place
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //date
+        if (req.body.name) {
+            Customer.updateOne(
+                { id: searchID },
+                { $set: { name: req.body.name } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        const consignProductTemp = await ConsignProduct.find({
+            id: req.body.id,
+        });
+        res.send(consignProductTemp);
+
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
+}))
+
+router.delete("/", (req, res) => {
+    ConsignProduct.deleteOne({ id: req.query.id }, (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        res.json(result);
+    });
 });
 
 module.exports = router;
