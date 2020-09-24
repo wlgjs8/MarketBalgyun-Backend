@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 const { Schema } = mongoose;
 
-var ConsignedProductSchema = new Schema({
+var ConsignProductSchema = new Schema({
 	id:{
 		type:String,	//int형인가 String인가
 		required:true,
@@ -51,4 +51,4 @@ ConsignedProductSchema.virtual('expire_date').get(function(){
 	return moment().add(90, 'days').calendar().format('LL');
 })
 
-module.exports = mongoose.model('ConsignedProduct', ConsignedProductSchema);
+module.exports = mongoose.model('ConsignProduct', ConsignProductSchema);
