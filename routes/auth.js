@@ -15,7 +15,7 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
       console.log(exUser);
       req.flash("sign up Error", "이미 가입된 name입니다.");
       console.log("이미 가입된 name입니다.");
-      return res.redirect("/sign-up");
+      return res.status(404);
     }
     const hash = await bycrypt.hash(password, 12);
     await User.create({
