@@ -1,12 +1,24 @@
 var express = require("express");
 var router = express.Router();
 const GeneralProduct = require("../models/categories/GeneralProduct");
+const FirstCategory = require("../models/categories/FirstCategory");
+const SecondCategory = require("../models/categories/SecondCategory");
+const ThirdCategory = require("../models/categories/ThirdCategory");
+
+router.use(express.json());
+
+// ThirdCategory.insertMany([
+//   { ThirdCategory: "에어컨", ID: "01" },
+//   { ThirdCategory: "히터", ID: "02" },
+//   { ThirdCategory: "공기청정기", ID: "03" },
+//   { ThirdCategory: "선풍기", ID: "04" },
+// ]);
 
 router.get("/", async (req, res) => {
   try {
-    const searchID = req.query.name;
+    const searchID = req.query.id;
     const generalProductTemp = await GeneralProduct.find({
-      name: searchID,
+      id: searchID,
     });
     if (generalProductTemp.length != 0) {
       generalProductJson = JSON.stringify(generalProductTemp);
@@ -20,26 +32,67 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
-  // setGeneralProduct(req);
-  console.log("HELLO POST");
-  res.send("HELLO POST");
+router.post("/", async (req, res) => {
+  try {
+    const searchFirstCategory = req.body.FirstCategory;
+    var tempID = await setFirstCategory(searchFirstCategory);
+
+    const searchSecondCategory = req.body.SecondCategory;
+    tempID = tempID + (await setSecondCategory(searchSecondCategory));
+
+    const searchThirdCategory = req.body.ThirdCategory;
+    tempID = tempID + (await setThirdCategory(searchThirdCategory));
+    // GeneralProduct.insertMany([req.body]);
+
+    res.send(tempID);
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
 });
 
-function setGeneralProduct(req) {
-  const {
-    id,
-    first_category,
-    second_category,
-    third_category,
-    name,
-    cost,
-    price,
-    quantity,
-    place,
-    date,
-  } = req.body;
-  // const generalProduct = await GeneralProducts.insert
+async function setFirstCategory(searchFirstCategory) {
+  try {
+    const FirstCategoryTemp = await FirstCategory.find({
+      FirstCategory: searchFirstCategory,
+    });
+    if (FirstCategoryTemp.length != 0) {
+      return FirstCategoryTemp[0].ID;
+    }
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
 }
+
+async function setSecondCategory(searchSecondCategory) {
+  try {
+    const SecondCategoryTemp = await SecondCategory.find({
+      SecondCategory: searchSecondCategory,
+    });
+    if (SecondCategoryTemp.length != 0) {
+      return SecondCategoryTemp[0].ID;
+    }
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+}
+
+async function setThirdCategory(searchThirdCategory) {
+  try {
+    const ThirdCategoryTemp = await ThirdCategory.find({
+      ThirdCategory: searchThirdCategory,
+    });
+    if (ThirdCategoryTemp.length != 0) {
+      return ThirdCategoryTemp[0].ID;
+    }
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+}
+
+// function setNameCategory(req) {}
 
 module.exports = router;

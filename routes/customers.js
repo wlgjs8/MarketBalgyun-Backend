@@ -6,12 +6,12 @@ router.use(express.json());
 router.get("/", async (req, res) => {
   try {
     const postPhone = req.query.phone;
-    const userTemp = await Customer.find({
+    const customerTemp = await Customer.find({
       phone: { $regex: postPhone + "$" },
     });
-    if (userTemp.length != 0) {
-      userJson = JSON.stringify(userTemp);
-      res.send(userJson);
+    if (customerTemp.length != 0) {
+      customerJson = JSON.stringify(customerTemp);
+      res.send(customerJson);
     } else {
       res.send("No Customer");
     }
@@ -29,6 +29,14 @@ router.post("/", (req, res) => {
     console.log(error);
     return next(error);
   }
+});
+
+router.put("/", (req, res) => {
+  Customer.update({});
+});
+
+router.delete("/", (req, res) => {
+  Customer.remove({});
 });
 
 module.exports = router;
