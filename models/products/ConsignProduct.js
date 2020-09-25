@@ -12,9 +12,12 @@ var ConsignProductSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	// 감정가, 판매가
 	price: {
 		type: Number,
+		required: true,
 	},
+	// 희망가
 	wanted_price: {
 		type: Number,
 	},
@@ -35,6 +38,17 @@ var ConsignProductSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
+	consigner: {
+		type: String,
+		trim: true,
+	},
+	phone: {
+		type: String,
+		trim: true,
+	},
+	accountable: {
+		type: Boolean,
+	}
 });
 
 ConsignProductSchema.virtual('expire_date').get(function () {
