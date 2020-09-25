@@ -14,12 +14,12 @@ const ConsignProduct = require("../models/products/ConsignProduct");
 router.get("/", async (req, res) => {
     try {
         const searchID = req.query.id;
-        const consigneProductTemp = await ConsignProduct.find({
+        const consignProductTemp = await ConsignProduct.find({
             id: searchID,
         });
-        if (consigneProductTemp.length != 0) {
-            consigneProductJson = JSON.stringify(consigneProductTemp);
-            res.send(consigneProductJson);
+        if (consignProductTemp.length != 0) {
+            consignProductJson = JSON.stringify(consignProductTemp);
+            res.send(consignProductJson);
         } else {
             res.send("No Consign Product");
         }
