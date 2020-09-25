@@ -2,6 +2,15 @@ var express = require("express");
 var router = express.Router();
 const ConsignProduct = require("../models/products/ConsignProduct");
 
+// ConsignProduct.insertMany([
+//     {
+//         id: "C1", name: "1111", price: 3333, wanted_price: 4444, cost: 5555, quantity: 10, story: "", max_discount: 10, place: "",
+//     }, // date
+//     {
+//         id: "C2", name: "1111", price: 3333, wanted_price: 4444, cost: 5555, quantity: 10, story: "", max_discount: 10, place: "",
+//     }, // date
+// ]);
+
 router.get("/", async (req, res) => {
     try {
         const searchID = req.query.id;
