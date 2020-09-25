@@ -45,6 +45,10 @@ router.post("/", async (req, res) => {
 
     const searchThirdCategory = req.body.ThirdCategory;
     tempID = tempID + (await setThirdCategory(searchThirdCategory));
+
+    if (req.body.name) {
+      // autoIncrement
+    }
     // GeneralProduct.insertMany([req.body]);
 
     res.send(tempID);
@@ -100,7 +104,7 @@ function setNameCategory(fieldNum) {
 
 }
 
-router.put("/", (req, res) => {
+router.put("/", async (req, res) => {
   try {
     let customerPhone = req.body.phone;
 
