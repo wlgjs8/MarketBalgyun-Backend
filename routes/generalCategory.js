@@ -7,6 +7,7 @@ const ThirdCategory = require("../models/products/ThirdCategory");
 
 router.use(express.json());
 
+// 카테고리 전체 GET
 router.get("/", async (req, res) => {
   try {
     const firstTemp = await FirstCategory.find();
@@ -31,6 +32,47 @@ router.get("/", async (req, res) => {
     console.log(error);
     return next(error);
   }
+});
+
+// 대, 중, 소분류 정보 주면 해당 카테고리의 상품명 주기
+router.post("/", async (req, res) => {
+
+});
+
+// 카테고리 삭제시 Showable 변경
+router.put("/", async (req, res) => {
+  var firstCategoryID = req.body.id.substring(0, 2);
+  var secondCategoryID = req.body.id.substring(0, 4);
+  var thirdCategoryID = req.body.id.substring(0, 6);
+
+  if (req.body.first_show != null) {
+    FirstCategory.updateOne(
+      { ID: firstCategoryID },
+      { $set: { Showable: req.body.first_show } },
+      function (err, res) {
+        if (err) throw err;
+      }
+    );
+  }
+  if (req.body.second_show != null) {
+    SecondCategory.updateOne(
+      { ID: secondCategoryID },
+      { $set: { Showable: req.body.second_show } },
+      function (err, res) {
+        if (err) throw err;
+      }
+    );
+  }
+  if (req.body.third_show != null) {
+    ThirdCategory.updateOne(
+      { ID: thirdCategoryID },
+      { $set: { Showable: req.body.third_show } },
+      function (err, res) {
+        if (err) throw err;
+      }
+    );
+  }
+  res.send(thirdCategoryID);
 });
 
 module.exports = router;

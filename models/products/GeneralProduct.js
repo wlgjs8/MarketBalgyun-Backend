@@ -30,9 +30,9 @@ const GeneralProductSchema = new Schema({
   price: {
     type: Number,
   },
-  trader:{
-    type:String,
-    trim:true,
+  trader: {
+    type: String,
+    trim: true,
   },
   quantity: {
     type: Number,

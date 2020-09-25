@@ -8,7 +8,6 @@ const NameCategory = require("../models/products/NameCategory");
 
 router.use(express.json());
 
-var fieldNum;
 // NameCategory.insertMany([
 //   { NameCategory: "빨간세탁기", ID: "01" },
 //   { NameCategory: "검은세탁기", ID: "02" },
@@ -16,6 +15,7 @@ var fieldNum;
 //   { NameCategory: "노랑선풍기", ID: "04" },
 // ]);
 
+// 일반 상품 ID를 통해 검색
 router.get("/", async (req, res) => {
   try {
     const searchID = req.query.id;
@@ -34,6 +34,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// 상품 정보 넘겨받으면, ID 생성 후 저장.
 router.post("/", async (req, res) => {
   try {
     const searchFirstCategory = req.body.FirstCategory;
@@ -98,5 +99,150 @@ async function setThirdCategory(searchThirdCategory) {
 function setNameCategory(fieldNum) {
 
 }
+
+router.put("/", (req, res) => {
+  try {
+    let customerPhone = req.body.phone;
+
+    // first_category
+    if (req.body.name) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { name: req.body.name } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // second_category
+    if (req.body.taste) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { taste: req.body.taste } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // third_category
+    if (req.body.boolSMS) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { boolSMS: req.body.boolSMS } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // name
+    if (req.body.boolLecture) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { boolLecture: req.body.boolLecture } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // cost
+    if (req.body.likeCategory) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { likeCategory: req.body.likeCategory } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // price
+    if (req.body.something) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { something: req.body.something } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // quantity
+    if (req.body.email) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { email: req.body.email } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // place
+    if (req.body.birthday) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { birthday: req.body.birthday } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // date
+    if (req.body.gender) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { gender: req.body.gender } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // address
+    if (req.body.address) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { address: req.body.address } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // mainNumber
+    if (req.body.mainNumber) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { mainNumber: req.body.mainNumber } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // point
+    if (req.body.point) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { point: req.body.point } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    const customerTemp = await Customer.find({
+      phone: req.body.phone,
+    });
+    res.send(customerTemp);
+
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+});
+
+router.delete("/", (req, res) => {
+  GeneralProduct.deleteOne({ id: req.query.id }, (err, result) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(result);
+  });
+});
+
 
 module.exports = router;

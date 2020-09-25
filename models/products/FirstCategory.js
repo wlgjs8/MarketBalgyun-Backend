@@ -11,6 +11,10 @@ const FirstCategorySchema = new Schema({
     type: String,
     required: true,
   },
+  Showable: {
+    type: Boolean,
+    default: true,
+  }
 });
 
 module.exports = mongoose.model("FirstCategory", FirstCategorySchema);
