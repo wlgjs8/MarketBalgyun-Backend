@@ -3,6 +3,7 @@ var router = express.Router();
 const Customer = require("../models/Customer");
 router.use(express.json());
 
+// 고객 전화번호 뒤 4자리로 검색
 router.get("/", async (req, res) => {
   try {
     const postPhone = req.query.phone;
@@ -21,6 +22,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// 신규 고객 정보 저장
 router.post("/", (req, res) => {
   try {
     Customer.insertMany([req.body]);
@@ -31,6 +33,7 @@ router.post("/", (req, res) => {
   }
 });
 
+// 전화번호를 통해 정보 수정
 router.put("/", async (req, res) => {
   try {
     let customerPhone = req.body.phone;
@@ -166,6 +169,7 @@ router.put("/", async (req, res) => {
   }
 });
 
+// 고객 정보 삭제
 router.delete("/", (req, res) => {
   Customer.deleteOne({ phone: req.query.phone }, (err, result) => {
     if (err) {
