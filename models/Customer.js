@@ -18,7 +18,7 @@ const CustomerSchema = new Schema({
   },
   boolSMS: {
     type: Boolean,
-    required: true,
+    dafault: true,
   },
   boolLecture: {
     type: Boolean,
@@ -49,6 +49,25 @@ const CustomerSchema = new Schema({
   },
   point: {
     type: Number,
+  },
+  time: {
+    type: Date,
+    default: Date.now,
+  },
+  // 거래은행
+  bank: {
+    type: String,
+    trim: true,
+  },
+  // 계좌번호
+  account: {
+    type: String,
+    trim: true,
+  },
+  // 예금주
+  account_owner: {
+    type: String,
+    trim: true,
   },
 });
 
