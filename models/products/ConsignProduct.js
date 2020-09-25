@@ -18,10 +18,6 @@ var ConsignProductSchema = new Schema({
 	wanted_price: {
 		type: Number,
 	},
-	cost: {
-		type: Number,
-		required: true,
-	},
 	quantity: {
 		type: Number,
 	},
