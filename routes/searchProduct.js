@@ -25,7 +25,6 @@ router.get("/", async (req, res) => {
             }
         }
     }
-
     else if (req.query.name) {
         const generalProductTemp = await GeneralProduct.find({
             name: { $regex: req.query.name },
