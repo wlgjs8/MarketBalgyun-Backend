@@ -23,12 +23,14 @@ const GeneralProductSchema = new Schema({
   name: {
     String: String,
   },
+  // 원가
   cost: {
     type: Number,
-    required: true,
   },
+  // 판매가
   price: {
     type: Number,
+    required: true,
   },
   trader: {
     type: String,
