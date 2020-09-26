@@ -31,7 +31,16 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        ConsignProduct.insertMany([req.body]);
+        // Index 줘야해
+        const ConsignProductTemp = await ConsignProduct.find().sort({ "_id": -1 }).limit(1);
+
+        var tempIndex = ConsignProductTemp[0].id.substring(1, ConsignProductTemp[0].id.length);
+        tempIndex *= 1;
+        var newConsignProductIndex = tempIndex + 1;
+        var newConsignProductID = "C" + newConsignProductIndex;
+        console.log("newConsignProductID : " + newConsignProductID);
+
+        // ConsignProduct.insertMany([req.body]);
         res.send("Posting Success");
     } catch (error) {
         console.log(error);

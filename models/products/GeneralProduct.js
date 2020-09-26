@@ -38,9 +38,11 @@ const GeneralProductSchema = new Schema({
   },
   quantity: {
     type: Number,
+    required: true,
   },
   max_discount: {
     type: Number,
+    dafault: 50,
   },
   place: {
     type: String,

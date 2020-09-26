@@ -11,10 +11,6 @@ const ThirdCategorySchema = new Schema({
     type: String,
     required: true,
   },
-  Showable: {
-    type: Boolean,
-    default: true,
-  }
 });
 
 module.exports = mongoose.model("ThirdCategory", ThirdCategorySchema);
