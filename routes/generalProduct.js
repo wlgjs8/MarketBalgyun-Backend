@@ -42,14 +42,14 @@ router.post("/", async (req, res) => {
       const ThirdCategoryTemp = await ThirdCategory.find({
         ID: req.body.id,
       });
-      var newGeneralProductID = ThirdCategoryTemp[0].ID + ThirdCategoryTemp[0].currentID;
+      var newGeneralProductID = ThirdCategoryTemp[0].ID + ThirdCategoryTemp[0].nextID;
 
       // insert General Product
       // GeneralProduct.insertMany([req.body]);
 
       await ThirdCategory.updateOne(
         { ID: req.body.id },
-        { $inc: { currentID: 1 } },
+        { $inc: { nextID: 1 } },
       );
     }
     res.send(newGeneralProductID);

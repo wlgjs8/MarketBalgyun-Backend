@@ -11,7 +11,7 @@ const ThirdCategorySchema = new Schema({
     type: String,
     required: true,
   },
-  currentID: {
+  nextID: {
     type: Number,
     default: 1,
   }
