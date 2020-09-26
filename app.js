@@ -22,6 +22,7 @@ var generalCategoryRouter = require("./routes/generalCategory");
 var saleLogRouter = require("./routes/saleLog");
 var consignProductRouter = require("./routes/consignProduct");
 var searchProductRouter = require("./routes/searchProduct");
+var saledProductRouter = require("./routes/saledProduct");
 
 var app = express();
 connect();
@@ -63,6 +64,7 @@ app.use("/generalCategory", generalCategoryRouter);
 app.use("/saleLog", saleLogRouter);
 app.use("/consignProduct", consignProductRouter);
 app.use("/searchProduct", searchProductRouter);
+app.user("/saledProduct", saledProductRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
