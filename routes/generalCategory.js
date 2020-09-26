@@ -38,7 +38,7 @@ router.get("/", async (req, res) => {
 // 대, 중, 소분류 정보 주면 해당 카테고리의 상품명 주기
 router.post("/", async (req, res) => {
   const generalCategoryTemp = await GeneralProduct.find({
-    id: { $regex: req.body.sixID},
+    id: { $regex: req.body.sixID },
   });
   res.send(generalCategoryTemp);
 });
