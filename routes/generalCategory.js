@@ -8,6 +8,8 @@ const GeneralProduct = require("../models/products/GeneralProduct");
 
 router.use(express.json());
 
+FirstCategory.find().sort({ "_id": -1 });
+
 // 카테고리 전체 GET
 router.get("/", async (req, res) => {
   try {
