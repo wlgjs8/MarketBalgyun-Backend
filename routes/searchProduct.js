@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 const GeneralProduct = require("../models/products/GeneralProduct");
 const ConsignProduct = require("../models/products/ConsignProduct");
-const NameCategory = require("../models/products/NameCategory");
 
 router.use(express.json());
 
@@ -49,24 +48,5 @@ router.get("/", async (req, res) => {
     }
 });
 
-// 상품 판매 정보 POST, 상품 ID 와 판매 수량
-router.post("/", async (req, res) => {
-    const searchNameCategoryTemp = await NameCategory.find({
-        sixID: req.body.id,
-    });
-    if (searchNameCategoryTemp != 0) {
-        res.send(searchNameCategoryTemp);
-    }
-    else {
-        res.send("해당 카테고리의 상품명이 존재하지 않습니다.");
-    }
-
-
-});
-
-function setPoint(price) {
-    var pointPlus = price * 0.65;
-
-}
 
 module.exports = router;

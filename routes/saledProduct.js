@@ -38,3 +38,10 @@ router.post("/", async (req, res) => {
         return next(error);
     }
 });
+
+function setPoint(price) {
+    var pointPlus = price * 0.65;
+
+}
+
+module.exports = router;

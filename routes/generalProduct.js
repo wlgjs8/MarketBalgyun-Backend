@@ -4,16 +4,8 @@ const GeneralProduct = require("../models/products/GeneralProduct");
 const FirstCategory = require("../models/products/FirstCategory");
 const SecondCategory = require("../models/products/SecondCategory");
 const ThirdCategory = require("../models/products/ThirdCategory");
-const NameCategory = require("../models/products/NameCategory");
 
 router.use(express.json());
-
-// NameCategory.insertMany([
-//   { NameCategory: "빨간세탁기", ID: "01" },
-//   { NameCategory: "검은세탁기", ID: "02" },
-//   { NameCategory: "파랑공기청정기", ID: "03" },
-//   { NameCategory: "노랑선풍기", ID: "04" },
-// ]);
 
 // 일반 상품 ID를 통해 검색
 router.get("/", async (req, res) => {
@@ -47,19 +39,20 @@ router.post("/", async (req, res) => {
     tempID = tempID + (await setThirdCategory(searchThirdCategory));
 
     if (req.body.name) {
-      const NameCategoryTemp = await NameCategory.find({
-        name: req.body.name,
+      const ThirdCategoryTemp = await ThirdCategory.find({
+        ID: req.body.id,
       });
-      if (NameCategoryTemp.length != 0) {
-        // 해당 ID로 ㄱㄱ
-      }
-      else {
+      var newGeneralProductID = ThirdCategoryTemp[0].ID + ThirdCategoryTemp[0].currentID;
 
-      }
+      // insert General Product
+      // GeneralProduct.insertMany([req.body]);
+
+      await ThirdCategory.updateOne(
+        { ID: req.body.id },
+        { $inc: { currentID: 1 } },
+      );
     }
-    // GeneralProduct.insertMany([req.body]);
-
-    res.send(tempID);
+    res.send(newGeneralProductID);
   } catch (error) {
     console.log(error);
     return next(error);
@@ -108,9 +101,6 @@ async function setThirdCategory(searchThirdCategory) {
   }
 }
 
-function setNameCategory(fieldNum) {
-
-}
 
 router.put("/", async (req, res) => {
   try {
