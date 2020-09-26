@@ -2,15 +2,6 @@ var express = require("express");
 var router = express.Router();
 const ConsignProduct = require("../models/products/ConsignProduct");
 
-// ConsignProduct.insertMany([
-//     {
-//         id: "C1", name: "1111", price: 3333, wanted_price: 4444, cost: 5555, quantity: 10, story: "", max_discount: 10, place: "",
-//     }, // date
-//     {
-//         id: "C2", name: "1111", price: 3333, wanted_price: 4444, cost: 5555, quantity: 10, story: "", max_discount: 10, place: "",
-//     }, // date
-// ]);
-
 router.get("/", async (req, res) => {
     try {
         const searchID = req.query.id;
@@ -31,7 +22,6 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        // Index 줘야해
         const ConsignProductTemp = await ConsignProduct.find().sort({ "_id": -1 }).limit(1);
 
         var tempIndex = ConsignProductTemp[0].id.substring(1, ConsignProductTemp[0].id.length);
@@ -40,7 +30,8 @@ router.post("/", async (req, res) => {
         var newConsignProductID = "C" + newConsignProductIndex;
         console.log("newConsignProductID : " + newConsignProductID);
 
-        // ConsignProduct.insertMany([req.body]);
+        // consignProduct.insertMany([req.body] + newConsignProductID)
+
         res.send("Posting Success");
     } catch (error) {
         console.log(error);

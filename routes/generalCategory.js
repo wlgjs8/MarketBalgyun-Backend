@@ -38,12 +38,13 @@ router.get("/", async (req, res) => {
 // 대, 중, 소분류 정보 주면 해당 카테고리의 상품명 주기
 router.post("/", async (req, res) => {
   const generalCategoryTemp = await GeneralProduct.find({
-    id: { $regex: req.body.id + "^" },
+    id: { $regex: "^" + req.body.id },
   });
   res.send(generalCategoryTemp);
 });
 
 // 카테고리 삭제시 Showable 변경
+/*
 router.put("/", async (req, res) => {
   var firstCategoryID = req.body.id.substring(0, 2);
   var secondCategoryID = req.body.id.substring(0, 4);
@@ -78,5 +79,6 @@ router.put("/", async (req, res) => {
   }
   res.send(thirdCategoryID);
 });
+*/
 
 module.exports = router;
