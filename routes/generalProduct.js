@@ -47,7 +47,15 @@ router.post("/", async (req, res) => {
     tempID = tempID + (await setThirdCategory(searchThirdCategory));
 
     if (req.body.name) {
-      // autoIncrement
+      const NameCategoryTemp = await NameCategory.find({
+        name: req.body.name,
+      });
+      if (NameCategoryTemp.length != 0) {
+        // 해당 ID로 ㄱㄱ
+      }
+      else {
+
+      }
     }
     // GeneralProduct.insertMany([req.body]);
 

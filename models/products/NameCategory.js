@@ -7,10 +7,14 @@ const NameCategorySchema = new Schema({
         required: true,
         trim: true,
     },
-    ID: {
+    sixID: {
         type: String,
         required: true,
     },
+    uniqueID: {
+        type: Number,
+        required: true,
+    }
 });
 
 module.exports = mongoose.model("NameCategory", NameCategorySchema);
