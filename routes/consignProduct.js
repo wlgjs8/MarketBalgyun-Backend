@@ -94,16 +94,6 @@ router.put("/", async (req, res) => {
                 }
             );
         }
-        //cost
-        if (req.body.cost) {
-            ConsignProduct.updateOne(
-                { id: searchID },
-                { $set: { cost: req.body.cost } },
-                function (err, res) {
-                    if (err) throw err;
-                }
-            );
-        }
         //quantity
         if (req.body.quantity) {
             ConsignProduct.updateOne(
@@ -149,6 +139,66 @@ router.put("/", async (req, res) => {
             ConsignProduct.updateOne(
                 { id: searchID },
                 { $set: { date: req.body.date } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //consigner
+        if (req.body.consigner) {
+            ConsignProduct.updateOne(
+                { id: searchID },
+                { $set: { consigner: req.body.consigner } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //phone
+        if (req.body.phone) {
+            ConsignProduct.updateOne(
+                { id: searchID },
+                { $set: { phone: req.body.phone } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //accountable
+        if (req.body.accountable) {
+            ConsignProduct.updateOne(
+                { id: searchID },
+                { $set: { accountable: req.body.accountable } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //bank
+        if (req.body.bank) {
+            ConsignProduct.updateOne(
+                { id: searchID },
+                { $set: { bank: req.body.bank } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //account
+        if (req.body.account) {
+            ConsignProduct.updateOne(
+                { id: searchID },
+                { $set: { account: req.body.account } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        //account_owner
+        if (req.body.account_owner) {
+            ConsignProduct.updateOne(
+                { id: searchID },
+                { $set: { account_owner: req.body.account_owner } },
                 function (err, res) {
                     if (err) throw err;
                 }

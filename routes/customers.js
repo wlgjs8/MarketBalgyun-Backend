@@ -158,6 +158,46 @@ router.put("/", async (req, res) => {
         }
       );
     }
+    // time
+    if (req.body.time) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { time: req.body.time } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // bank
+    if (req.body.bank) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { bank: req.body.bank } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // account
+    if (req.body.account) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { account: req.body.account } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // account_owner
+    if (req.body.account_owner) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { account_owner: req.body.account_owner } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
     const customerTemp = await Customer.find({
       phone: req.body.phone,
     });

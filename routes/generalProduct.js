@@ -7,23 +7,12 @@ const ThirdCategory = require("../models/products/ThirdCategory");
 
 router.use(express.json());
 
-// 일반 상품 ID를 통해 검색
+// 카테고리에 해당하는 상품명 GET
 router.get("/", async (req, res) => {
-  try {
-    const searchID = req.query.id;
-    const generalProductTemp = await GeneralProduct.find({
-      id: searchID,
-    });
-    if (generalProductTemp.length != 0) {
-      generalProductJson = JSON.stringify(generalProductTemp);
-      res.send(generalProductJson);
-    } else {
-      res.send("No General Product");
-    }
-  } catch (error) {
-    console.log(error);
-    return next(error);
-  }
+  const searchGeneralCategoryName = await GeneralProduct.find({
+    id: { $regex: "^" + req.body.third_category },
+  });
+  res.send(searchGeneralCategoryName);
 });
 
 // 상품 정보 넘겨받으면, ID 생성 후 저장.
@@ -161,6 +150,16 @@ router.put("/", async (req, res) => {
       Customer.updateOne(
         { id: generalProductID },
         { $set: { price: req.body.price } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // trader
+    if (req.body.trader) {
+      Customer.updateOne(
+        { id: generalProductID },
+        { $set: { trader: req.body.trader } },
         function (err, res) {
           if (err) throw err;
         }

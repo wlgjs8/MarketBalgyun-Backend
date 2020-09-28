@@ -6,18 +6,20 @@ var router = express.Router();
 const saleLog = require("../models/saleLog");
 const { post } = require("./generalCategory");
 
-//로그 csv 출력 라우터, 데이터가 없어 잘 출력되는 지 확인 못했슴다.
+//csv 출력 라우터
 router.get("/", async (req, res) => {
-    start = req.query.start;
-    end = req.query.end;
-    duration_log = await saleLog.find({ time: { "$gte": start, "$lte": end } }), select('-_id');
+    // 판매로그 csv
+    if (req.query.saledLog) {
+        start = req.query.start;
+        end = req.query.end;
+        duration_log = await saleLog.find({ time: { "$gte": start, "$lte": end } }), select('-_id');
 
-    res.writeHead(200, {
-        'Content-Type': 'text/csv',
-        'Content-Disposition': 'attachment; filename=saleLog.csv',
-    });
-
-    duration_log.csv(res);
+        res.writeHead(200, {
+            'Content-Type': 'text/csv',
+            'Content-Disposition': 'attachment; filename=saleLog.csv',
+        });
+        duration_log.csv(res);
+    }
 });
 
 module.exports = router;
