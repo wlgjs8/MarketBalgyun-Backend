@@ -4,6 +4,8 @@ const User = require("../models/User");
 module.exports = (passport) => {
   passport.serializeUser((user, done) => {
     done(null, user.name);
+    console.log('session created : ', user.name);
+    console.log(done);
   });
 
   passport.deserializeUser((name, done) => {

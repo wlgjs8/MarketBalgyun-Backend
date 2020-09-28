@@ -32,10 +32,11 @@ router.get("/", async (req, res) => {
 
 // 상품 판매 정보 POST, 상품 ID 와 판매 수량
 router.post("/", async (req, res) => {
-    var saledProduct = req.body.id;
+    var saledProductID = req.body.ID;
+    var saledProductQuntity = req.body.quantity
     try {
         const generalProductTemp = await GeneralProduct.find({
-            id: req.body.id,
+            id: saledProductID,
         });
         if (generalProductTemp.length != 0) {
             await GeneralProduct.updateOne(
