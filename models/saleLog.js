@@ -22,6 +22,11 @@ const saleLogSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	phone: {
+		type: String,
+		required: true,
+		trim: true,
+	},
 	card: {
 		type: Number,
 	},
@@ -31,10 +36,8 @@ const saleLogSchema = new Schema({
 	point: {
 		type: Number,
 	},
-	phone: {
-		type: String,
-		required: true,
-		trim: true,
+	total: {
+		type: Number,
 	},
 	staff: {
 		type: String,
@@ -43,20 +46,24 @@ const saleLogSchema = new Schema({
 	// 위탁자
 	consigner: {
 		type: String,
+		default: ""
 	},
 	bank: {
 		type: String,
 		trim: true,
+		default: ""
 	},
 	// 계좌번호
 	account: {
 		type: String,
 		trim: true,
+		default: ""
 	},
 	// 예금주
 	account_owner: {
 		type: String,
 		trim: true,
+		default: ""
 	},
 });
 
