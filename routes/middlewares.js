@@ -23,11 +23,11 @@ exports.isVerified = (req, res, next) => {
   let token = req.cookies.user;
   let decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  if(decoded){
+  if (decoded) {
     next();
   } else {
     res.status(403).json({
-      message:'인증되지 않은 사용자 입니다.',
+      message: '인증되지 않은 사용자 입니다.',
     });
   }
 };

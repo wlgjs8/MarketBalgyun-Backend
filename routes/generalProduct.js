@@ -101,7 +101,6 @@ async function setThirdCategory(searchThirdCategory) {
   }
 }
 
-
 router.put("/", async (req, res) => {
   try {
     let generalProductID = req.body.id;

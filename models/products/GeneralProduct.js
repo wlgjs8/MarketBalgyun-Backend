@@ -21,7 +21,8 @@ const GeneralProductSchema = new Schema({
     trim: true,
   },
   name: {
-    String: String,
+    type: String,
+    default: "",
   },
   // 원가
   cost: {
@@ -42,7 +43,7 @@ const GeneralProductSchema = new Schema({
   },
   max_discount: {
     type: Number,
-    dafault: 50,
+    default: 50,
   },
   place: {
     type: String,
