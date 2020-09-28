@@ -4,16 +4,8 @@ const GeneralProduct = require("../models/products/GeneralProduct");
 const FirstCategory = require("../models/products/FirstCategory");
 const SecondCategory = require("../models/products/SecondCategory");
 const ThirdCategory = require("../models/products/ThirdCategory");
-const NameCategory = require("../models/products/NameCategory");
 
 router.use(express.json());
-
-// NameCategory.insertMany([
-//   { NameCategory: "빨간세탁기", ID: "01" },
-//   { NameCategory: "검은세탁기", ID: "02" },
-//   { NameCategory: "파랑공기청정기", ID: "03" },
-//   { NameCategory: "노랑선풍기", ID: "04" },
-// ]);
 
 // 일반 상품 ID를 통해 검색
 router.get("/", async (req, res) => {
@@ -47,11 +39,20 @@ router.post("/", async (req, res) => {
     tempID = tempID + (await setThirdCategory(searchThirdCategory));
 
     if (req.body.name) {
-      // autoIncrement
-    }
-    // GeneralProduct.insertMany([req.body]);
+      const ThirdCategoryTemp = await ThirdCategory.find({
+        ID: req.body.id,
+      });
+      var newGeneralProductID = ThirdCategoryTemp[0].ID + ThirdCategoryTemp[0].nextID;
 
-    res.send(tempID);
+      // insert General Product
+      // GeneralProduct.insertMany([req.body]);
+
+      await ThirdCategory.updateOne(
+        { ID: req.body.id },
+        { $inc: { nextID: 1 } },
+      );
+    }
+    res.send(newGeneralProductID);
   } catch (error) {
     console.log(error);
     return next(error);
@@ -100,138 +101,115 @@ async function setThirdCategory(searchThirdCategory) {
   }
 }
 
-function setNameCategory(fieldNum) {
-
-}
 
 router.put("/", async (req, res) => {
   try {
-    let customerPhone = req.body.phone;
+    let generalProductID = req.body.id;
 
     // first_category
-    if (req.body.name) {
+    if (req.body.first_category) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { name: req.body.name } },
+        { id: generalProductID },
+        { $set: { first_category: req.body.first_category } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
     // second_category
-    if (req.body.taste) {
+    if (req.body.second_category) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { taste: req.body.taste } },
+        { id: generalProductID },
+        { $set: { second_category: req.body.second_category } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
     // third_category
-    if (req.body.boolSMS) {
+    if (req.body.third_category) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { boolSMS: req.body.boolSMS } },
+        { id: generalProductID },
+        { $set: { third_category: req.body.third_category } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
     // name
-    if (req.body.boolLecture) {
+    if (req.body.name) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { boolLecture: req.body.boolLecture } },
+        { id: generalProductID },
+        { $set: { name: req.body.name } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
     // cost
-    if (req.body.likeCategory) {
+    if (req.body.cost) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { likeCategory: req.body.likeCategory } },
+        { id: generalProductID },
+        { $set: { cost: req.body.cost } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
     // price
-    if (req.body.something) {
+    if (req.body.price) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { something: req.body.something } },
+        { id: generalProductID },
+        { $set: { price: req.body.price } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
     // quantity
-    if (req.body.email) {
+    if (req.body.quantity) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { email: req.body.email } },
+        { id: generalProductID },
+        { $set: { quantity: req.body.quantity } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // max_discount
+    if (req.body.max_discount) {
+      Customer.updateOne(
+        { id: generalProductID },
+        { $set: { max_discount: req.body.max_discount } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
     // place
-    if (req.body.birthday) {
+    if (req.body.place) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { birthday: req.body.birthday } },
+        { id: generalProductID },
+        { $set: { place: req.body.place } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
     // date
-    if (req.body.gender) {
+    if (req.body.date) {
       Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { gender: req.body.gender } },
+        { id: generalProductID },
+        { $set: { date: req.body.date } },
         function (err, res) {
           if (err) throw err;
         }
       );
     }
-    // address
-    if (req.body.address) {
-      Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { address: req.body.address } },
-        function (err, res) {
-          if (err) throw err;
-        }
-      );
-    }
-    // mainNumber
-    if (req.body.mainNumber) {
-      Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { mainNumber: req.body.mainNumber } },
-        function (err, res) {
-          if (err) throw err;
-        }
-      );
-    }
-    // point
-    if (req.body.point) {
-      Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { point: req.body.point } },
-        function (err, res) {
-          if (err) throw err;
-        }
-      );
-    }
-    const customerTemp = await Customer.find({
-      phone: req.body.phone,
+    const generalProductTemp = await GeneralProduct.find({
+      id: req.body.id,
     });
-    res.send(customerTemp);
+    res.send(generalProductTemp);
 
   } catch (error) {
     console.log(error);

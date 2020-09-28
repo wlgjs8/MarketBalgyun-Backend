@@ -30,4 +30,13 @@ router.post("/", (req, res) => {
   }
 });
 
+router.delete("/", (req, res) => {
+  Trader.deleteOne({ name: req.query.name }, (err, result) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(result);
+  });
+})
+
 module.exports = router;

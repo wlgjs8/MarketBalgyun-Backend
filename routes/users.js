@@ -4,13 +4,6 @@ const User = require("../models/User");
 
 router.use(express.json());
 
-// GeneralCustomer.insertMany([
-//   { name: "0000", password: "0000", level: "1234" },
-//   { name: "0001", password: "1111", level: "2345" },
-//   { name: "0002", password: "2222", level: "3456" },
-//   { name: "0003", password: "3333", level: "4567" },
-// ]);
-
 router.get("/", async (req, res) => {
   try {
     const userName = req.query.name;

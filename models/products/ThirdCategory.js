@@ -11,9 +11,9 @@ const ThirdCategorySchema = new Schema({
     type: String,
     required: true,
   },
-  Showable: {
-    type: Boolean,
-    default: true,
+  nextID: {
+    type: Number,
+    default: 1,
   }
 });
 
