@@ -1,4 +1,5 @@
 var express = require("express");
+var mergeJSON = require("merge-json");
 var router = express.Router();
 const GeneralProduct = require("../models/products/GeneralProduct");
 const ConsignProduct = require("../models/products/ConsignProduct");
@@ -25,7 +26,24 @@ router.get("/", async (req, res) => {
             }
         }
     }
+    else if (req.query.name) {
+        const generalProductTemp = await GeneralProduct.find({
+            name: { $regex: req.query.name },
+        });
+        const consignProductTemp = await ConsignProduct.find({
+            name: { $regex: req.query.name },
+        });
+        if ((generalProductTemp != 0) || (consignProductTemp != 0)) {
+            var resultProductJson = mergeJSON.merge(generalProductTemp, consignProductTemp);
+            res.send(resultProductJson);
+        }
+        else {
+            res.send("해당 이름의 상품이 없습니다.")
+        }
+    }
+    else {
+        // 
+    }
 });
-
 
 module.exports = router;

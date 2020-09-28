@@ -48,7 +48,22 @@ var ConsignProductSchema = new Schema({
 	},
 	accountable: {
 		type: Boolean,
-	}
+	},
+	// 거래은행
+	bank: {
+		type: String,
+		trim: true,
+	},
+	// 계좌번호
+	account: {
+		type: String,
+		trim: true,
+	},
+	// 예금주
+	account_owner: {
+		type: String,
+		trim: true,
+	},
 });
 
 ConsignProductSchema.virtual('expire_date').get(function () {

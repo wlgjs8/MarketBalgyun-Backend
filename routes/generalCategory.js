@@ -13,7 +13,7 @@ router.use(express.json());
 FirstCategory.find().sort({ "_id": -1 });
 
 // 카테고리 전체 GET
-router.get("/", isVerified,async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
   try {
     const firstTemp = await FirstCategory.find();
     const secondTemp = await SecondCategory.find();
@@ -28,12 +28,12 @@ router.get("/", isVerified,async (req, res) => {
     var thirdTemp_Nickname = {
       third_category: thirdTemp,
     };
-  
+
     var resultTemp = mergeJSON.merge(firstTemp_Nickname, secondTemp_Nickname);
     var resultJson = mergeJSON.merge(resultTemp, thirdTemp_Nickname);
-    
-    res.send(resultJson); 
-      // console.log('verified');
+
+    res.send(resultJson);
+    // console.log('verified');
   } catch (error) {
     console.log(error);
     return next(error);

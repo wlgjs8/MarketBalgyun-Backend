@@ -28,44 +28,45 @@ router.get("/", async (req, res) => {
 
 // 상품 정보 넘겨받으면, ID 생성 후 저장.
 router.post("/", async (req, res) => {
-  try {
-    const searchFirstCategory = req.body.FirstCategory;
-    var tempID = await setFirstCategory(searchFirstCategory);
+  var firstCategoryName = await setFirstCategory(req.body.first_category);
+  var secondCategoryName = await setSecondCategory(req.body.second_category);
+  var thirdCategoryName = await setThirdCategory(req.body.third_category);
 
-    const searchSecondCategory = req.body.SecondCategory;
-    tempID = tempID + (await setSecondCategory(searchSecondCategory));
+  if (req.body.name) {
+    const ThirdCategoryTemp = await ThirdCategory.find({
+      ID: req.body.third_category,
+    });
+    var newGeneralProductID = ThirdCategoryTemp[0].ID + ThirdCategoryTemp[0].nextID;
 
-    const searchThirdCategory = req.body.ThirdCategory;
-    tempID = tempID + (await setThirdCategory(searchThirdCategory));
-
-    if (req.body.name) {
-      const ThirdCategoryTemp = await ThirdCategory.find({
-        ID: req.body.id,
-      });
-      var newGeneralProductID = ThirdCategoryTemp[0].ID + ThirdCategoryTemp[0].nextID;
-
-      // insert General Product
-      // GeneralProduct.insertMany([req.body]);
-
-      await ThirdCategory.updateOne(
-        { ID: req.body.id },
-        { $inc: { nextID: 1 } },
-      );
-    }
-    res.send(newGeneralProductID);
-  } catch (error) {
-    console.log(error);
-    return next(error);
+    await ThirdCategory.updateOne(
+      { ID: req.body.third_category },
+      { $inc: { nextID: 1 } },
+    );
+  };
+  var GeneralProductSchemaTemp = {
+    id: newGeneralProductID,
+    first_category: firstCategoryName,
+    second_category: secondCategoryName,
+    third_category: thirdCategoryName,
+    name: req.body.name,
+    cost: req.body.cost,
+    price: req.body.price,
+    trader: req.body.trader,
+    quantity: req.body.quantity,
+    max_discount: req.body.max_discount,
+    place: req.body.place
   }
+  GeneralProduct.insertMany([GeneralProductSchemaTemp]);
+  res.send("Posting Success");
 });
 
 async function setFirstCategory(searchFirstCategory) {
   try {
     const FirstCategoryTemp = await FirstCategory.find({
-      FirstCategory: searchFirstCategory,
+      ID: searchFirstCategory,
     });
     if (FirstCategoryTemp.length != 0) {
-      return FirstCategoryTemp[0].ID;
+      return FirstCategoryTemp[0].FirstCategory;
     }
   } catch (error) {
     console.log(error);
@@ -76,10 +77,10 @@ async function setFirstCategory(searchFirstCategory) {
 async function setSecondCategory(searchSecondCategory) {
   try {
     const SecondCategoryTemp = await SecondCategory.find({
-      SecondCategory: searchSecondCategory,
+      ID: searchSecondCategory,
     });
     if (SecondCategoryTemp.length != 0) {
-      return SecondCategoryTemp[0].ID;
+      return SecondCategoryTemp[0].SecondCategory;
     }
   } catch (error) {
     console.log(error);
@@ -90,10 +91,10 @@ async function setSecondCategory(searchSecondCategory) {
 async function setThirdCategory(searchThirdCategory) {
   try {
     const ThirdCategoryTemp = await ThirdCategory.find({
-      ThirdCategory: searchThirdCategory,
+      ID: searchThirdCategory,
     });
     if (ThirdCategoryTemp.length != 0) {
-      return ThirdCategoryTemp[0].ID;
+      return ThirdCategoryTemp[0].ThirdCategory;
     }
   } catch (error) {
     console.log(error);
