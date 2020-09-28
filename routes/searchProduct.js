@@ -25,27 +25,6 @@ router.get("/", async (req, res) => {
             }
         }
     }
-    else if (req.query.name) {
-        const generalProductTemp = await GeneralProduct.find({
-            name: { $regex: req.query.name },
-        });
-        if (generalProductTemp.length != 0) {
-            res.send(generalProductTemp);
-        } else {
-            const consignProductTemp = await ConsignProduct.find({
-                name: { $regex: req.query.name },
-            });
-            if (consignProductTemp.length != 0) {
-                res.send(consignProductTemp);
-            }
-            else {
-                res.send("해당 ID의 상품이 없습니다.");
-            }
-        }
-    }
-    else {
-        res.send("No product id and name");
-    }
 });
 
 
