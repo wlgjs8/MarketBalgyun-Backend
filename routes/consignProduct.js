@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const ConsignProduct = require("../models/products/ConsignProduct");
+const Customer = require("../models/Customer");
 
 router.get("/", async (req, res) => {
     try {
@@ -28,9 +29,29 @@ router.post("/", async (req, res) => {
         tempIndex *= 1;
         var newConsignProductIndex = tempIndex + 1;
         var newConsignProductID = "C" + newConsignProductIndex;
-        console.log("newConsignProductID : " + newConsignProductID);
 
-        // consignProduct.insertMany([req.body] + newConsignProductID)
+        var CustomerTemp = await Customer.find(
+            { phone: req.body.phone },
+        );
+
+        var ConsignProductSchemaTemp = {
+            id: newConsignProductID,
+            name: req.body.name,
+            price: req.body.price,
+            wanted_price: req.body.wanted_price,
+            quantity: req.body.quantity,
+            story: req.body.story,
+            max_discount: req.body.max_discount,
+            place: req.body.place,
+            consigner: req.body.consigner,
+            phone: req.body.phone,
+            accountable: req.body.accountable,
+            bank: CustomerTemp[0].bank,
+            account: CustomerTemp[0].account,
+            account_owner: CustomerTemp[0].account_owner,
+        }
+
+        ConsignProduct.insertMany([ConsignProductSchemaTemp]);
 
         res.send("Posting Success");
     } catch (error) {

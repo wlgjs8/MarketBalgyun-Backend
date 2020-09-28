@@ -1,4 +1,5 @@
 var express = require("express");
+var mergeJSON = require("merge-json");
 var router = express.Router();
 const GeneralProduct = require("../models/products/GeneralProduct");
 const ConsignProduct = require("../models/products/ConsignProduct");
@@ -38,6 +39,7 @@ router.post("/", async (req, res) => {
                         }
                     )
                 }
+                // 계좌정보 보내기
                 else {
                     const ConsingerTemp = Customer.find(
                         { phone: req.body.phone }
@@ -50,11 +52,22 @@ router.post("/", async (req, res) => {
                 res.send("해당 ID의 상품이 없습니다.");
             }
         }
+        // 구매자가 포인트로 일부 결제시, 포인트 차감
+        if (req.body.point) {
+            Customer.updateOne(
+                { name: req.body.customer },
+                { $inc: { point: -req.body.point } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            )
+        }
+
         // 구매자 포인트 적립
-        var pointPlus = req.body.cash + req.body.card;
+        var pointPlus = req.body.sum_price;
         pointPlus *= 0.65;
         Customer.updateOne(
-            { name: req.body.name },
+            { name: req.body.customer },
             { $inc: { point: pointPlus } },
             function (err, res) {
                 if (err) throw err;

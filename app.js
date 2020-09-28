@@ -19,7 +19,7 @@ var generalProductRouter = require("./routes/generalProduct");
 var customerRouter = require("./routes/customers");
 var traderRouter = require("./routes/trader");
 var generalCategoryRouter = require("./routes/generalCategory");
-var saleLogRouter = require("./routes/saleLog");
+var showCSVRouter = require("./routes/showCSV");
 var consignProductRouter = require("./routes/consignProduct");
 var searchProductRouter = require("./routes/searchProduct");
 var saledProductRouter = require("./routes/saledProduct");
@@ -29,8 +29,8 @@ connect();
 passportConfig(passport);
 const cors = require("cors");
 app.use(cors({
-  origin:'http://localhost:8080',
-  credentials:true,
+  origin: 'http://localhost:8080',
+  credentials: true,
 }
 ));
 
@@ -43,7 +43,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(cookieParser(process.env.COOKIE_SECRET)));
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended:false }));
+app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     resave: false,
@@ -66,7 +66,7 @@ app.use("/generalProduct", generalProductRouter);
 app.use("/customer", customerRouter);
 app.use("/trader", traderRouter);
 app.use("/generalCategory", generalCategoryRouter);
-app.use("/saleLog", saleLogRouter);
+app.use("/showCSV", showCSVRouter);
 app.use("/consignProduct", consignProductRouter);
 app.use("/searchProduct", searchProductRouter);
 app.use("/saledProduct", saledProductRouter);
