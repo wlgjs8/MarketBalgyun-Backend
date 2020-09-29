@@ -7,25 +7,39 @@ const saleLogSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	product: {
+	first_category: {
 		type: String,
 		required: true,
 	},
-	trader: {
+	second_category: {
 		type: String,
+		default: ""
+	},
+	third_category: {
+		type: String,
+		default: ""
+	},
+	productName: {
+		type: String,
+		default: ""
 	},
 	quantity: {
 		type: Number,
 		default: 1,
 	},
-	customer: {
-		type: String,
-		required: true,
+	// 단일상품 원가
+	single_price: {
+		type: Number,
 	},
-	phone: {
-		type: String,
-		required: true,
-		trim: true,
+	// 단일상품 할인률
+	single_discount: {
+		type: Number,
+		default: 0
+	},
+	// 단일상품 판매가
+	single_apply_price: {
+		type: Number,
+		required: true
 	},
 	card: {
 		type: Number,
@@ -38,6 +52,15 @@ const saleLogSchema = new Schema({
 	},
 	total: {
 		type: Number,
+	},
+	customer: {
+		type: String,
+		required: true,
+	},
+	phone: {
+		type: String,
+		required: true,
+		trim: true,
 	},
 	staff: {
 		type: String,
@@ -63,6 +86,10 @@ const saleLogSchema = new Schema({
 	account_owner: {
 		type: String,
 		trim: true,
+		default: ""
+	},
+	trader: {
+		type: String,
 		default: ""
 	},
 });
