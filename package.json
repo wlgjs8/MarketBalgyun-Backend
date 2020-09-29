@@ -17,6 +17,7 @@
     "express-session": "^1.17.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "json2csv": "^5.0.3",
     "jsonwebtoken": "^8.5.1",
     "merge-json": "0.1.0-b.3",
     "moment": "^2.29.0",
