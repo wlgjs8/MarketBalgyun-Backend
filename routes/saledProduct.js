@@ -4,35 +4,85 @@ var router = express.Router();
 const GeneralProduct = require("../models/products/GeneralProduct");
 const ConsignProduct = require("../models/products/ConsignProduct");
 const Customer = require("../models/Customer");
+const SaleLog = require("../models/saleLog");
 
 router.use(express.json());
 
 // 상품 판매 정보 POST, 상품 ID 와 판매 수량
 router.post("/", async (req, res) => {
-    var saledProduct = req.body.id;
-    try {
+    var i = 0;
+    var accountJson;
+
+    var items = req.body.items;
+    var customer_name = req.body.customer_name;
+    var customer_phone = req.body.customer_phone;
+    var point = req.body.point;
+    var card = req.body.card;
+    var cash = req.body.cash;
+    var sum_price = req.body.sum_price;
+
+    while (i < items.length) {
+        var id = items[i].id;
+        var quantity = items[i].quantity;
+        var discount = items[i].discount;
+        var price = items[i].price;
+        var apply_price = items[i++].apply_price;
+
         const generalProductTemp = await GeneralProduct.find({
-            id: req.body.id,
+            id: id,
         });
+        const consignProductTemp = await ConsignProduct.find({
+            id: id,
+        });
+
+        var SaleLogSchemaTemp = {
+            first_category: "",
+            second_category: "",
+            third_category: "",
+            productName: "",
+            quantity: quantity,
+            single_price: price,
+            single_discount: discount,
+            single_apply_price: apply_price,
+            card: card,
+            cash: cash,
+            point: point,
+            total: (apply_price * quantity),
+            customer: customer_name,
+            phone: customer_phone,
+            staff: "",
+            consigner: "",
+            bank: "",
+            account: "",
+            account_owner: "",
+            trader: "",
+        }
+
+        // 일반 상품의 경우
         if (generalProductTemp.length != 0) {
+            // first_category = generalProductTemp[0].first_category;
             await GeneralProduct.updateOne(
-                { id: req.body.id },
-                { $inc: { quantity: -req.body.quantity } },
+                { id: id },
+                { $inc: { quantity: -quantity } },
             )
-        } else {
-            const consignProductTemp = await ConsignProduct.find({
-                id: req.body.id,
-            });
+            SaleLogSchemaTemp.first_category = generalProductTemp[0].first_category;
+            SaleLogSchemaTemp.second_category = generalProductTemp[0].second_category;
+            SaleLogSchemaTemp.third_category = generalProductTemp[0].third_category;
+            SaleLogSchemaTemp.trader = generalProductTemp[0].trader;
+        }
+        // 위탁 상품의 경우
+        else {
             if (consignProductTemp.length != 0) {
+                // first_category = "위탁 상품";
                 await ConsignProduct.updateOne(
-                    { id: req.body.id },
-                    { $inc: { quantity: -req.body.quantity } },
+                    { id: id },
+                    { $inc: { quantity: -quantity } },
                 );
                 // 위탁자 포인트 적립
-                if (!req.body.accountable) {
-                    var pointPlus = req.body.price * 0.65;
+                if (!consignProductTemp[0].accountable) {
+                    var pointPlus = apply_price * 0.65;
                     Customer.updateOne(
-                        { name: req.body.consigner },
+                        { phone: consignProductTemp[0].phone },
                         { $inc: { point: pointPlus } },
                         function (err, res) {
                             if (err) throw err;
@@ -41,43 +91,37 @@ router.post("/", async (req, res) => {
                 }
                 // 계좌정보 보내기
                 else {
-                    const ConsingerTemp = Customer.find(
-                        { phone: req.body.phone }
-                    );
-                    var consignerJson = JSON.stringify(ConsingerTemp);
-                    res.send(consignerJson);
+                    accountJson = mergeJSON.merge(accountJson, consignProductTemp);
                 }
+                SaleLogSchemaTemp.first_category = "위탁 상품";
+                SaleLogSchemaTemp.consigner = consignProductTemp[0].consigner;
+                SaleLogSchemaTemp.bank = consignProductTemp[0].bank;
+                SaleLogSchemaTemp.account = consignProductTemp[0].account;
+                SaleLogSchemaTemp.account_owner = consignProductTemp[0].account_owner;
             }
             else {
-                res.send("해당 ID의 상품이 없습니다.");
+                res.send(id + "의 상품이 없습니다.");
             }
-        }
-        // 구매자가 포인트로 일부 결제시, 포인트 차감
-        if (req.body.point) {
-            Customer.updateOne(
-                { name: req.body.customer },
-                { $inc: { point: -req.body.point } },
-                function (err, res) {
-                    if (err) throw err;
-                }
-            )
         }
 
-        // 구매자 포인트 적립
-        var pointPlus = req.body.sum_price;
-        pointPlus *= 0.65;
-        Customer.updateOne(
-            { name: req.body.customer },
-            { $inc: { point: pointPlus } },
-            function (err, res) {
-                if (err) throw err;
-            }
-        )
-        res.send("해당 ID의 상품이 판매되었습니다.");
-    } catch (error) {
-        console.log(error);
-        return next(error);
+        SaleLog.insertMany([SaleLogSchemaTemp]);
     }
+
+    // 구매자 포인트 적립
+    var pointCount = sum_price * 0.65;
+
+    // 구매자가 포인트로 일부 결제시, 포인트 차감
+    pointCount -= point;
+
+    Customer.updateOne(
+        { phone: customer_phone },
+        { $inc: { point: pointCount } },
+        function (err, res) {
+            if (err) throw err;
+        }
+    );
+
+    res.send(accountJson);
 });
 
 module.exports = router;
