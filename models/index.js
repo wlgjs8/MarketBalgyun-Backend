@@ -6,9 +6,11 @@ module.exports = () => {
       mongoose.set("debug", true);
     }
     mongoose.connect(
-      "mongodb://admin:admin@localhost:27017/admin",
+      //"mongodb://admin:admin@localhost:27017/admin",
+      "mongodb+srv://market_admin:market_admin@marketcluster.kgeyg.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority",
       {
-        dbName: "nodejs",
+        //dbName: "nodejs",
+        dbName: "market",
       },
       (error) => {
         if (error) {
