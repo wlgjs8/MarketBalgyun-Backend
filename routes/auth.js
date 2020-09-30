@@ -64,22 +64,25 @@ router.post("/log-in", async (req, res, next) => {
         // });
       }
       else {
-        res.status(401).json({
+        res.json({
           message:'비밀번호가 일치하지 않습니다.',
         });
+        res.end();
         console.log('비밀번호가 일치하지 않습니다.');
       }
     }
     else {
-      res.status(401).json({
+      res.json({
         message:'가입되지 않은 회원입니다.',
       });
+      res.end();
       console.log('가입되지 않은 회원입니다.');
     }
   } catch (error) {
-    res.status(500).json({
+    res.json({
       message:'DB Error',
-    })
+    });
+    res.end();
     console.error(error);
     //done(error);
   }
