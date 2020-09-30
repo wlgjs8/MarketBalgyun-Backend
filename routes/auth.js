@@ -17,7 +17,7 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
       req.flash("sign up Error", "이미 가입된 name입니다.");
       console.log("이미 가입된 name입니다.");
       return res.status(409).json({
-        message:'이미 가입된 name입니다.',
+        message: '이미 가입된 name입니다.',
       });
     }
     const hash = await bycrypt.hash(password, 12);
@@ -36,17 +36,17 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
 router.post("/log-in", async (req, res, next) => {
   const { name, password } = req.body;
 
-  try{
-    const exUser = await User.findOne({ name:name });
+  try {
+    const exUser = await User.findOne({ name: name });
     if (exUser) {
       const result = await bycrypt.compare(password, exUser.password);
       if (result) {
         console.log('sign in clear');
         const token = await jwt.sign({
-          name:name,
+          name: name,
         }, process.env.JWT_SECRET, {
-          expiresIn:'10h',
-          issuer:'jih',
+          expiresIn: '10h',
+          issuer: 'jih',
         });
 
         let payLoad = {
@@ -55,7 +55,7 @@ router.post("/log-in", async (req, res, next) => {
         };
 
         res.cookie('user', token).status(200).json({
-          message:'로그인 성공',
+          message: '로그인 성공',
           payLoad,
         });
         // res.status(200).json({
@@ -65,7 +65,7 @@ router.post("/log-in", async (req, res, next) => {
       }
       else {
         res.json({
-          message:'비밀번호가 일치하지 않습니다.',
+          message: '비밀번호가 일치하지 않습니다.',
         });
         res.end();
         console.log('비밀번호가 일치하지 않습니다.');
@@ -73,20 +73,20 @@ router.post("/log-in", async (req, res, next) => {
     }
     else {
       res.json({
-        message:'가입되지 않은 회원입니다.',
+        message: '가입되지 않은 회원입니다.',
       });
       res.end();
       console.log('가입되지 않은 회원입니다.');
     }
   } catch (error) {
     res.json({
-      message:'DB Error',
+      message: 'DB Error',
     });
     res.end();
     console.error(error);
     //done(error);
   }
-  
+
   // passport.authenticate("local", (authError, user, info) => {
   //   if (authError) {
   //     console.error(authError);
@@ -117,10 +117,10 @@ router.post("/log-in", async (req, res, next) => {
 router.get("/log-out", async (req, res) => {
   const { name } = req.body;
   const token = await jwt.sign({
-    name:name,
+    name: name,
   }, process.env.JWT_SECRET, {
-    expiresIn:'0',
-    issuer:'jih',
+    expiresIn: '0',
+    issuer: 'jih',
   });
 
   let payLoad = {
@@ -129,25 +129,25 @@ router.get("/log-out", async (req, res) => {
   }
 
   res.cookie('user', token).status(200).json({
-    message:'로그아웃 되었습니다.',
+    message: '로그아웃 되었습니다.',
     payLoad,
   });
 
   console.log('log out');
-  
+
   // req.logout();
   // req.session.destroy();
   // console.log('12');
   //res.redirect("/");
 });
 
-router.post("/sign-out",  async (req, res) => {
+router.post("/sign-out", async (req, res) => {
   const currentUser = await User.find({ name: name });
   User.deleteOne({ name: currentUser.name });
   req.logout();
   req.session.destroy();
   res.status(200).json({
-    message:'정상적으로 삭제되었습니다.',
+    message: '정상적으로 삭제되었습니다.',
   });
 });
 
