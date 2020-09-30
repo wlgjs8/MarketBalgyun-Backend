@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
             point: point,
             total: (apply_price * quantity),
             customer: customer_name,
-            phone: "'" + customer_phone,
+            phone: customer_phone.substring(0, 3) + "-" + customer_phone.substring(3, 7) + "-" + customer_phone.substring(7, customer_phone.length),
             staff: "",
             consigner: "",
             bank: "",
@@ -93,11 +93,17 @@ router.post("/", async (req, res) => {
                 else {
                     accountJson = mergeJSON.merge(accountJson, consignProductTemp);
                 }
-                SaleLogSchemaTemp.first_category = "위탁 상품";
-                SaleLogSchemaTemp.consigner = consignProductTemp[0].consigner;
-                SaleLogSchemaTemp.bank = consignProductTemp[0].bank;
-                SaleLogSchemaTemp.account = consignProductTemp[0].account;
-                SaleLogSchemaTemp.account_owner = consignProductTemp[0].account_owner;
+                var consignerPhone = consignProductTemp[0].phone;
+                const ConsignerTemp = await Customer.find(
+                    { phone: consignerPhone }
+                );
+                if (ConsignerTemp.length != 0) {
+                    SaleLogSchemaTemp.first_category = "위탁 상품";
+                    SaleLogSchemaTemp.consigner = ConsignerTemp[0].name;
+                    SaleLogSchemaTemp.bank = ConsignerTemp[0].bank;
+                    SaleLogSchemaTemp.account = ConsignerTemp[0].account;
+                    SaleLogSchemaTemp.account_owner = ConsignerTemp[0].account_owner;
+                }
             }
             else {
                 res.send(id + "의 상품이 없습니다.");
