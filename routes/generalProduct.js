@@ -31,7 +31,10 @@ router.post("/", async (req, res) => {
       { ID: req.body.third_category },
       { $inc: { nextID: 1 } },
     );
-  };
+  }
+  else {
+    newGeneralProductID = req.body.third_category;
+  }
   var GeneralProductSchemaTemp = {
     id: newGeneralProductID,
     first_category: firstCategoryName,
