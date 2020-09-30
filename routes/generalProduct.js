@@ -10,7 +10,7 @@ router.use(express.json());
 // 카테고리에 해당하는 상품명 GET
 router.get("/", async (req, res) => {
   const searchGeneralCategoryName = await GeneralProduct.find({
-    id: { $regex: "^" + req.query.third_category },
+    id: { $regex: "^" + req.query.id },
   });
   res.send(searchGeneralCategoryName);
 });
