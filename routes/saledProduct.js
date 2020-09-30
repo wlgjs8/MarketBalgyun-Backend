@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
             point: point,
             total: (apply_price * quantity),
             customer: customer_name,
-            phone: customer_phone,
+            phone: "'" + customer_phone,
             staff: "",
             consigner: "",
             bank: "",
