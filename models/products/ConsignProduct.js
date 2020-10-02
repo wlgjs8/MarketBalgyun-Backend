@@ -36,7 +36,21 @@ var ConsignProductSchema = new Schema({
 	},
 	date: {
 		type: Date,
-		default: Date.now,
+		date: {
+			type: Date,
+			default: () => {
+			  return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
+			},
+		  }
+	},
+	expire_date:{
+		type: Date,
+		date: {
+			type: Date,
+			default: () => {
+			  return moment().add(9, 'hours').add(90, 'days').format("YYYY-MM-DD HH:mm:ss");
+			},
+		  }
 	},
 	consigner: {
 		type: String,
@@ -66,8 +80,8 @@ var ConsignProductSchema = new Schema({
 	},
 });
 
-ConsignProductSchema.virtual('expire_date').get(function () {
-	return moment().add(90, 'days').calendar().format('LL');
-})
+// ConsignProductSchema.virtual('expire_date').get(function () {
+// 	return moment().add(90, 'days').calendar().format('LL');
+// })
 
 module.exports = mongoose.model('ConsignProduct', ConsignProductSchema);

@@ -21,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "merge-json": "0.1.0-b.3",
     "moment": "^2.29.0",
+    "moment-timezone": "^0.5.31",
     "mongodb": "^3.6.1",
     "mongoose": "^5.10.2",
     "mongoose-csv": "^1.1.0",
