@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const moment =require('moment');
+
+// moment.tz.setDefault("Asia/Seoul");
+// var KoreanTime = () => {
+//   return moment().add(9, 'hours').format('YYYY-MM-DD HH:mm:ss');
+// }
 
 const GeneralProductSchema = new Schema({
   id: {
@@ -51,7 +57,9 @@ const GeneralProductSchema = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now,
+    default: () => {
+      return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
+    },
   },
 });
 
