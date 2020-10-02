@@ -3,6 +3,7 @@ var mergeJSON = require("merge-json");
 var router = express.Router();
 const GeneralProduct = require("../models/products/GeneralProduct");
 const ConsignProduct = require("../models/products/ConsignProduct");
+const { isVerified } = require('./middlewares');
 
 router.use(express.json());
 
