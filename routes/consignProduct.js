@@ -23,6 +23,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
+        console.log(req.body);
         const ConsignProductTemp = await ConsignProduct.find().sort({ "_id": -1 }).limit(1);
 
         var tempIndex = ConsignProductTemp[0].id.substring(1, ConsignProductTemp[0].id.length);

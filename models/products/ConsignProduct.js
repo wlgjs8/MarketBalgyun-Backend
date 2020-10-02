@@ -36,20 +36,14 @@ var ConsignProductSchema = new Schema({
 	},
 	date: {
 		type: Date,
-		date: {
-			type: Date,
-			default: () => {
-			  return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
-			},
+		default: () => {
+			return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
 		  }
 	},
 	expire_date:{
 		type: Date,
-		date: {
-			type: Date,
-			default: () => {
-			  return moment().add(9, 'hours').add(90, 'days').format("YYYY-MM-DD HH:mm:ss");
-			},
+		default: () => {
+			return moment().add(9, 'hours').add(90, 'days').format("YYYY-MM-DD HH:mm:ss");
 		  }
 	},
 	consigner: {
