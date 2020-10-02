@@ -60,11 +60,7 @@ router.post("/", async (req, res) => {
 
         // 일반 상품의 경우
         if (generalProductTemp.length != 0) {
-            // first_category = generalProductTemp[0].first_category;
-            const generalProductQuantity = await GeneralProduct.find(
-                { id: id }
-            );
-            if ((generalProductQuantity.quantity - quantity) < 0) {
+            if ((generalProductTemp[0].quantity - quantity) < 0) {
                 res.send(id + "의 상품 수량 부족");
             }
             await GeneralProduct.updateOne(
@@ -78,10 +74,7 @@ router.post("/", async (req, res) => {
         }
         // 위탁 상품의 경우
         else {
-            const consignProductQuantity = await ConsignProduct.find(
-                { id: id }
-            );
-            if ((consignProductQuantity.quantity - quantity) < 0) {
+            if ((consignProductTemp[0].quantity - quantity) < 0) {
                 res.send(id + "의 상품 수량 부족");
             }
             if (consignProductTemp.length != 0) {
@@ -89,6 +82,18 @@ router.post("/", async (req, res) => {
                     { id: id },
                     { $inc: { quantity: -quantity } },
                 );
+                // 위탁자 찾기 
+                var consignerPhone = consignProductTemp[0].phone;
+                const ConsignerTemp = await Customer.findOne(
+                    { phone: consignerPhone }
+                );
+                if (ConsignerTemp.length != 0) {
+                    SaleLogSchemaTemp.first_category = "위탁 상품";
+                    SaleLogSchemaTemp.consigner = ConsignerTemp.name;
+                    SaleLogSchemaTemp.bank = ConsignerTemp.bank;
+                    SaleLogSchemaTemp.account = ConsignerTemp.account;
+                    SaleLogSchemaTemp.account_owner = ConsignerTemp.account_owner;
+                }
                 // 위탁자 포인트 적립
                 if (!consignProductTemp[0].accountable) {
                     var pointPlus = apply_price * 0.65;
@@ -102,25 +107,23 @@ router.post("/", async (req, res) => {
                 }
                 // 계좌정보 보내기
                 else {
-                    accountJson = mergeJSON.merge(accountJson, consignProductTemp);
-                }
-                var consignerPhone = consignProductTemp[0].phone;
-                const ConsignerTemp = await Customer.find(
-                    { phone: consignerPhone }
-                );
-                if (ConsignerTemp.length != 0) {
-                    SaleLogSchemaTemp.first_category = "위탁 상품";
-                    SaleLogSchemaTemp.consigner = ConsignerTemp[0].name;
-                    SaleLogSchemaTemp.bank = ConsignerTemp[0].bank;
-                    SaleLogSchemaTemp.account = ConsignerTemp[0].account;
-                    SaleLogSchemaTemp.account_owner = ConsignerTemp[0].account_owner;
+                    let accountTemp = {
+                        "consignerName": ConsignerTemp.name,
+                        "consignProductName": consignProductTemp[0].name,
+                        "price": apply_price,
+                        "quantity": quantity,
+                        "sum_price": apply_price * quantity,
+                        "bank": ConsignerTemp.bank,
+                        "account": ConsignerTemp.account,
+                        "account_owner": ConsignerTemp.account_owner,
+                    }
+                    accountJson = mergeJSON.merge(accountJson, [accountTemp]);
                 }
             }
             else {
                 res.send(id + "의 상품이 없습니다.");
             }
         }
-
         SaleLog.insertMany([SaleLogSchemaTemp]);
     }
 
@@ -133,13 +136,14 @@ router.post("/", async (req, res) => {
 
     Customer.updateOne(
         { phone: customer_phone },
-        { $inc: { point: pointCount } },
-        function (err, res) {
-            if (err) throw err;
-        }
+        { $inc: { point: pointCount } }
     );
-
-    res.send(accountJson);
+    if (accountJson.length != 0) {
+        res.send(accountJson);
+    }
+    else {
+        res.send("상품 판매 완료");
+    }
 });
 
 module.exports = router;

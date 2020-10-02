@@ -20,7 +20,6 @@ var ConsignProductSchema = new Schema({
 	// 희망가
 	wanted_price: {
 		type: Number,
-		default: price,
 		required: true,
 	},
 	quantity: {
