@@ -61,6 +61,12 @@ router.post("/", async (req, res) => {
         // 일반 상품의 경우
         if (generalProductTemp.length != 0) {
             // first_category = generalProductTemp[0].first_category;
+            const generalProductQuantity = await GeneralProduct.find(
+                { id: id }
+            );
+            if ((generalProductQuantity.quantity - quantity) < 0) {
+                res.send(id + "의 상품 수량 부족");
+            }
             await GeneralProduct.updateOne(
                 { id: id },
                 { $inc: { quantity: -quantity } },
@@ -72,8 +78,13 @@ router.post("/", async (req, res) => {
         }
         // 위탁 상품의 경우
         else {
+            const consignProductQuantity = await ConsignProduct.find(
+                { id: id }
+            );
+            if ((consignProductQuantity.quantity - quantity) < 0) {
+                res.send(id + "의 상품 수량 부족");
+            }
             if (consignProductTemp.length != 0) {
-                // first_category = "위탁 상품";
                 await ConsignProduct.updateOne(
                     { id: id },
                     { $inc: { quantity: -quantity } },

@@ -10,8 +10,6 @@ const GeneralProduct = require("../models/products/GeneralProduct");
 const { isVerified } = require('./middlewares');
 router.use(express.json());
 
-FirstCategory.find().sort({ "_id": -1 });
-
 // 전체 카테고리 GET
 router.get("/", isVerified, async (req, res) => {
   try {

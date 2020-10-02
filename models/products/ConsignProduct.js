@@ -20,19 +20,29 @@ var ConsignProductSchema = new Schema({
 	// 희망가
 	wanted_price: {
 		type: Number,
+		default: price,
+		required: true,
 	},
 	quantity: {
 		type: Number,
+		default: 1,
+		required: true,
 	},
 	story: {
 		type: String,
+		default: "",
+		required: true,
 	},
 	max_discount: {
 		type: Number,
+		default: 0,
+		required: true,
 	},
 	place: {
 		type: String,
 		trim: true,
+		default: "",
+		required: true,
 	},
 	date: {
 		type: Date,
@@ -41,28 +51,38 @@ var ConsignProductSchema = new Schema({
 	consigner: {
 		type: String,
 		trim: true,
+		required: true,
 	},
 	phone: {
 		type: String,
 		trim: true,
+		required: true,
 	},
 	accountable: {
 		type: Boolean,
+		default: false,
+		required: true,
 	},
 	// 거래은행
 	bank: {
 		type: String,
 		trim: true,
+		default: "",
+		required: true,
 	},
 	// 계좌번호
 	account: {
 		type: String,
 		trim: true,
+		default: "",
+		required: true,
 	},
 	// 예금주
 	account_owner: {
 		type: String,
 		trim: true,
+		default: "",
+		required: true,
 	},
 });
 
