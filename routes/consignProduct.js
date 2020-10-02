@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
 
         ConsignProduct.insertMany([ConsignProductSchemaTemp]);
 
-        res.send("Posting Success");
+        res.send(newConsignProductID);
     } catch (error) {
         console.log(error);
         return next(error);

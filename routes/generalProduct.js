@@ -17,11 +17,16 @@ router.get("/", async (req, res) => {
 
 // 상품 정보 넘겨받으면, ID 생성 후 저장.
 router.post("/", async (req, res) => {
+  // if(req.body.first_category)
   var firstCategoryName = await setFirstCategory(req.body.first_category);
   var secondCategoryName = await setSecondCategory(req.body.second_category);
   var thirdCategoryName = await setThirdCategory(req.body.third_category);
 
-  if (req.body.name) {
+  // 이게 지금 상품명이 새로운것만 가능함.... 동일 상품명은 
+  if ("없음".localeCompare(req.body.name)) {
+    // 
+  }
+  else if (req.body.name) {
     const ThirdCategoryTemp = await ThirdCategory.find({
       ID: req.body.third_category,
     });
@@ -49,7 +54,7 @@ router.post("/", async (req, res) => {
     place: req.body.place
   }
   GeneralProduct.insertMany([GeneralProductSchemaTemp]);
-  res.send("Posting Success");
+  res.send(newGeneralProductID);
 });
 
 async function setFirstCategory(searchFirstCategory) {
