@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 
     while (i < items.length) {
         var id = items[i].id;
-        var quantity = items[i].quantity;
+        var quantity = items[i].sale_quantity;
         var discount = items[i].discount;
         var price = items[i].price;
         var apply_price = items[i++].apply_price;
