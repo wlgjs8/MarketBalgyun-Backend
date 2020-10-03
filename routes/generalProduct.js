@@ -22,6 +22,13 @@ router.post("/", async (req, res) => {
   var thirdCategoryName = await setThirdCategory(req.body.third_category);
 
   if (req.body.name) {
+    const nameTemp = await GeneralProduct.find({
+      name: req.body.name,
+    })
+    if (nameTemp.length > 0) {
+      res.send("해당 이름의 상품이 이미 등록되어 있습니다.");
+      return;
+    }
     const ThirdCategoryTemp = await ThirdCategory.find({
       ID: req.body.third_category,
     });
