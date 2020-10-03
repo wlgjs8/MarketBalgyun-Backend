@@ -51,6 +51,9 @@ router.post("/", async (req, res) => {
             account: CustomerTemp[0].account,
             account_owner: CustomerTemp[0].account_owner,
         }
+        if (!req.body.wanted_price) {
+            ConsignProductSchemaTemp.wanted_price = req.body.price;
+        }
 
         ConsignProduct.insertMany([ConsignProductSchemaTemp]);
 

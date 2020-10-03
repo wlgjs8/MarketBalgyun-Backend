@@ -20,7 +20,6 @@ var ConsignProductSchema = new Schema({
 	// 희망가
 	wanted_price: {
 		type: Number,
-		required: true,
 	},
 	quantity: {
 		type: Number,
@@ -29,31 +28,25 @@ var ConsignProductSchema = new Schema({
 	},
 	story: {
 		type: String,
-		default: "",
-		required: true,
 	},
 	max_discount: {
 		type: Number,
-		default: 0,
-		required: true,
 	},
 	place: {
 		type: String,
 		trim: true,
-		default: "",
-		required: true,
 	},
 	date: {
 		type: Date,
 		default: () => {
 			return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
-		  }
+		}
 	},
-	expire_date:{
+	expire_date: {
 		type: Date,
 		default: () => {
 			return moment().add(9, 'hours').add(90, 'days').format("YYYY-MM-DD HH:mm:ss");
-		  }
+		}
 	},
 	consigner: {
 		type: String,

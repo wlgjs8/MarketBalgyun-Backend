@@ -134,7 +134,8 @@ router.post("/", async (req, res) => {
 
     // 구매자가 포인트로 일부 결제시, 포인트 차감
     pointCount -= point;
-    pointCount = Math.round(pointCount);
+    pointCount = Math.round(pointCount / 10);
+    pointCount *= 10;
 
     Customer.updateOne(
         { phone: customer_phone },
