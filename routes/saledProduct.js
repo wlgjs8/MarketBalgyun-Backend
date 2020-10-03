@@ -20,6 +20,7 @@ router.post("/", async (req, res) => {
     var card = req.body.card;
     var cash = req.body.cash;
     var sum_price = req.body.sum_price;
+    var staff = req.body.staff;
 
     while (i < items.length) {
         var id = items[i].id;
@@ -50,7 +51,7 @@ router.post("/", async (req, res) => {
             total: (apply_price * quantity),
             customer: customer_name,
             phone: customer_phone.substring(0, 3) + "-" + customer_phone.substring(3, 7) + "-" + customer_phone.substring(7, customer_phone.length),
-            staff: "",
+            staff: staff,
             consigner: "",
             bank: "",
             account: "",
