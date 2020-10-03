@@ -19,7 +19,7 @@ const TraderSchema = new Schema({
   },
   //업태
   business: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   // 종목

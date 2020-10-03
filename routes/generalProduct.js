@@ -17,7 +17,6 @@ router.get("/", async (req, res) => {
 
 // 상품 정보 넘겨받으면, ID 생성 후 저장.
 router.post("/", async (req, res) => {
-  // if(req.body.first_category)
   var firstCategoryName = await setFirstCategory(req.body.first_category);
   var secondCategoryName = await setSecondCategory(req.body.second_category);
   var thirdCategoryName = await setThirdCategory(req.body.third_category);
