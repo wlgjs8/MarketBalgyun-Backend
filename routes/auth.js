@@ -16,9 +16,7 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
     if (exUser.length !== 0) {
       req.flash("sign up Error", "이미 가입된 name입니다.");
       console.log("이미 가입된 name입니다.");
-      return res.status(409).json({
-        message: '이미 가입된 name입니다.',
-      });
+      return res.send('이미 가입된 name입니다.');
     }
     const hash = await bycrypt.hash(password, 12);
     await User.create({
@@ -54,10 +52,7 @@ router.post("/log-in", async (req, res, next) => {
           token,
         };
 
-        res.cookie('user', token).status(200).json({
-          message: '로그인 성공',
-          payLoad,
-        });
+        res.cookie('user', token).send('로그인 성공');
         // res.status(200).json({
         //   message:'로그인 성공',
         //   payLoad,
@@ -128,10 +123,7 @@ router.get("/log-out", async (req, res) => {
     token,
   }
 
-  res.cookie('user', token).status(200).json({
-    message: '로그아웃 되었습니다.',
-    payLoad,
-  });
+  res.cookie('user', token).send('로그아웃되었습니다.');
 
   console.log('log out');
 
@@ -146,9 +138,7 @@ router.post("/sign-out", async (req, res) => {
   User.deleteOne({ name: currentUser.name });
   req.logout();
   req.session.destroy();
-  res.status(200).json({
-    message: '정상적으로 삭제되었습니다.',
-  });
+  res.send('정상적으로 삭제되었습니다.');
 });
 
 module.exports = router;
