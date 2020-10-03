@@ -10,14 +10,17 @@ router.use(express.json());
 // 일반 상품 ID를 통해 검색
 router.get("/", async (req, res) => {
     if (req.query.id) {
+        var UppercaseID = req.query.id;
+        UppercaseID = UppercaseID.toUpperCase();
+
         const generalProductTemp = await GeneralProduct.find({
-            id: req.query.id,
+            id: UppercaseID,
         });
         if (generalProductTemp.length != 0) {
             res.send(generalProductTemp);
         } else {
             const consignProductTemp = await ConsignProduct.find({
-                id: req.query.id,
+                id: UppercaseID,
             });
             if (consignProductTemp.length != 0) {
                 res.send(consignProductTemp);
@@ -51,7 +54,6 @@ router.get("/", async (req, res) => {
         });
         if ((generalProductTemp != 0) || (consignProductTemp != 0)) {
             var resultProductJson = mergeJSON.merge(generalProductTemp, consignProductTemp);
-            //console.log(resultProductJson);
             res.send(resultProductJson);
         }
         else {
@@ -64,7 +66,6 @@ router.get("/", async (req, res) => {
         });
         if (generalProductTemp != 0) {
             var resultProductJson = mergeJSON.merge(generalProductTemp, consignProductTemp);
-            //console.log(resultProductJson);
             res.send(resultProductJson);
         }
         else {

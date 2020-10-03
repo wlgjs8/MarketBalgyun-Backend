@@ -10,11 +10,15 @@ router.get("/", async (req, res) => {
     const customerTemp = await Customer.find({
       phone: { $regex: postPhone + "$" },
     });
-    if (customerTemp.length != 0) {
+    if (customerTemp.length == 1) {
       customerJson = JSON.stringify(customerTemp);
       res.send(customerJson);
-    } else {
-      res.send("No Customer");
+    }
+    else if (customerTemp.length > 1) {
+      res.send("해당 번호의 회원이 여러명입니다. 번호 전체를 입력해주세요.");
+    }
+    else {
+      res.send("해당 번호의 회원이 없습니다.");
     }
   } catch (error) {
     console.log(error);
