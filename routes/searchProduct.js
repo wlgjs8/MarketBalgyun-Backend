@@ -42,8 +42,37 @@ router.get("/", async (req, res) => {
             res.send("해당 이름의 상품이 없습니다.")
         }
     }
-    else {
-        // 
+    else if (req.query.place) {
+        const generalProductTemp = await GeneralProduct.find({
+            place: { $regex: req.query.place },
+        });
+        const consignProductTemp = await ConsignProduct.find({
+            place: { $regex: req.query.place },
+        });
+        if ((generalProductTemp != 0) || (consignProductTemp != 0)) {
+            var resultProductJson = mergeJSON.merge(generalProductTemp, consignProductTemp);
+            //console.log(resultProductJson);
+            res.send(resultProductJson);
+        }
+        else {
+            res.send("해당 위치의 상품이 없습니다.")
+        }
+    }
+    else if (req.query.trader) {
+        const generalProductTemp = await GeneralProduct.find({
+            trader: { $regex: req.query.trader },
+        });
+        const consignProductTemp = await ConsignProduct.find({
+            trader: { $regex: req.query.trader },
+        });
+        if ((generalProductTemp != 0) || (consignProductTemp != 0)) {
+            var resultProductJson = mergeJSON.merge(generalProductTemp, consignProductTemp);
+            //console.log(resultProductJson);
+            res.send(resultProductJson);
+        }
+        else {
+            res.send("해당 매입처의 상품이 없습니다.")
+        }
     }
 });
 
