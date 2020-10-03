@@ -42,7 +42,7 @@ router.get("/", async (req, res) => {
             res.send(resultProductJson);
         }
         else {
-            res.send("해당 이름의 상품이 없습니다.")
+            res.send("해당 이름의 상품이 없습니다.");
         }
     }
     else if (req.query.place) {
@@ -57,7 +57,7 @@ router.get("/", async (req, res) => {
             res.send(resultProductJson);
         }
         else {
-            res.send("해당 위치의 상품이 없습니다.")
+            res.send("해당 위치의 상품이 없습니다.");
         }
     }
     else if (req.query.trader) {
@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
             res.send(resultProductJson);
         }
         else {
-            res.send("해당 매입처의 상품이 없습니다.")
+            res.send("해당 매입처의 상품이 없습니다.");
         }
     }
 });

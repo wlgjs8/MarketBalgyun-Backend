@@ -148,6 +148,16 @@ router.put("/", async (req, res) => {
                 }
             );
         }
+        //expire_date
+        if (req.body.expire_date) {
+            ConsignProduct.updateOne(
+                { id: searchID },
+                { $set: { expire_date: req.body.expire_date } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
         //consigner
         if (req.body.consigner) {
             ConsignProduct.updateOne(
