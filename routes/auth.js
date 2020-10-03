@@ -127,7 +127,9 @@ router.get("/log-out", async (req, res) => {
     token,
   }
 
-  res.cookie('user', token).send('로그아웃되었습니다.');
+  res.cookie('user', token).json({
+    message:'로그아웃되었습니다.',
+  });
 
   console.log('log out');
 
