@@ -73,6 +73,8 @@ router.post("/", async (req, res) => {
             SaleLogSchemaTemp.second_category = generalProductTemp[0].second_category;
             SaleLogSchemaTemp.third_category = generalProductTemp[0].third_category;
             SaleLogSchemaTemp.trader = generalProductTemp[0].trader;
+
+            accountJson = mergeJSON.merge(accountJson, []);
         }
         // 위탁 상품의 경우
         else {
