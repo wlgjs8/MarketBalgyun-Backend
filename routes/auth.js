@@ -128,7 +128,7 @@ router.get("/log-out", async (req, res) => {
   }
 
   res.cookie('user', token).json({
-    message: '로그아웃되었습니다.',
+    message:'로그아웃되었습니다.',
   });
 
   console.log('log out');
@@ -140,10 +140,10 @@ router.get("/log-out", async (req, res) => {
 });
 
 router.delete("/sign-out", async (req, res) => {
-  await User.deleteOne({ name: req.query.name });
-
-  req.logout();
-  req.session.destroy();
+  const currentUser = await User.findOne({ name: req.query.name });
+  await User.deleteOne({ name: currentUser.name });
+  //req.logout();
+  //req.session.destroy();
   res.send('정상적으로 삭제되었습니다.');
 });
 
