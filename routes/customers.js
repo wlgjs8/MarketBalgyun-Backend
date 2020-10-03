@@ -23,16 +23,17 @@ router.get("/", async (req, res) => {
 });
 
 // 신규 고객 정보 저장
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const customer = Customer.find({phone : req.body.phone});
-    if(customer.length != 0){
+    const customerTemp = await Customer.find({ phone: req.body.phone });
+    if (customerTemp.length != 0) {
       res.send('이미 등록된 번호입니다.');
-      console.log('이미 등록된 번호입니다.');
       return;
     }
-    Customer.insertMany([req.body]);
-    res.send("Posting Success");
+    else {
+      Customer.insertMany([req.body]);
+      res.send("Posting Success");
+    }
   } catch (error) {
     console.log(error);
     return next(error);

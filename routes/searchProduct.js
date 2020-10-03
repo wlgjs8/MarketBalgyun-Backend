@@ -62,10 +62,7 @@ router.get("/", async (req, res) => {
         const generalProductTemp = await GeneralProduct.find({
             trader: { $regex: req.query.trader },
         });
-        const consignProductTemp = await ConsignProduct.find({
-            trader: { $regex: req.query.trader },
-        });
-        if ((generalProductTemp != 0) || (consignProductTemp != 0)) {
+        if (generalProductTemp != 0) {
             var resultProductJson = mergeJSON.merge(generalProductTemp, consignProductTemp);
             //console.log(resultProductJson);
             res.send(resultProductJson);
