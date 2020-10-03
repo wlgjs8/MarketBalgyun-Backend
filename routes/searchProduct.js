@@ -65,7 +65,7 @@ router.get("/", async (req, res) => {
             trader: { $regex: req.query.trader },
         });
         if (generalProductTemp != 0) {
-            var resultProductJson = mergeJSON.merge(generalProductTemp, consignProductTemp);
+            var resultProductJson = mergeJSON.merge(generalProductTemp, []);
             res.send(resultProductJson);
         }
         else {
