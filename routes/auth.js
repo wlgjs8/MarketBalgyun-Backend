@@ -54,7 +54,7 @@ router.post("/log-in", async (req, res, next) => {
         };
 
         res.cookie('user', token).json({
-          message:'로그인 성공',
+          message: '로그인 성공',
           payLoad,
         });
         // res.status(200).json({
@@ -140,7 +140,7 @@ router.get("/log-out", async (req, res) => {
 });
 
 router.post("/sign-out", async (req, res) => {
-  const currentUser = await User.find({ name: name });
+  const currentUser = await User.findOne({ name: name });
   User.deleteOne({ name: currentUser.name });
   req.logout();
   req.session.destroy();
