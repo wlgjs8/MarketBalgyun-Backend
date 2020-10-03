@@ -97,7 +97,7 @@ router.post("/", async (req, res) => {
                     SaleLogSchemaTemp.productName = consignProductTemp[0].name;
                     SaleLogSchemaTemp.consigner = ConsignerTemp.name;
                     SaleLogSchemaTemp.bank = ConsignerTemp.bank;
-                    SaleLogSchemaTemp.account = ConsignerTemp.account;
+                    SaleLogSchemaTemp.account = "'" + ConsignerTemp.account;
                     SaleLogSchemaTemp.account_owner = ConsignerTemp.account_owner;
                 }
                 // 위탁자 포인트 적립
