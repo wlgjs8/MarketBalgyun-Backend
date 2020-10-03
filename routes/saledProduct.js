@@ -68,6 +68,7 @@ router.post("/", async (req, res) => {
                 { id: id },
                 { $inc: { quantity: -quantity } },
             )
+            SaleLogSchemaTemp.productName = generalProductTemp[0].name;
             SaleLogSchemaTemp.first_category = generalProductTemp[0].first_category;
             SaleLogSchemaTemp.second_category = generalProductTemp[0].second_category;
             SaleLogSchemaTemp.third_category = generalProductTemp[0].third_category;
@@ -91,6 +92,7 @@ router.post("/", async (req, res) => {
                 );
                 if (ConsignerTemp.length != 0) {
                     SaleLogSchemaTemp.first_category = "위탁 상품";
+                    SaleLogSchemaTemp.productName = consignProductTemp[0].name;
                     SaleLogSchemaTemp.consigner = ConsignerTemp.name;
                     SaleLogSchemaTemp.bank = ConsignerTemp.bank;
                     SaleLogSchemaTemp.account = ConsignerTemp.account;
