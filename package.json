@@ -13,6 +13,8 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
+    "excel4node": "^1.7.2",
+    "exceljs": "^4.1.1",
     "express": "~4.16.1",
     "express-session": "^1.17.1",
     "http-errors": "~1.6.3",
