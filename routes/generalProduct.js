@@ -100,7 +100,7 @@ router.put("/", async (req, res) => {
 
     // first_category
     if (req.body.first_category) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { first_category: req.body.first_category } },
         function (err, res) {
@@ -110,7 +110,7 @@ router.put("/", async (req, res) => {
     }
     // second_category
     if (req.body.second_category) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { second_category: req.body.second_category } },
         function (err, res) {
@@ -120,7 +120,7 @@ router.put("/", async (req, res) => {
     }
     // third_category
     if (req.body.third_category) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { third_category: req.body.third_category } },
         function (err, res) {
@@ -130,7 +130,7 @@ router.put("/", async (req, res) => {
     }
     // name
     if (req.body.name) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { name: req.body.name } },
         function (err, res) {
@@ -140,7 +140,7 @@ router.put("/", async (req, res) => {
     }
     // cost
     if (req.body.cost) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { cost: req.body.cost } },
         function (err, res) {
@@ -150,7 +150,7 @@ router.put("/", async (req, res) => {
     }
     // price
     if (req.body.price) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { price: req.body.price } },
         function (err, res) {
@@ -160,7 +160,7 @@ router.put("/", async (req, res) => {
     }
     // trader
     if (req.body.trader) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { trader: req.body.trader } },
         function (err, res) {
@@ -170,7 +170,7 @@ router.put("/", async (req, res) => {
     }
     // quantity
     if (req.body.quantity) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { quantity: req.body.quantity } },
         function (err, res) {
@@ -180,7 +180,7 @@ router.put("/", async (req, res) => {
     }
     // max_discount
     if (req.body.max_discount) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { max_discount: req.body.max_discount } },
         function (err, res) {
@@ -190,7 +190,7 @@ router.put("/", async (req, res) => {
     }
     // place
     if (req.body.place) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { place: req.body.place } },
         function (err, res) {
@@ -200,7 +200,7 @@ router.put("/", async (req, res) => {
     }
     // date
     if (req.body.date) {
-      Customer.updateOne(
+      await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { date: req.body.date } },
         function (err, res) {
