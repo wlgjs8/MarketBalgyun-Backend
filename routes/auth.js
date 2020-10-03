@@ -14,9 +14,9 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
   try {
     const exUser = await User.find({ name: name });
     if (exUser.length !== 0) {
-      req.flash("sign up Error", "이미 가입된 name입니다.");
-      console.log("이미 가입된 name입니다.");
-      return res.send('이미 가입된 name입니다.');
+      req.flash("sign up Error", "이미 가입된 이름입니다.");
+      console.log("이미 가입된 이름입니다.");
+      return res.send('이미 가입된 이름입니다.');
     }
     const hash = await bycrypt.hash(password, 12);
     await User.create({
