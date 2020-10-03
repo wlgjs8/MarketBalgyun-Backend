@@ -62,6 +62,7 @@ router.post("/", async (req, res) => {
         if (generalProductTemp.length != 0) {
             if ((generalProductTemp[0].quantity - quantity) < 0) {
                 res.send(id + "의 상품 수량 부족");
+                return;
             }
             await GeneralProduct.updateOne(
                 { id: id },
@@ -76,6 +77,7 @@ router.post("/", async (req, res) => {
         else {
             if ((consignProductTemp[0].quantity - quantity) < 0) {
                 res.send(id + "의 상품 수량 부족");
+                return;
             }
             if (consignProductTemp.length != 0) {
                 await ConsignProduct.updateOne(
