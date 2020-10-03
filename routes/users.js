@@ -26,6 +26,7 @@ router.post("/", (req, res) => {
   try {
     User.insertMany([req.body]);
     res.send("Posting Success");
+    console.log(res);
   } catch (error) {
     console.log(error);
     return next(error);

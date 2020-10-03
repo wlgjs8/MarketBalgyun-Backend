@@ -24,9 +24,10 @@ router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
       password: hash,
       level,
     });
-    return res.redirect("/");
+    return res.send('정상 등록되었습니다.');
   } catch (error) {
     console.error(error);
+    res.send('오류가 발생하였습니다.')
     return next(error);
   }
 });
@@ -52,7 +53,10 @@ router.post("/log-in", async (req, res, next) => {
           token,
         };
 
-        res.cookie('user', token).send('로그인 성공');
+        res.cookie('user', token).json({
+          message:'로그인 성공',
+          payLoad,
+        });
         // res.status(200).json({
         //   message:'로그인 성공',
         //   payLoad,
