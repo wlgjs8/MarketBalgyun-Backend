@@ -38,7 +38,7 @@ router.get("/", async (req, res) => {
                 }
                 const dateTime = moment().format("YYYYMMDDhhmm");
                 const filePath = path.join(__dirname, "..", "public", "csv-" + dateTime + ".csv")
-                fs.writeFile(filePath, '\uFEFF' + csv, function (err) {
+                fs.writeFile(filePath, '\uFEFF' + csv, { encoding: 'utf8' }, function (err) {
                     if (err) {
                         return res.status(500).json({ err });
                     }
