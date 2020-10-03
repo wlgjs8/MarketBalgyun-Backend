@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const SaleLog = require("../models/saleLog");
-// const { duration } = require("moment");
+const { duration } = require("moment");
 // const { post } = require("./generalCategory");
 const fs = require("fs");
 const moment = require("moment");
@@ -136,7 +136,9 @@ router.get("/", async (req, res) => {
         //     'Content-Disposition': 'attachment; filename=SaleLog.csv',
         // });
         // duration_log.csv(res);
-        SaleLog.find({ time:{ $gte:req.query.start, $lte:req.query.end } }, function (err, salelogs) {
+        const start = moment(new Date(req.query.start)).add(9, 'hours');
+        const end = moment(new Date(req.query.end)).add(9, 'hours');
+        SaleLog.find({ time:{ $gte:start, $lte:end } }, function (err, salelogs) {
             if (err) {
                 return res.status(500).json({ err });
             }
@@ -148,15 +150,12 @@ router.get("/", async (req, res) => {
                     return res.status(500).json({ err });
                 }
                 //const dateTime = moment().format("YYYYMMDDhhmm");
-                const filePath = path.join(__dirname, "..", "public", ".csv");
+                const filePath = path.join(__dirname, "..", "public", "saleLog" + ".csv");
                 fs.writeFile(filePath, '\uFEFF' + csv, function (err) {
                     if (err) {
                         return res.status(500).json({ err });
                     }
                     else {
-                        setTimeout(function () {
-                            fs.unlinkSync(filePath);
-                        }, 30000)
                         res.setHeader(
                             "Content-Disposition",
                             "attachment; filename=" + "SaleLog.csv"
