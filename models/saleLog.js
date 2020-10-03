@@ -5,7 +5,9 @@ const mongoose_csv = require('mongoose-csv');
 const saleLogSchema = new Schema({
 	time: {
 		type: Date,
-		default: Date.now,
+		default: () => {
+			return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
+		  },
 	},
 	first_category: {
 		type: String,
