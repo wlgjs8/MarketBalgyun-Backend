@@ -78,13 +78,15 @@ router.get("/", async (req, res) => {
                     value: "trader"
                 },
             ];
-
-            const start = moment(new Date(req.query.start)).add(9, 'hours');
-            const end = moment(new Date(req.query.end)).add(9, 'hours');
-            SaleLog.find({ time: { $gte: start, $lte: end } }, function (err, salelogs) {
-                if (err) {
-                    return res.status(500).json({ err });
-                }
+          
+        const start = moment(new Date(req.query.start));
+        const end = moment(new Date(req.query.end)).add(1, 'days');
+        console.log(start);
+        console.log(end);
+        SaleLog.find({ time:{ $gte:start, $lte:end } }, function (err, salelogs) {
+            if (err) {
+                return res.status(500).json({ err });
+            }
                 let csv
                 try {
                     csv = json2csv(salelogs, { fields });
