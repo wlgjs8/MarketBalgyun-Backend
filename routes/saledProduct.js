@@ -113,19 +113,19 @@ router.post("/", async (req, res) => {
                     )
                 }
                 // 계좌정보 보내기
-                else {
-                    let accountTemp = {
-                        "consignerName": ConsignerTemp.name,
-                        "consignProductName": consignProductTemp[0].name,
-                        "price": apply_price,
-                        "quantity": quantity,
-                        "sum_price": apply_price * quantity,
-                        "bank": ConsignerTemp.bank,
-                        "account": ConsignerTemp.account,
-                        "account_owner": ConsignerTemp.account_owner,
-                    }
-                    accountJson = mergeJSON.merge(accountJson, [accountTemp]);
-                }
+                // else {
+                //     let accountTemp = {
+                //         "consignerName": ConsignerTemp.name,
+                //         "consignProductName": consignProductTemp[0].name,
+                //         "price": apply_price,
+                //         "quantity": quantity,
+                //         "sum_price": apply_price * quantity,
+                //         "bank": ConsignerTemp.bank,
+                //         "account": ConsignerTemp.account,
+                //         "account_owner": ConsignerTemp.account_owner,
+                //     }
+                //     accountJson = mergeJSON.merge(accountJson, [accountTemp]);
+                // }
             }
             else {
                 res.send(id + "의 상품이 없습니다.");
@@ -135,7 +135,7 @@ router.post("/", async (req, res) => {
     }
 
     // 구매자 포인트 적립
-    var pointCount = sum_price * 0.65;
+    var pointCount = (sum_price - point) * 0.01;
 
     // 구매자가 포인트로 일부 결제시, 포인트 차감
     pointCount -= point;
@@ -146,12 +146,9 @@ router.post("/", async (req, res) => {
         { phone: customer_phone },
         { $inc: { point: pointCount } }
     );
-    if (accountJson.length != 0) {
-        res.send(accountJson);
-    }
-    else {
-        res.send("상품 판매 완료");
-    }
+
+    res.send("상품 판매 완료");
+
 });
 
 module.exports = router;
