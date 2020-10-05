@@ -171,4 +171,52 @@ router.get("/", async (req, res) => {
 
 });
 
+router.post("/", async (req, res) => {
+    // 판매로그 csv
+    // start = req.query.start;
+    // end = req.query.end;
+    // duration_log = await SaleLog.find({ time: { "$gte": start, "$lte": end } }), select('-_id');
+    if (req.body.start && req.body.end) {
+        // duration_log = await SaleLog.find().sort({ "_id": -1 });
+
+        // res.writeHead(200, {
+        //     'Content-Type': 'text/csv',
+        //     'Content-Disposition': 'attachment; filename=SaleLog.csv',
+        // });
+        // duration_log.csv(res);
+        const start = moment(new Date(req.body.start));
+        const end = moment(new Date(req.body.end)).add(1, 'days');
+        console.log(start);
+        console.log(end);
+        SaleLog.find({ time:{ $gte:start, $lte:end } }, function (err, salelogs) {
+            if (err) {
+                return res.status(500).json({ err });
+            }
+                let csv
+                try {
+                    csv = json2csv(salelogs, { fields });
+                    console.log(csv);
+                } catch (err) {
+                    return res.status(500).json({ err });
+                }
+                //const dateTime = moment().format("YYYYMMDDhhmm");
+                const filePath = path.join(__dirname, "..", "public", "saleLog" + ".csv");
+                fs.writeFile(filePath, '\uFEFF' + csv, function (err) {
+                    if (err) {
+                        return res.status(500).json({ err });
+                    }
+                    else {
+                        res.setHeader(
+                            "Content-Disposition",
+                            "attachment; filename=" + "SaleLog.csv"
+                        );
+                        res.sendFile(filePath);
+                    }
+                });
+            }
+        );
+    }
+
+});
+
 module.exports = router;
