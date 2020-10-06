@@ -29,10 +29,10 @@ router.post("/", async (req, res) => {
       res.send("해당 이름의 상품이 이미 등록되어 있습니다.");
       return;
     }
-    const ThirdCategoryTemp = await ThirdCategory.find({
+    const ThirdCategoryTemp = await ThirdCategory.findOne({
       ID: req.body.third_category,
     });
-    var newGeneralProductID = ThirdCategoryTemp[0].ID + ThirdCategoryTemp[0].nextID;
+    var newGeneralProductID = ThirdCategoryTemp.ID + ThirdCategoryTemp.nextID;
 
     await ThirdCategory.updateOne(
       { ID: req.body.third_category },
@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
     );
   }
   else {
-    newGeneralProductID = req.body.third_category;
+    var newGeneralProductID = req.body.third_category;
   }
   var GeneralProductSchemaTemp = {
     id: newGeneralProductID,
@@ -61,11 +61,11 @@ router.post("/", async (req, res) => {
 
 async function setFirstCategory(searchFirstCategory) {
   try {
-    const FirstCategoryTemp = await FirstCategory.find({
+    const FirstCategoryTemp = await FirstCategory.findOne({
       ID: searchFirstCategory,
     });
-    if (FirstCategoryTemp.length != 0) {
-      return FirstCategoryTemp[0].FirstCategory;
+    if (FirstCategoryTemp.FirstCategory != 0) {
+      return FirstCategoryTemp.FirstCategory;
     }
   } catch (error) {
     console.log(error);
@@ -75,11 +75,11 @@ async function setFirstCategory(searchFirstCategory) {
 
 async function setSecondCategory(searchSecondCategory) {
   try {
-    const SecondCategoryTemp = await SecondCategory.find({
+    const SecondCategoryTemp = await SecondCategory.findOne({
       ID: searchSecondCategory,
     });
-    if (SecondCategoryTemp.length != 0) {
-      return SecondCategoryTemp[0].SecondCategory;
+    if (SecondCategoryTemp.SecondCategory != 0) {
+      return SecondCategoryTemp.SecondCategory;
     }
   } catch (error) {
     console.log(error);
@@ -89,11 +89,11 @@ async function setSecondCategory(searchSecondCategory) {
 
 async function setThirdCategory(searchThirdCategory) {
   try {
-    const ThirdCategoryTemp = await ThirdCategory.find({
+    const ThirdCategoryTemp = await ThirdCategory.findOne({
       ID: searchThirdCategory,
     });
-    if (ThirdCategoryTemp.length != 0) {
-      return ThirdCategoryTemp[0].ThirdCategory;
+    if (ThirdCategoryTemp.ThirdCategory != 0) {
+      return ThirdCategoryTemp.ThirdCategory;
     }
   } catch (error) {
     console.log(error);
@@ -105,36 +105,6 @@ router.put("/", async (req, res) => {
   try {
     let generalProductID = req.body.id;
 
-    // first_category
-    if (req.body.first_category) {
-      await GeneralProduct.updateOne(
-        { id: generalProductID },
-        { $set: { first_category: req.body.first_category } },
-        function (err, res) {
-          if (err) throw err;
-        }
-      );
-    }
-    // second_category
-    if (req.body.second_category) {
-      await GeneralProduct.updateOne(
-        { id: generalProductID },
-        { $set: { second_category: req.body.second_category } },
-        function (err, res) {
-          if (err) throw err;
-        }
-      );
-    }
-    // third_category
-    if (req.body.third_category) {
-      await GeneralProduct.updateOne(
-        { id: generalProductID },
-        { $set: { third_category: req.body.third_category } },
-        function (err, res) {
-          if (err) throw err;
-        }
-      );
-    }
     // name
     if (req.body.name) {
       await GeneralProduct.updateOne(

@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
 // 신규 고객 정보 저장
 router.post("/", async (req, res) => {
   try {
-    const customerTemp = await Customer.find({ phone: req.body.phone });
+    const customerTemp = await Customer.findOne({ phone: req.body.phone });
     if (customerTemp.length != 0) {
       res.send('이미 등록된 번호입니다.');
       return;
