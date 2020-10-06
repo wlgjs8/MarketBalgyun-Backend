@@ -2,6 +2,9 @@ var express = require("express");
 var router = express.Router();
 const ConsignProduct = require("../models/products/ConsignProduct");
 const Customer = require("../models/Customer");
+const FirstCategory = require("../models/products/FirstCategory");
+const SecondCategory = require("../models/products/SecondCategory");
+const ThirdCategory = require("../models/products/ThirdCategory");
 
 router.get("/", async (req, res) => {
     try {

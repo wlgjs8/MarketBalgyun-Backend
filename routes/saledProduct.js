@@ -91,7 +91,9 @@ router.post("/", async (req, res) => {
                     { phone: consignerPhone }
                 );
                 if (ConsignerTemp.length != 0) {
-                    SaleLogSchemaTemp.first_category = "위탁 상품";
+                    SaleLogSchemaTemp.first_category = consignProductTemp[0].first_category;
+                    SaleLogSchemaTemp.second_category = consignProductTemp[0].second_category;
+                    SaleLogSchemaTemp.third_category = consignProductTemp[0].third_category;
                     SaleLogSchemaTemp.productName = consignProductTemp[0].name;
                     SaleLogSchemaTemp.consigner = ConsignerTemp.name;
                     SaleLogSchemaTemp.bank = ConsignerTemp.bank;
