@@ -3,7 +3,9 @@ var router = express.Router();
 const SaleLog = require("../models/saleLog");
 const Customer = require("../models/Customer");
 const Trader = require("../models/Trader");
-const { duration } = require("moment");
+const GeneralProduct = require('../models/products/GeneralProduct.js');
+const ConsignProduct = require('../models/products/ConsignProduct');
+//const { duration } = require("moment");
 const fs = require("fs");
 const moment = require("moment");
 const json2csv = require("json2csv").parse;
@@ -80,8 +82,8 @@ router.get("/", async (req, res) => {
             ];
             const start = moment(new Date(req.query.start));
             const end = moment(new Date(req.query.end)).add(1, 'days');
-            console.log(start);
-            console.log(end);
+            // console.log(start);
+            // console.log(end);
             SaleLog.find({ time: { $gte: start, $lte: end } }, function (err, salelogs) {
                 if (err) {
                     return res.status(500).json({ err });
@@ -114,8 +116,136 @@ router.get("/", async (req, res) => {
             );
         }
     }
-    else if (req.query.product) {
-        res.send("상품현황 csv");
+    else if (req.query.generalProduct) {
+        const fields = [
+            {
+                label:"id",
+                value:"id",
+            }, {
+                label:"대분류",
+                value:"first_category",
+            }, {
+                label:'중분류',
+                value:'second_category',
+            }, {
+                label:'소분류',
+                value:'third_category',
+            }, {
+                label:'상품명',
+                value:'name',
+            }, {
+                label:'원가',
+                value:'cost',
+            }, {
+                label:'판매가',
+                value:'price',
+            }, {
+                label:'매입처',
+                value:'trader',
+            }, {
+                label:'재고',
+                value:'quantity',
+            }, {
+                label:'위치',
+                value:'place',
+            },  {
+                label:'일시',
+                value:'date',
+            }, 
+        ];
+
+        GeneralProduct.find({}, (err, generalProduct) => {
+            if (err) {
+                return res.status(500).json({ err });
+            }
+            let csv
+            try {
+                csv = json2csv(generalProduct, { fields });
+                console.log(csv);
+            } catch (err) {
+                return res.status(500).json({ err });
+            }
+            const filePath = path.join(__dirname, "..", "public", "generalProduct" + ".csv");
+            fs.writeFile(filePath, '\uFEFF' + csv, function (err) {
+                if (err) {
+                    return res.status(500).json({ err });
+                }
+                else {
+                    res.setHeader(
+                        "Content-Disposition",
+                        "attachment; filename=" + "generalProduct.csv"
+                    );
+                    res.sendFile(filePath);
+                }
+            });
+        });
+    }
+    else if (req.query.consignProduct) {
+        const fields = [
+            {
+                label:'id',
+                value:'id',
+            }, {
+                label:'대분류',
+                value:'first_category',
+            }, {
+                label:'중분류',
+                value:'second_category',
+            }, {
+                label:'소분류',
+                value:'third_category',
+            }, {
+                label:'상품명',
+                value:'name',
+            }, {
+                label:'판매가',
+                value:'price',
+            }, {
+                label:'희망가',
+                value:'wanted_price',
+            }, {
+                label:'재고',
+                value:'quantity',
+            }, {
+                label:'사연',
+                value:'story',
+            }, {
+                label:'최대할인률',
+                value:'max_discout',
+            }, {
+                label:'위치',
+                value:'place',
+            }, {
+                label:'만료',
+                value:'expire_date',
+            },
+        ];
+
+        ConsignProduct.find((err, consignProduct) => {
+            if (err) {
+                return res.status(500).json({ err });
+            }
+            let csv
+            try {
+                csv = json2csv(consignProduct, { fields });
+                console.log(csv);
+            } catch (err) {
+                return res.status(500).json({ err });
+            }
+            const filePath = path.join(__dirname, "..", "public", "consignProduct" + ".csv");
+            fs.writeFile(filePath, '\uFEFF' + csv, function (err) {
+                if (err) {
+                    return res.status(500).json({ err });
+                }
+                else {
+                    res.setHeader(
+                        "Content-Disposition",
+                        "attachment; filename=" + "consignProduct.csv"
+                    );
+                    res.sendFile(filePath);
+                }
+            });
+        });
     }
     else if (req.query.customer) {
 
@@ -173,6 +303,7 @@ router.get("/", async (req, res) => {
                 value: "account_owner"
             },
         ];
+        
         Customer.find(function (err, customers) {
             if (err) {
                 return res.status(500).json({ err });
@@ -200,7 +331,7 @@ router.get("/", async (req, res) => {
                     res.sendFile(filePath);
                 }
             });
-        })
+        });
     }
     else if (req.query.trader) {
         const fields = [
