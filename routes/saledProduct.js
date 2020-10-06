@@ -11,7 +11,6 @@ router.use(express.json());
 // 상품 판매 정보 POST, 상품 ID 와 판매 수량
 router.post("/", async (req, res) => {
     var i = 0;
-    var accountJson;
 
     var items = req.body.items;
     var customer_name = req.body.customer_name;
@@ -50,7 +49,7 @@ router.post("/", async (req, res) => {
             point: point,
             total: (apply_price * quantity),
             customer: customer_name,
-            phone: customer_phone.substring(0, 3) + "-" + customer_phone.substring(3, 7) + "-" + customer_phone.substring(7, customer_phone.length),
+            phone: customer_phone,
             staff: staff,
             consigner: "",
             bank: "",
@@ -74,8 +73,6 @@ router.post("/", async (req, res) => {
             SaleLogSchemaTemp.second_category = generalProductTemp[0].second_category;
             SaleLogSchemaTemp.third_category = generalProductTemp[0].third_category;
             SaleLogSchemaTemp.trader = generalProductTemp[0].trader;
-
-            accountJson = mergeJSON.merge(accountJson, []);
         }
         // 위탁 상품의 경우
         else {
@@ -112,20 +109,6 @@ router.post("/", async (req, res) => {
                         }
                     )
                 }
-                // 계좌정보 보내기
-                // else {
-                //     let accountTemp = {
-                //         "consignerName": ConsignerTemp.name,
-                //         "consignProductName": consignProductTemp[0].name,
-                //         "price": apply_price,
-                //         "quantity": quantity,
-                //         "sum_price": apply_price * quantity,
-                //         "bank": ConsignerTemp.bank,
-                //         "account": ConsignerTemp.account,
-                //         "account_owner": ConsignerTemp.account_owner,
-                //     }
-                //     accountJson = mergeJSON.merge(accountJson, [accountTemp]);
-                // }
             }
             else {
                 res.send(id + "의 상품이 없습니다.");
@@ -146,9 +129,7 @@ router.post("/", async (req, res) => {
         { phone: customer_phone },
         { $inc: { point: pointCount } }
     );
-
     res.send("상품 판매 완료");
-
 });
 
 module.exports = router;
