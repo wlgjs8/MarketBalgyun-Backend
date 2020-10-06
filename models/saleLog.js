@@ -8,7 +8,7 @@ const saleLogSchema = new Schema({
 		type: Date,
 		default: () => {
 			return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
-		  },
+		},
 	},
 	first_category: {
 		type: String,
@@ -34,15 +34,10 @@ const saleLogSchema = new Schema({
 	single_price: {
 		type: Number,
 	},
-	// 단일상품 할인률
+	// 단일상품 할인가
 	single_discount: {
 		type: Number,
-		default: 0
-	},
-	// 단일상품 판매가
-	single_apply_price: {
-		type: Number,
-		required: true
+		default: 0,
 	},
 	card: {
 		type: Number,

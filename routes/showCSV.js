@@ -35,10 +35,10 @@ router.get("/", async (req, res) => {
                     label: "개별가격",
                     value: "single_price",
                 }, {
-                    label: "개별 할인률",
+                    label: "개별 할인가",
                     value: "single_dicount",
                 }, {
-                    label: "개별할인적용가",
+                    label: "개별 할인적용가",
                     value: "single_apply_price",
                 }, {
                     label: "카드결제가",
@@ -78,15 +78,18 @@ router.get("/", async (req, res) => {
                     value: "trader"
                 },
             ];
-          
-        const start = moment(new Date(req.query.start));
-        const end = moment(new Date(req.query.end)).add(1, 'days');
-        console.log(start);
-        console.log(end);
-        SaleLog.find({ time:{ $gte:start, $lte:end } }, function (err, salelogs) {
-            if (err) {
-                return res.status(500).json({ err });
-            }
+            const start = moment(new Date(req.query.start));
+            const end = moment(new Date(req.query.end)).add(1, 'days');
+            console.log(start);
+            console.log(end);
+            SaleLog.find({ time: { $gte: start, $lte: end } }, function (err, salelogs) {
+                if (err) {
+                    return res.status(500).json({ err });
+                }
+                for (var i = 0; i < salelogs.length; i++) {
+                    salelogs[i].phone = "=\"" + salelogs[i].phone + "\"";
+                    salelogs[i].account = "=\"" + salelogs[i].account + "\"";
+                }
                 let csv
                 try {
                     csv = json2csv(salelogs, { fields });
@@ -115,13 +118,14 @@ router.get("/", async (req, res) => {
         res.send("상품현황 csv");
     }
     else if (req.query.customer) {
+
         const fields = [
             {
                 label: "이름",
-                value: "name"
+                value: "name",
             }, {
                 label: "번호",
-                value: "phone"
+                value: "phone",
             }, {
                 label: "취향",
                 value: "taste"
@@ -172,6 +176,10 @@ router.get("/", async (req, res) => {
         Customer.find(function (err, customers) {
             if (err) {
                 return res.status(500).json({ err });
+            }
+            for (var i = 0; i < customers.length; i++) {
+                customers[i].phone = "=\"" + customers[i].phone + "\"";
+                customers[i].account = "=\"" + customers[i].account + "\"";
             }
             let csv
             try {
@@ -249,6 +257,11 @@ router.get("/", async (req, res) => {
         Trader.find(function (err, traders) {
             if (err) {
                 return res.status(500).json({ err });
+            }
+            for (var i = 0; i < traders.length; i++) {
+                traders[i].phone = "=\"" + traders[i].phone + "\"";
+                traders[i].mobile_phone = "=\"" + traders[i].mobile_phone + "\"";
+                traders[i].account = "=\"" + traders[i].account + "\"";
             }
             let csv
             try {

@@ -23,7 +23,10 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        console.log(req.body);
+        var firstCategoryName = await setFirstCategory(req.body.first_category);
+        var secondCategoryName = await setSecondCategory(req.body.second_category);
+        var thirdCategoryName = await setThirdCategory(req.body.third_category);
+
         const ConsignProductTemp = await ConsignProduct.find().sort({ "_id": -1 }).limit(1);
 
         var tempIndex = ConsignProductTemp[0].id.substring(1, ConsignProductTemp[0].id.length);
@@ -37,6 +40,9 @@ router.post("/", async (req, res) => {
 
         var ConsignProductSchemaTemp = {
             id: newConsignProductID,
+            first_category: firstCategoryName,
+            second_category: secondCategoryName,
+            third_category: thirdCategoryName,
             name: req.body.name,
             price: req.body.price,
             wanted_price: req.body.wanted_price,
@@ -63,6 +69,48 @@ router.post("/", async (req, res) => {
         return next(error);
     }
 });
+
+async function setFirstCategory(searchFirstCategory) {
+    try {
+        const FirstCategoryTemp = await FirstCategory.find({
+            ID: searchFirstCategory,
+        });
+        if (FirstCategoryTemp.length != 0) {
+            return FirstCategoryTemp[0].FirstCategory;
+        }
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
+}
+
+async function setSecondCategory(searchSecondCategory) {
+    try {
+        const SecondCategoryTemp = await SecondCategory.find({
+            ID: searchSecondCategory,
+        });
+        if (SecondCategoryTemp.length != 0) {
+            return SecondCategoryTemp[0].SecondCategory;
+        }
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
+}
+
+async function setThirdCategory(searchThirdCategory) {
+    try {
+        const ThirdCategoryTemp = await ThirdCategory.find({
+            ID: searchThirdCategory,
+        });
+        if (ThirdCategoryTemp.length != 0) {
+            return ThirdCategoryTemp[0].ThirdCategory;
+        }
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
+}
 
 router.put("/", async (req, res) => {
     try {

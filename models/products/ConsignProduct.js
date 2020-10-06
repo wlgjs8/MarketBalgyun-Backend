@@ -8,6 +8,19 @@ var ConsignProductSchema = new Schema({
 		required: true,
 		trim: true,
 	},
+	first_category: {
+		type: String,
+		required: true,
+		trim: true,
+	},
+	second_category: {
+		type: String,
+		trim: true,
+	},
+	third_category: {
+		type: String,
+		trim: true,
+	},
 	name: {
 		type: String,
 		required: true,
@@ -31,6 +44,7 @@ var ConsignProductSchema = new Schema({
 	},
 	max_discount: {
 		type: Number,
+		default: 50,
 	},
 	place: {
 		type: String,
