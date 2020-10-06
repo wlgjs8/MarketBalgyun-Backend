@@ -30,7 +30,6 @@ router.get("/", async (req, res) => {
     var resultJson = mergeJSON.merge(resultTemp, thirdTemp_Nickname);
 
     res.send(resultJson);
-    // console.log('verified');
   } catch (error) {
     console.log(error);
     return next(error);

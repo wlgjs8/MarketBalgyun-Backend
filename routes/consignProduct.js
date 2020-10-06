@@ -9,7 +9,7 @@ const ThirdCategory = require("../models/products/ThirdCategory");
 router.get("/", async (req, res) => {
     try {
         const searchID = req.query.id;
-        const consignProductTemp = await ConsignProduct.find({
+        const consignProductTemp = await ConsignProduct.findOne({
             id: searchID,
         });
         if (consignProductTemp.length != 0) {
@@ -32,12 +32,12 @@ router.post("/", async (req, res) => {
 
         const ConsignProductTemp = await ConsignProduct.find().sort({ "_id": -1 }).limit(1);
 
-        var tempIndex = ConsignProductTemp[0].id.substring(1, ConsignProductTemp[0].id.length);
+        var tempIndex = ConsignProductTemp.id.substring(1, ConsignProductTemp.id.length);
         tempIndex *= 1;
         var newConsignProductIndex = tempIndex + 1;
         var newConsignProductID = "C" + newConsignProductIndex;
 
-        var CustomerTemp = await Customer.find(
+        var CustomerTemp = await Customer.findOne(
             { phone: req.body.phone },
         );
 
@@ -56,9 +56,9 @@ router.post("/", async (req, res) => {
             consigner: req.body.consigner,
             phone: req.body.phone,
             accountable: req.body.accountable,
-            bank: CustomerTemp[0].bank,
-            account: CustomerTemp[0].account,
-            account_owner: CustomerTemp[0].account_owner,
+            bank: CustomerTemp.bank,
+            account: CustomerTemp.account,
+            account_owner: CustomerTemp.account_owner,
         }
         if (!req.body.wanted_price) {
             ConsignProductSchemaTemp.wanted_price = req.body.price;
@@ -75,11 +75,11 @@ router.post("/", async (req, res) => {
 
 async function setFirstCategory(searchFirstCategory) {
     try {
-        const FirstCategoryTemp = await FirstCategory.find({
+        const FirstCategoryTemp = await FirstCategory.findOne({
             ID: searchFirstCategory,
         });
         if (FirstCategoryTemp.length != 0) {
-            return FirstCategoryTemp[0].FirstCategory;
+            return FirstCategoryTemp.FirstCategory;
         }
     } catch (error) {
         console.log(error);
@@ -89,11 +89,11 @@ async function setFirstCategory(searchFirstCategory) {
 
 async function setSecondCategory(searchSecondCategory) {
     try {
-        const SecondCategoryTemp = await SecondCategory.find({
+        const SecondCategoryTemp = await SecondCategory.findOne({
             ID: searchSecondCategory,
         });
         if (SecondCategoryTemp.length != 0) {
-            return SecondCategoryTemp[0].SecondCategory;
+            return SecondCategoryTemp.SecondCategory;
         }
     } catch (error) {
         console.log(error);
@@ -103,11 +103,11 @@ async function setSecondCategory(searchSecondCategory) {
 
 async function setThirdCategory(searchThirdCategory) {
     try {
-        const ThirdCategoryTemp = await ThirdCategory.find({
+        const ThirdCategoryTemp = await ThirdCategory.findOne({
             ID: searchThirdCategory,
         });
         if (ThirdCategoryTemp.length != 0) {
-            return ThirdCategoryTemp[0].ThirdCategory;
+            return ThirdCategoryTemp.ThirdCategory;
         }
     } catch (error) {
         console.log(error);
@@ -269,7 +269,7 @@ router.put("/", async (req, res) => {
                 }
             );
         }
-        const consignProductTemp = await ConsignProduct.find({
+        const consignProductTemp = await ConsignProduct.findOne({
             id: req.body.id,
         });
         res.send(consignProductTemp);

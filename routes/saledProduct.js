@@ -28,10 +28,10 @@ router.post("/", async (req, res) => {
         var price = items[i].price;
         var apply_price = items[i++].apply_price;
 
-        const generalProductTemp = await GeneralProduct.find({
+        const generalProductTemp = await GeneralProduct.findOne({
             id: id,
         });
-        const consignProductTemp = await ConsignProduct.find({
+        const consignProductTemp = await ConsignProduct.findOne({
             id: id,
         });
 
@@ -60,7 +60,7 @@ router.post("/", async (req, res) => {
 
         // 일반 상품의 경우
         if (generalProductTemp.length != 0) {
-            if ((generalProductTemp[0].quantity - quantity) < 0) {
+            if ((generalProductTemp.quantity - quantity) < 0) {
                 res.send(id + "의 상품 수량 부족");
                 return;
             }
@@ -68,43 +68,46 @@ router.post("/", async (req, res) => {
                 { id: id },
                 { $inc: { quantity: -quantity } },
             )
-            SaleLogSchemaTemp.productName = generalProductTemp[0].name;
-            SaleLogSchemaTemp.first_category = generalProductTemp[0].first_category;
-            SaleLogSchemaTemp.second_category = generalProductTemp[0].second_category;
-            SaleLogSchemaTemp.third_category = generalProductTemp[0].third_category;
-            SaleLogSchemaTemp.trader = generalProductTemp[0].trader;
+            SaleLogSchemaTemp.productName = generalProductTemp.name;
+            SaleLogSchemaTemp.first_category = generalProductTemp.first_category;
+            SaleLogSchemaTemp.second_category = generalProductTemp.second_category;
+            SaleLogSchemaTemp.third_category = generalProductTemp.third_category;
+            SaleLogSchemaTemp.trader = generalProductTemp.trader;
         }
         // 위탁 상품의 경우
         else {
-            if ((consignProductTemp[0].quantity - quantity) < 0) {
-                res.send(id + "의 상품 수량 부족");
-                return;
-            }
             if (consignProductTemp.length != 0) {
+                if ((consignProductTemp.quantity - quantity) < 0) {
+                    res.send(id + "의 상품 수량 부족");
+                    return;
+                }
                 await ConsignProduct.updateOne(
                     { id: id },
                     { $inc: { quantity: -quantity } },
                 );
                 // 위탁자 찾기 
-                var consignerPhone = consignProductTemp[0].phone;
+                var consignerPhone = consignProductTemp.phone;
                 const ConsignerTemp = await Customer.findOne(
                     { phone: consignerPhone }
                 );
                 if (ConsignerTemp.length != 0) {
-                    SaleLogSchemaTemp.first_category = consignProductTemp[0].first_category;
-                    SaleLogSchemaTemp.second_category = consignProductTemp[0].second_category;
-                    SaleLogSchemaTemp.third_category = consignProductTemp[0].third_category;
-                    SaleLogSchemaTemp.productName = consignProductTemp[0].name;
+                    SaleLogSchemaTemp.first_category = consignProductTemp.first_category;
+                    SaleLogSchemaTemp.second_category = consignProductTemp.second_category;
+                    SaleLogSchemaTemp.third_category = consignProductTemp.third_category;
+                    SaleLogSchemaTemp.productName = consignProductTemp.name;
                     SaleLogSchemaTemp.consigner = ConsignerTemp.name;
                     SaleLogSchemaTemp.bank = ConsignerTemp.bank;
                     SaleLogSchemaTemp.account = "'" + ConsignerTemp.account;
                     SaleLogSchemaTemp.account_owner = ConsignerTemp.account_owner;
                 }
                 // 위탁자 포인트 적립
-                if (!consignProductTemp[0].accountable) {
+                if (!consignProductTemp.accountable) {
                     var pointPlus = apply_price * 0.65;
+                    pointPlus = Math.round(pointPlus / 10);
+                    pointPlus *= 10;
+
                     Customer.updateOne(
-                        { phone: consignProductTemp[0].phone },
+                        { phone: consignProductTemp.phone },
                         { $inc: { point: pointPlus } },
                         function (err, res) {
                             if (err) throw err;

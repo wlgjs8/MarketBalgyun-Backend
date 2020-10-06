@@ -29,10 +29,10 @@ router.post("/", async (req, res) => {
       res.send("해당 이름의 상품이 이미 등록되어 있습니다.");
       return;
     }
-    const ThirdCategoryTemp = await ThirdCategory.find({
+    const ThirdCategoryTemp = await ThirdCategory.findOne({
       ID: req.body.third_category,
     });
-    var newGeneralProductID = ThirdCategoryTemp[0].ID + ThirdCategoryTemp[0].nextID;
+    var newGeneralProductID = ThirdCategoryTemp.ID + ThirdCategoryTemp.nextID;
 
     await ThirdCategory.updateOne(
       { ID: req.body.third_category },
