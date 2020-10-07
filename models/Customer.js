@@ -52,10 +52,6 @@ const CustomerSchema = new Schema({
   point: {
     type: Number,
   },
-  time: {
-    type: Date,
-    default: Date.now,
-  },
   // 거래은행
   bank: {
     type: String,
