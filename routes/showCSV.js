@@ -316,8 +316,8 @@ router.get("/", isVerified, async (req, res) => {
                 label: "포인트",
                 value: "point"
             }, {
-                label: "등록날짜",
-                value: "time"
+                label: "가입날짜",
+                value: "date"
             }, {
                 label: "은행",
                 value: "bank"

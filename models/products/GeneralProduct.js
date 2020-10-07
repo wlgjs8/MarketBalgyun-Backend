@@ -50,7 +50,6 @@ const GeneralProductSchema = new Schema({
   },
   max_discount: {
     type: Number,
-    default: 50,
   },
   place: {
     type: String,
