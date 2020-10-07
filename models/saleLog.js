@@ -33,6 +33,10 @@ const saleLogSchema = new Schema({
 	single_price: {
 		type: Number,
 	},
+	// 개발할인 적용가
+	single_apply_price: {
+		type: Number,
+	},
 	// 단일상품 할인가
 	single_discount: {
 		type: Number,
@@ -56,7 +60,6 @@ const saleLogSchema = new Schema({
 	},
 	customer_phone: {
 		type: String,
-		required: true,
 		trim: true,
 	},
 	staff: {
