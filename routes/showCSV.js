@@ -147,7 +147,7 @@ router.get("/", isVerified, async (req, res) => {
                 value: 'quantity',
             }, {
                 label: '최대할인율',
-                value: 'max_discout',
+                value: 'max_discount',
             }, {
                 label: '위치',
                 value: 'place',
@@ -163,6 +163,9 @@ router.get("/", isVerified, async (req, res) => {
         GeneralProduct.find({}, (err, generalProduct) => {
             if (err) {
                 return res.status(500).json({ err });
+            }
+            for (var i = 0; i < generalProduct.length; i++) {
+                generalProduct[i].id = "=\"" + generalProduct[i].id + "\"";
             }
             let csv
             try {
@@ -214,7 +217,7 @@ router.get("/", isVerified, async (req, res) => {
                 value: 'quantity',
             }, {
                 label: '최대할인율',
-                value: 'max_discout',
+                value: 'max_discount',
             }, {
                 label: '위치',
                 value: 'place',
@@ -251,6 +254,9 @@ router.get("/", isVerified, async (req, res) => {
         ConsignProduct.find((err, consignProduct) => {
             if (err) {
                 return res.status(500).json({ err });
+            }
+            for (var i = 0; i < consignProduct.length; i++) {
+                consignProduct[i].id = "=\"" + consignProduct[i].id + "\"";
             }
             let csv
             try {
