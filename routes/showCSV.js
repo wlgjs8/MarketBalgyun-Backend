@@ -34,13 +34,13 @@ router.get("/", isVerified, async (req, res) => {
                     label: "판매수량",
                     value: "quantity",
                 }, {
-                    label: "개별가격",
+                    label: "상품가격",
                     value: "single_price",
                 }, {
-                    label: "개별할인가",
-                    value: "single_dicount",
+                    label: "상품할인율",
+                    value: "single_discount",
                 }, {
-                    label: "개별할인적용가",
+                    label: "상품판매가",
                     value: "single_apply_price",
                 }, {
                     label: "카드결제가",
@@ -91,8 +91,8 @@ router.get("/", isVerified, async (req, res) => {
                     return res.status(500).json({ err });
                 }
                 for (var i = 0; i < salelogs.length; i++) {
-                    salelogs[i].customer_phone = "=\"" + salelogs[i].phone + "\"";
-                    salelogs[i].consigner_phone = "=\"" + salelogs[i].phone + "\"";
+                    salelogs[i].customer_phone = "=\"" + salelogs[i].customer_phone + "\"";
+                    salelogs[i].consigner_phone = "=\"" + salelogs[i].consigner_phone + "\"";
                     salelogs[i].account = "=\"" + salelogs[i].account + "\"";
                 }
                 let csv
@@ -257,6 +257,8 @@ router.get("/", isVerified, async (req, res) => {
             }
             for (var i = 0; i < consignProduct.length; i++) {
                 consignProduct[i].id = "=\"" + consignProduct[i].id + "\"";
+                consignProduct[i].phone = "=\"" + consignProduct[i].phone + "\"";
+                consignProduct[i].account = "=\"" + consignProduct[i].account + "\"";
             }
             let csv
             try {

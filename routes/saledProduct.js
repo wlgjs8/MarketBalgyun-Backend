@@ -46,12 +46,10 @@ router.post("/", async (req, res) => {
         var quantity = items[i].sale_quantity;
         var discount = items[i].discount;
         var price = items[i].price;
-        var apply_price = items[i++].apply_price;
+        var apply_price = items[i].apply_price;
 
-        let [generalProductTemp, consignProductTemp] = await Promise.all([
-            GeneralProduct.findOne({ id: id }),
-            ConsignProduct.findOne({ id: id }),
-        ]);
+        var generalProductTemp = await GeneralProduct.find({ id: id });
+        var consignProductTemp = await ConsignProduct.find({ id: id });
 
         var SaleLogSchemaTemp = {
             first_category: "",
@@ -77,9 +75,11 @@ router.post("/", async (req, res) => {
             trader: "",
         }
 
+        console.log("SaleLogSchemaTemp.customer_phone : " + SaleLogSchemaTemp.customer_phone);
+
         // 일반 상품의 경우
-        if (generalProductTemp != null) {
-            if ((generalProductTemp.quantity - quantity) < 0) {
+        if (generalProductTemp.length != 0) {
+            if ((generalProductTemp[0].quantity - quantity) < 0) {
                 res.send(id + "의 상품 수량 부족");
                 return;
             }
@@ -87,16 +87,16 @@ router.post("/", async (req, res) => {
                 { id: id },
                 { $inc: { quantity: -quantity } },
             )
-            SaleLogSchemaTemp.productName = generalProductTemp.name;
-            SaleLogSchemaTemp.first_category = generalProductTemp.first_category;
-            SaleLogSchemaTemp.second_category = generalProductTemp.second_category;
-            SaleLogSchemaTemp.third_category = generalProductTemp.third_category;
-            SaleLogSchemaTemp.trader = generalProductTemp.trader;
+            SaleLogSchemaTemp.productName = generalProductTemp[0].name;
+            SaleLogSchemaTemp.first_category = generalProductTemp[0].first_category;
+            SaleLogSchemaTemp.second_category = generalProductTemp[0].second_category;
+            SaleLogSchemaTemp.third_category = generalProductTemp[0].third_category;
+            SaleLogSchemaTemp.trader = generalProductTemp[0].trader;
         }
         // 위탁 상품의 경우
         else {
-            if (consignProductTemp != null) {
-                if ((consignProductTemp.quantity - quantity) < 0) {
+            if (consignProductTemp.length != 0) {
+                if ((consignProductTemp[0].quantity - quantity) < 0) {
                     res.send(id + "의 상품 수량 부족");
                     return;
                 }
@@ -105,29 +105,31 @@ router.post("/", async (req, res) => {
                     { $inc: { quantity: -quantity } },
                 );
                 // 위탁자 찾기 
-                var consignerPhone = consignProductTemp.phone;
-                const ConsignerTemp = await Customer.findOne(
+                var consignerPhone = consignProductTemp[0].phone;
+                const ConsignerTemp = await Customer.find(
                     { phone: consignerPhone }
                 );
                 if (ConsignerTemp.length != 0) {
-                    SaleLogSchemaTemp.first_category = consignProductTemp.first_category;
-                    SaleLogSchemaTemp.second_category = consignProductTemp.second_category;
-                    SaleLogSchemaTemp.third_category = consignProductTemp.third_category;
-                    SaleLogSchemaTemp.productName = consignProductTemp.name;
-                    SaleLogSchemaTemp.consigner_name = ConsignerTemp.name;
-                    SaleLogSchemaTemp.consigner_phone = ConsignerTemp.phone;
-                    SaleLogSchemaTemp.bank = ConsignerTemp.bank;
-                    SaleLogSchemaTemp.account = ConsignerTemp.account;
-                    SaleLogSchemaTemp.account_owner = ConsignerTemp.account_owner;
+                    SaleLogSchemaTemp.first_category = consignProductTemp[0].first_category;
+                    SaleLogSchemaTemp.second_category = consignProductTemp[0].second_category;
+                    SaleLogSchemaTemp.third_category = consignProductTemp[0].third_category;
+                    SaleLogSchemaTemp.productName = consignProductTemp[0].name;
+                    SaleLogSchemaTemp.consigner_name = ConsignerTemp[0].name;
+                    SaleLogSchemaTemp.consigner_phone = ConsignerTemp[0].phone;
+                    SaleLogSchemaTemp.bank = ConsignerTemp[0].bank;
+                    SaleLogSchemaTemp.account = ConsignerTemp[0].account;
+                    SaleLogSchemaTemp.account_owner = ConsignerTemp[0].account_owner;
+
+                    console.log("ConsignerTemp[0].phone : " + ConsignerTemp[0].phone);
                 }
                 // 위탁자 포인트 적립
-                if (!consignProductTemp.accountable) {
+                if (!consignProductTemp[0].accountable) {
                     var pointPlus = apply_price * 0.65;
                     pointPlus = Math.round(pointPlus / 10);
                     pointPlus *= 10;
 
                     Customer.updateOne(
-                        { phone: consignProductTemp.phone },
+                        { phone: consignProductTemp[0].phone },
                         { $inc: { point: pointPlus } },
                         function (err, res) {
                             if (err) throw err;
@@ -141,6 +143,7 @@ router.post("/", async (req, res) => {
             }
         }
         SaleLog.insertMany([SaleLogSchemaTemp]);
+        i++;
     }
 
     res.send("상품 판매 완료");
