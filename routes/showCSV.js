@@ -16,7 +16,7 @@ router.get("/", isVerified, async (req, res) => {
         if (req.query.start && req.query.end) {
             const fields = [
                 {
-                    label: "일시",
+                    label: "결제날짜",
                     value: "time",
                 }, {
                     label: "대분류",
@@ -31,16 +31,16 @@ router.get("/", isVerified, async (req, res) => {
                     label: "상품명",
                     value: "productName",
                 }, {
-                    label: "수량",
+                    label: "판매수량",
                     value: "quantity",
                 }, {
                     label: "개별가격",
                     value: "single_price",
                 }, {
-                    label: "개별 할인가",
+                    label: "개별할인가",
                     value: "single_dicount",
                 }, {
-                    label: "개별 할인적용가",
+                    label: "개별할인적용가",
                     value: "single_apply_price",
                 }, {
                     label: "카드결제가",
@@ -52,25 +52,28 @@ router.get("/", isVerified, async (req, res) => {
                     label: "포인트결제가",
                     value: "point",
                 }, {
-                    label: "총액",
+                    label: "총결제",
                     value: "total",
                 }, {
                     label: "고객명",
-                    value: "customer",
+                    value: "customer_name",
                 }, {
                     label: "전화번호",
-                    value: "phone",
+                    value: "customer_phone",
                 }, {
                     label: "판매직원",
                     value: "staff",
                 }, {
                     label: "위탁자",
-                    value: "consigner",
+                    value: "consigner_name",
+                }, {
+                    label: "위탁자번호",
+                    value: "consigner_phone",
                 }, {
                     label: "은행",
                     value: "bank",
                 }, {
-                    label: "계좌",
+                    label: "계좌번호",
                     value: "account",
                 }, {
                     label: "예금주",
@@ -88,7 +91,8 @@ router.get("/", isVerified, async (req, res) => {
                     return res.status(500).json({ err });
                 }
                 for (var i = 0; i < salelogs.length; i++) {
-                    salelogs[i].phone = "=\"" + salelogs[i].phone + "\"";
+                    salelogs[i].customer_phone = "=\"" + salelogs[i].phone + "\"";
+                    salelogs[i].consigner_phone = "=\"" + salelogs[i].phone + "\"";
                     salelogs[i].account = "=\"" + salelogs[i].account + "\"";
                 }
                 let csv
@@ -118,7 +122,7 @@ router.get("/", isVerified, async (req, res) => {
     else if (req.query.generalProduct) {
         const fields = [
             {
-                label: "id",
+                label: "상품ID",
                 value: "id",
             }, {
                 label: "대분류",
@@ -139,16 +143,19 @@ router.get("/", isVerified, async (req, res) => {
                 label: '판매가',
                 value: 'price',
             }, {
-                label: '매입처',
-                value: 'trader',
-            }, {
                 label: '재고',
                 value: 'quantity',
+            }, {
+                label: '최대할인율',
+                value: 'max_discout',
             }, {
                 label: '위치',
                 value: 'place',
             }, {
-                label: '일시',
+                label: '매입처',
+                value: 'trader',
+            }, {
+                label: '등록날짜',
                 value: 'date',
             },
         ];
@@ -182,7 +189,7 @@ router.get("/", isVerified, async (req, res) => {
     else if (req.query.consignProduct) {
         const fields = [
             {
-                label: 'id',
+                label: '상품ID',
                 value: 'id',
             }, {
                 label: '대분류',
@@ -197,25 +204,46 @@ router.get("/", isVerified, async (req, res) => {
                 label: '상품명',
                 value: 'name',
             }, {
-                label: '판매가',
-                value: 'price',
-            }, {
                 label: '희망가',
                 value: 'wanted_price',
+            }, {
+                label: '판매가',
+                value: 'price',
             }, {
                 label: '재고',
                 value: 'quantity',
             }, {
-                label: '사연',
-                value: 'story',
-            }, {
-                label: '최대할인률',
+                label: '최대할인율',
                 value: 'max_discout',
             }, {
                 label: '위치',
                 value: 'place',
             }, {
-                label: '만료',
+                label: '위탁자',
+                value: 'consigner',
+            }, {
+                label: '위탁자번호',
+                value: 'phone',
+            }, {
+                label: '결제시 계좌입금여부',
+                value: 'accountable',
+            }, {
+                label: '은행',
+                value: 'bank',
+            }, {
+                label: '계좌번호',
+                value: 'account',
+            }, {
+                label: '예금주',
+                value: 'account_owner',
+            }, {
+                label: '사연',
+                value: 'story',
+            }, {
+                label: '등록날짜',
+                value: 'date',
+            }, {
+                label: '만료날짜',
                 value: 'expire_date',
             },
         ];
@@ -288,7 +316,7 @@ router.get("/", isVerified, async (req, res) => {
                 label: "포인트",
                 value: "point"
             }, {
-                label: "등록 날짜",
+                label: "등록날짜",
                 value: "time"
             }, {
                 label: "은행",
@@ -370,7 +398,7 @@ router.get("/", isVerified, async (req, res) => {
                 label: "관리사원",
                 value: "staff"
             }, {
-                label: "거래은행",
+                label: "은행",
                 value: "bank"
             }, {
                 label: "계좌번호",

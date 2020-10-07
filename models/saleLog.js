@@ -28,7 +28,6 @@ const saleLogSchema = new Schema({
 	},
 	quantity: {
 		type: Number,
-		default: 1,
 	},
 	// 단일상품 원가
 	single_price: {
@@ -51,11 +50,11 @@ const saleLogSchema = new Schema({
 	total: {
 		type: Number,
 	},
-	customer: {
+	customer_name: {
 		type: String,
 		required: true,
 	},
-	phone: {
+	customer_phone: {
 		type: String,
 		required: true,
 		trim: true,
@@ -65,9 +64,14 @@ const saleLogSchema = new Schema({
 		trim: true,
 	},
 	// 위탁자
-	consigner: {
+	consigner_name: {
 		type: String,
 		default: ""
+	},
+	consigner_phone: {
+		type: String,
+		required: true,
+		trim: true,
 	},
 	bank: {
 		type: String,
