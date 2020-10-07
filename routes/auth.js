@@ -85,32 +85,6 @@ router.post("/log-in", async (req, res, next) => {
     console.error(error);
     //done(error);
   }
-
-  // passport.authenticate("local", (authError, user, info) => {
-  //   if (authError) {
-  //     console.error(authError);
-  //     return next(authError);
-  //   }
-  //   if (!user) {
-  //     req.flash("signinError", info.message);
-  //     return res.status(404);
-  //   }
-  //   return req.logIn(user, (loginError) => {
-  //     if (loginError) {
-  //       console.error(loginError);
-  //       return next(loginError);
-  //     }
-  //     console.log({
-  //       name: user.name,
-  //       password: user.password,
-  //       level: user.level,
-  //     }); //debug
-  //     return res.status(200).send({
-  //       name: user.name,
-  //       level: user.level,
-  //     });
-  //   });
-  // })(req, res, next);
 });
 
 router.get("/log-out", async (req, res) => {
@@ -128,7 +102,7 @@ router.get("/log-out", async (req, res) => {
   }
 
   res.cookie('user', token).json({
-    message:'로그아웃되었습니다.',
+    message: '로그아웃되었습니다.',
   });
 
   console.log('log out');

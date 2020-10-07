@@ -25,7 +25,7 @@ router.get("/", isVerified, async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isVerified, async (req, res) => {
     try {
         var firstCategoryName = await setFirstCategory(req.body.first_category);
         var secondCategoryName = await setSecondCategory(req.body.second_category);
