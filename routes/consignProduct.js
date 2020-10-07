@@ -10,7 +10,7 @@ const { isVerified } = require('./middlewares');
 router.get("/", isVerified, async (req, res) => {
     try {
         const searchID = req.query.id;
-        const consignProductTemp = await ConsignProduct.findOne({
+        const consignProductTemp = await ConsignProduct.find({
             id: searchID,
         });
         if (consignProductTemp.length != 0) {
@@ -25,13 +25,11 @@ router.get("/", isVerified, async (req, res) => {
     }
 });
 
-router.post("/", isVerified, async (req, res) => {
+router.post("/", async (req, res) => {
     try {
-        let [firstCategoryName, secondCategoryName, thirdCategoryName] = await Promise.all([
-            setFirstCategory(req.body.first_category),
-            setSecondCategory(req.body.second_category),
-            setThirdCategory(req.body.third_category)
-        ]);
+        var firstCategoryName = await setFirstCategory(req.body.first_category);
+        var secondCategoryName = await setSecondCategory(req.body.second_category);
+        var thirdCategoryName = await setThirdCategory(req.body.third_category);
 
         // 위탁상품 ID 부여
         var newConsignProductID;
@@ -44,10 +42,10 @@ router.post("/", isVerified, async (req, res) => {
             newConsignProductID = "C" + newConsignProductIndex;
         }
         else {
-            newConsignProdcutID = "C1";
+            newConsignProductID = "C1";
         }
 
-        var CustomerTemp = await Customer.findOne(
+        var CustomerTemp = await Customer.find(
             { phone: req.body.phone },
         );
 
@@ -66,9 +64,9 @@ router.post("/", isVerified, async (req, res) => {
             consigner: req.body.consigner,
             phone: req.body.phone,
             accountable: req.body.accountable,
-            bank: CustomerTemp.bank,
-            account: CustomerTemp.account,
-            account_owner: CustomerTemp.account_owner,
+            bank: CustomerTemp[0].bank,
+            account: CustomerTemp[0].account,
+            account_owner: CustomerTemp[0].account_owner,
         }
         if (!req.body.wanted_price) {
             ConsignProductSchemaTemp.wanted_price = req.body.price;
@@ -85,11 +83,11 @@ router.post("/", isVerified, async (req, res) => {
 
 async function setFirstCategory(searchFirstCategory) {
     try {
-        const FirstCategoryTemp = await FirstCategory.findOne({
+        const FirstCategoryTemp = await FirstCategory.find({
             ID: searchFirstCategory,
         });
         if (FirstCategoryTemp.length != 0) {
-            return FirstCategoryTemp.FirstCategory;
+            return FirstCategoryTemp[0].FirstCategory;
         }
     } catch (error) {
         console.log(error);
@@ -99,11 +97,11 @@ async function setFirstCategory(searchFirstCategory) {
 
 async function setSecondCategory(searchSecondCategory) {
     try {
-        const SecondCategoryTemp = await SecondCategory.findOne({
+        const SecondCategoryTemp = await SecondCategory.find({
             ID: searchSecondCategory,
         });
         if (SecondCategoryTemp.length != 0) {
-            return SecondCategoryTemp.SecondCategory;
+            return SecondCategoryTemp[0].SecondCategory;
         }
     } catch (error) {
         console.log(error);
@@ -113,11 +111,11 @@ async function setSecondCategory(searchSecondCategory) {
 
 async function setThirdCategory(searchThirdCategory) {
     try {
-        const ThirdCategoryTemp = await ThirdCategory.findOne({
+        const ThirdCategoryTemp = await ThirdCategory.find({
             ID: searchThirdCategory,
         });
         if (ThirdCategoryTemp.length != 0) {
-            return ThirdCategoryTemp.ThirdCategory;
+            return ThirdCategoryTemp[0].ThirdCategory;
         }
     } catch (error) {
         console.log(error);
