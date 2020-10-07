@@ -1,8 +1,9 @@
 # MARKET BALGYUN POS SERVER
-### Node js Express 기반 서버입니다.
+## Node js Express 서버(https://marketback.herokuapp.com/)
+https://marketback.herokuapp.com/
 
 ---
-## 클라이언트 서버(https://marketbalgyun.herokuapp.com/)
+## Node js React 클라이언트(https://marketbalgyun.herokuapp.com/)
 https://marketbalgyun.herokuapp.com/
 
 ---
