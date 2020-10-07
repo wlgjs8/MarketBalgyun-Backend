@@ -4,7 +4,7 @@ https://marketback.herokuapp.com/
 
 ---
 ## Node js React 클라이언트
-https://marketbalgyun.herokuapp.com/
+https://market-balgyun.herokuapp.com/
 
 ---
 
