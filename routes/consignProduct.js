@@ -5,8 +5,9 @@ const Customer = require("../models/Customer");
 const FirstCategory = require("../models/products/FirstCategory");
 const SecondCategory = require("../models/products/SecondCategory");
 const ThirdCategory = require("../models/products/ThirdCategory");
+const { isVerified } = require('./middlewares');
 
-router.get("/", async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
     try {
         const searchID = req.query.id;
         const consignProductTemp = await ConsignProduct.findOne({
@@ -24,7 +25,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isVerified, async (req, res) => {
     try {
         var firstCategoryName = await setFirstCategory(req.body.first_category);
         var secondCategoryName = await setSecondCategory(req.body.second_category);
@@ -115,7 +116,7 @@ async function setThirdCategory(searchThirdCategory) {
     }
 }
 
-router.put("/", async (req, res) => {
+router.put("/", isVerified, async (req, res) => {
     try {
         let searchID = req.body.id;
 
@@ -280,7 +281,7 @@ router.put("/", async (req, res) => {
     }
 });
 
-router.delete("/", (req, res) => {
+router.delete("/", isVerified, (req, res) => {
     ConsignProduct.deleteOne({ id: req.query.id }, (err, result) => {
         if (err) {
             return next(err);

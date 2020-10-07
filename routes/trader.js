@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
 const Trader = require("../models/Trader");
+const { isVerified } = require('./middlewares');
 
-router.get("/", async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
   try {
     const traderName = req.query.name;
     const traderTemp = await Trader.find({
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", isVerified, (req, res) => {
   try {
     Trader.insertMany([req.body]);
     res.send("Posting Success");
@@ -30,7 +31,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.delete("/", (req, res) => {
+router.delete("/", isVerified, (req, res) => {
   Trader.deleteOne({ name: req.query.name }, (err, result) => {
     if (err) {
       return next(err);

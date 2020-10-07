@@ -2,9 +2,10 @@ var express = require("express");
 var router = express.Router();
 const Customer = require("../models/Customer");
 router.use(express.json());
+const { isVerified } = require('./middlewares');
 
 // 고객 전화번호 뒤 4자리로 검색
-router.get("/", async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
   try {
     const postPhone = req.query.phone;
     const customerTemp = await Customer.find({
@@ -27,7 +28,7 @@ router.get("/", async (req, res) => {
 });
 
 // 신규 고객 정보 저장
-router.post("/", async (req, res) => {
+router.post("/", isVerified, async (req, res) => {
   try {
     const customerTemp = await Customer.findOne({ phone: req.body.phone });
     if (customerTemp.length != 0) {
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
 });
 
 // 전화번호를 통해 정보 수정
-router.put("/", async (req, res) => {
+router.put("/", isVerified, async (req, res) => {
   try {
     let customerPhone = req.body.phone;
 
@@ -221,7 +222,7 @@ router.put("/", async (req, res) => {
 });
 
 // 고객 정보 삭제
-router.delete("/", (req, res) => {
+router.delete("/", isVerified, (req, res) => {
   Customer.deleteOne({ phone: req.query.phone }, (err, result) => {
     if (err) {
       return next(err);

@@ -5,13 +5,13 @@ const Customer = require("../models/Customer");
 const Trader = require("../models/Trader");
 const GeneralProduct = require('../models/products/GeneralProduct.js');
 const ConsignProduct = require('../models/products/ConsignProduct');
-//const { duration } = require("moment");
 const fs = require("fs");
 const moment = require("moment");
 const json2csv = require("json2csv").parse;
 const path = require("path");
+const { isVerified } = require('./middlewares');
 
-router.get("/", async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
     if (req.query.saleLog) {
         if (req.query.start && req.query.end) {
             const fields = [
@@ -119,39 +119,39 @@ router.get("/", async (req, res) => {
     else if (req.query.generalProduct) {
         const fields = [
             {
-                label:"id",
-                value:"id",
+                label: "id",
+                value: "id",
             }, {
-                label:"대분류",
-                value:"first_category",
+                label: "대분류",
+                value: "first_category",
             }, {
-                label:'중분류',
-                value:'second_category',
+                label: '중분류',
+                value: 'second_category',
             }, {
-                label:'소분류',
-                value:'third_category',
+                label: '소분류',
+                value: 'third_category',
             }, {
-                label:'상품명',
-                value:'name',
+                label: '상품명',
+                value: 'name',
             }, {
-                label:'원가',
-                value:'cost',
+                label: '원가',
+                value: 'cost',
             }, {
-                label:'판매가',
-                value:'price',
+                label: '판매가',
+                value: 'price',
             }, {
-                label:'매입처',
-                value:'trader',
+                label: '매입처',
+                value: 'trader',
             }, {
-                label:'재고',
-                value:'quantity',
+                label: '재고',
+                value: 'quantity',
             }, {
-                label:'위치',
-                value:'place',
-            },  {
-                label:'일시',
-                value:'date',
-            }, 
+                label: '위치',
+                value: 'place',
+            }, {
+                label: '일시',
+                value: 'date',
+            },
         ];
 
         GeneralProduct.find({}, (err, generalProduct) => {
@@ -183,41 +183,41 @@ router.get("/", async (req, res) => {
     else if (req.query.consignProduct) {
         const fields = [
             {
-                label:'id',
-                value:'id',
+                label: 'id',
+                value: 'id',
             }, {
-                label:'대분류',
-                value:'first_category',
+                label: '대분류',
+                value: 'first_category',
             }, {
-                label:'중분류',
-                value:'second_category',
+                label: '중분류',
+                value: 'second_category',
             }, {
-                label:'소분류',
-                value:'third_category',
+                label: '소분류',
+                value: 'third_category',
             }, {
-                label:'상품명',
-                value:'name',
+                label: '상품명',
+                value: 'name',
             }, {
-                label:'판매가',
-                value:'price',
+                label: '판매가',
+                value: 'price',
             }, {
-                label:'희망가',
-                value:'wanted_price',
+                label: '희망가',
+                value: 'wanted_price',
             }, {
-                label:'재고',
-                value:'quantity',
+                label: '재고',
+                value: 'quantity',
             }, {
-                label:'사연',
-                value:'story',
+                label: '사연',
+                value: 'story',
             }, {
-                label:'최대할인률',
-                value:'max_discout',
+                label: '최대할인률',
+                value: 'max_discout',
             }, {
-                label:'위치',
-                value:'place',
+                label: '위치',
+                value: 'place',
             }, {
-                label:'만료',
-                value:'expire_date',
+                label: '만료',
+                value: 'expire_date',
             },
         ];
 
@@ -303,7 +303,7 @@ router.get("/", async (req, res) => {
                 value: "account_owner"
             },
         ];
-        
+
         Customer.find(function (err, customers) {
             if (err) {
                 return res.status(500).json({ err });

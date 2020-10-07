@@ -5,11 +5,12 @@ const GeneralProduct = require("../models/products/GeneralProduct");
 const ConsignProduct = require("../models/products/ConsignProduct");
 const Customer = require("../models/Customer");
 const SaleLog = require("../models/saleLog");
+const { isVerified } = require('./middlewares');
 
 router.use(express.json());
 
 // 상품 판매 정보 POST, 상품 ID 와 판매 수량
-router.post("/", async (req, res) => {
+router.post("/", isVerified, async (req, res) => {
     var i = 0;
 
     var items = req.body.items;

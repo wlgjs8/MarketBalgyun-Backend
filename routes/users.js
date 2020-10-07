@@ -1,10 +1,11 @@
 var express = require("express");
 var router = express.Router();
 const User = require("../models/User");
+const { isVerified } = require('./middlewares');
 
 router.use(express.json());
 
-router.get("/", async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
   try {
     const userName = req.query.name;
     const userTemp = await User.find({
@@ -22,7 +23,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", isVerified, (req, res) => {
   try {
     User.insertMany([req.body]);
     res.send("Posting Success");
@@ -33,7 +34,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.put("/", async (req, res) => {
+router.put("/", isVerified, async (req, res) => {
   try {
     let userName = req.body.name;
 
@@ -66,7 +67,7 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.delete("/", (req, res) => {
+router.delete("/", isVerified, (req, res) => {
   User.deleteOne({ name: req.query.name }, (err, result) => {
     if (err) {
       return next(err);

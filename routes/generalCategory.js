@@ -10,7 +10,7 @@ const { isVerified } = require('./middlewares');
 router.use(express.json());
 
 // 전체 카테고리 GET
-router.get("/", async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
   try {
     const firstTemp = await FirstCategory.find();
     const secondTemp = await SecondCategory.find();
