@@ -82,8 +82,7 @@ router.get("/", isVerified, async (req, res) => {
             ];
             const start = moment(new Date(req.query.start));
             const end = moment(new Date(req.query.end)).add(1, 'days');
-            // console.log(start);
-            // console.log(end);
+
             SaleLog.find({ time: { $gte: start, $lte: end } }, function (err, salelogs) {
                 if (err) {
                     return res.status(500).json({ err });
@@ -248,7 +247,6 @@ router.get("/", isVerified, async (req, res) => {
         });
     }
     else if (req.query.customer) {
-
         const fields = [
             {
                 label: "이름",
@@ -418,7 +416,6 @@ router.get("/", isVerified, async (req, res) => {
     else {
         res.send("해당 csv 없음.");
     }
-
 });
 
 module.exports = router;

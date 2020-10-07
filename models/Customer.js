@@ -78,6 +78,10 @@ const CustomerSchema = new Schema({
       return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
     },
   },
+  boolConsign: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 module.exports = mongoose.model("Customer", CustomerSchema);

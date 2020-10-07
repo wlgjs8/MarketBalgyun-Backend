@@ -12,9 +12,7 @@ router.use(express.json());
 // 전체 카테고리 GET
 router.get("/", isVerified, async (req, res) => {
   try {
-    const firstTemp = await FirstCategory.find();
-    const secondTemp = await SecondCategory.find();
-    const thirdTemp = await ThirdCategory.find();
+    let [firstTemp, secondTemp, thirdTemp] = await Promise.all([FirstCategory.find(), SecondCategory.find(), ThirdCategory.find()]);
 
     var firstTemp_Nickname = {
       first_category: firstTemp,
