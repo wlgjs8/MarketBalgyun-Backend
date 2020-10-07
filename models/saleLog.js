@@ -70,7 +70,6 @@ const saleLogSchema = new Schema({
 	},
 	consigner_phone: {
 		type: String,
-		required: true,
 		trim: true,
 	},
 	bank: {
