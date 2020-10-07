@@ -18,9 +18,11 @@ router.get("/", isVerified, async (req, res) => {
 
 // 상품 정보 넘겨받으면, ID 생성 후 저장.
 router.post("/", isVerified, async (req, res) => {
-  var firstCategoryName = await setFirstCategory(req.body.first_category);
-  var secondCategoryName = await setSecondCategory(req.body.second_category);
-  var thirdCategoryName = await setThirdCategory(req.body.third_category);
+  let [firstCategoryName, secondCategoryName, thirdCategoryName] = await Promise.all([
+    setFirstCategory(req.body.first_category),
+    setSecondCategory(req.body.second_category),
+    setThirdCategory(req.body.third_category)
+  ]);
 
   if (req.body.name) {
     const nameTemp = await GeneralProduct.find({

@@ -1,5 +1,4 @@
 var express = require("express");
-var mergeJSON = require("merge-json");
 var router = express.Router();
 const GeneralProduct = require("../models/products/GeneralProduct");
 const ConsignProduct = require("../models/products/ConsignProduct");
@@ -29,12 +28,10 @@ router.post("/", isVerified, async (req, res) => {
         var price = items[i].price;
         var apply_price = items[i++].apply_price;
 
-        const generalProductTemp = await GeneralProduct.findOne({
-            id: id,
-        });
-        const consignProductTemp = await ConsignProduct.findOne({
-            id: id,
-        });
+        let [generalProductTemp, consignProductTemp] = await Promise.all([
+            GeneralProduct.findOne({ id: id }),
+            ConsignProduct.findOne({ id: id }),
+        ]);
 
         var SaleLogSchemaTemp = {
             first_category: "",
@@ -60,7 +57,7 @@ router.post("/", isVerified, async (req, res) => {
         }
 
         // 일반 상품의 경우
-        if (generalProductTemp.length != 0) {
+        if (generalProductTemp != null) {
             if ((generalProductTemp.quantity - quantity) < 0) {
                 res.send(id + "의 상품 수량 부족");
                 return;
@@ -77,7 +74,7 @@ router.post("/", isVerified, async (req, res) => {
         }
         // 위탁 상품의 경우
         else {
-            if (consignProductTemp.length != 0) {
+            if (consignProductTemp != null) {
                 if ((consignProductTemp.quantity - quantity) < 0) {
                     res.send(id + "의 상품 수량 부족");
                     return;
