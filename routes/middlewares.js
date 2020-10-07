@@ -1,5 +1,6 @@
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const { isVerified } = require('./middlewares');
 
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {

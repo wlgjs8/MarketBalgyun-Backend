@@ -4,11 +4,12 @@ const GeneralProduct = require("../models/products/GeneralProduct");
 const FirstCategory = require("../models/products/FirstCategory");
 const SecondCategory = require("../models/products/SecondCategory");
 const ThirdCategory = require("../models/products/ThirdCategory");
+const { isVerified } = require('./middlewares');
 
 router.use(express.json());
 
 // 카테고리에 해당하는 상품명 GET
-router.get("/", async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
   const searchGeneralCategoryName = await GeneralProduct.find({
     id: { $regex: "^" + req.query.id },
   });
@@ -16,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // 상품 정보 넘겨받으면, ID 생성 후 저장.
-router.post("/", async (req, res) => {
+router.post("/", isVerified, async (req, res) => {
   var firstCategoryName = await setFirstCategory(req.body.first_category);
   var secondCategoryName = await setSecondCategory(req.body.second_category);
   var thirdCategoryName = await setThirdCategory(req.body.third_category);
@@ -101,7 +102,7 @@ async function setThirdCategory(searchThirdCategory) {
   }
 }
 
-router.put("/", async (req, res) => {
+router.put("/", isVerified, async (req, res) => {
   try {
     let generalProductID = req.body.id;
 
@@ -196,7 +197,7 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.delete("/", (req, res) => {
+router.delete("/", isVerified, (req, res) => {
   GeneralProduct.deleteOne({ id: req.query.id }, (err, result) => {
     if (err) {
       return next(err);

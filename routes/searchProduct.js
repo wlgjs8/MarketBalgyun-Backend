@@ -8,7 +8,7 @@ const { isVerified } = require('./middlewares');
 router.use(express.json());
 
 // 일반 상품 ID를 통해 검색
-router.get("/", async (req, res) => {
+router.get("/", isVerified, async (req, res) => {
     if (req.query.id) {
         var UppercaseID = req.query.id;
         UppercaseID = UppercaseID.toUpperCase();
