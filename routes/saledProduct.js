@@ -13,13 +13,23 @@ router.post("/", isVerified, async (req, res) => {
     var i = 0;
 
     var items = req.body.items;
-    var customer_name = req.body.customer_name;
-    var customer_phone = req.body.customer_phone;
     var point = req.body.point;
     var card = req.body.card;
     var cash = req.body.cash;
     var sum_price = req.body.sum_price;
     var staff = req.body.staff;
+
+    var customer_name;
+    var customer_phone;
+
+    if (req.body.customer_name && req.body.customer_phone) {
+        customer_name = req.body.customer_name;
+        customer_phone = req.body.customer_phone;
+    }
+    else {
+        customer_name = "비회원";
+        customer_phone = "";
+    }
 
     while (i < items.length) {
         var id = items[i].id;
