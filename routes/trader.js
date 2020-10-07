@@ -172,10 +172,10 @@ router.put("/", isVerified, async (req, res) => {
       );
     }
 
-    const userTemp = await User.find({
+    const traderTemp = await Trader.find({
       name: traderName,
     });
-    res.send(userTemp);
+    res.send(traderTemp);
 
   } catch (error) {
     console.log(error);

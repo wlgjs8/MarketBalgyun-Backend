@@ -170,16 +170,6 @@ router.put("/", isVerified, async (req, res) => {
         }
       );
     }
-    // time
-    if (req.body.time) {
-      Customer.updateOne(
-        { phone: customerPhone },
-        { $set: { time: req.body.time } },
-        function (err, res) {
-          if (err) throw err;
-        }
-      );
-    }
     // bank
     if (req.body.bank) {
       Customer.updateOne(
@@ -205,6 +195,16 @@ router.put("/", isVerified, async (req, res) => {
       Customer.updateOne(
         { phone: customerPhone },
         { $set: { account_owner: req.body.account_owner } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // boolConsign
+    if (req.body.boolConsign) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { boolConsign: req.body.boolConsign } },
         function (err, res) {
           if (err) throw err;
         }
