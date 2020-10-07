@@ -6,10 +6,11 @@ const User = require("../models/User");
 const { NotExtended } = require("http-errors");
 // const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const { isVerified } = require('./middlewares');
 
 const router = express.Router();
 
-router.post("/sign-up", isNotLoggedIn, async (req, res, next) => {
+router.post("/sign-up", isVerified, async (req, res, next) => {
   const { name, password, level } = req.body;
   try {
     const exUser = await User.find({ name: name });
@@ -57,10 +58,6 @@ router.post("/log-in", async (req, res, next) => {
           message: '로그인 성공',
           payLoad,
         });
-        // res.status(200).json({
-        //   message:'로그인 성공',
-        //   payLoad,
-        // });
       }
       else {
         res.json({
@@ -87,7 +84,7 @@ router.post("/log-in", async (req, res, next) => {
   }
 });
 
-router.get("/log-out", async (req, res) => {
+router.get("/log-out", isVerified, async (req, res) => {
   const { name } = req.body;
   const token = await jwt.sign({
     name: name,
@@ -113,7 +110,7 @@ router.get("/log-out", async (req, res) => {
   //res.redirect("/");
 });
 
-router.delete("/sign-out", async (req, res) => {
+router.delete("/sign-out", isVerified, async (req, res) => {
   const currentUser = await User.findOne({ name: req.query.name });
   await User.deleteOne({ name: currentUser.name });
   //req.logout();
