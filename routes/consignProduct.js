@@ -27,16 +27,25 @@ router.get("/", isVerified, async (req, res) => {
 
 router.post("/", isVerified, async (req, res) => {
     try {
-        var firstCategoryName = await setFirstCategory(req.body.first_category);
-        var secondCategoryName = await setSecondCategory(req.body.second_category);
-        var thirdCategoryName = await setThirdCategory(req.body.third_category);
+        let [firstCategoryName, secondCategoryName, thirdCategoryName] = await Promise.all([
+            setFirstCategory(req.body.first_category),
+            setSecondCategory(req.body.second_category),
+            setThirdCategory(req.body.third_category)
+        ]);
 
+        // 위탁상품 ID 부여
+        var newConsignProductID;
         const ConsignProductTemp = await ConsignProduct.find().sort({ "_id": -1 }).limit(1);
 
-        var tempIndex = ConsignProductTemp[0].id.substring(1, ConsignProductTemp[0].id.length);
-        tempIndex *= 1;
-        var newConsignProductIndex = tempIndex + 1;
-        var newConsignProductID = "C" + newConsignProductIndex;
+        if (ConsignProductTemp.length != 0) {
+            var tempIndex = ConsignProductTemp[0].id.substring(1, ConsignProductTemp[0].id.length);
+            tempIndex *= 1;
+            var newConsignProductIndex = tempIndex + 1;
+            newConsignProductID = "C" + newConsignProductIndex;
+        }
+        else {
+            newConsignProdcutID = "C1";
+        }
 
         var CustomerTemp = await Customer.findOne(
             { phone: req.body.phone },
