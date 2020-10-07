@@ -25,7 +25,7 @@ router.get("/", isVerified, async (req, res) => {
     }
 });
 
-router.post("/", isVerified, async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         var firstCategoryName = await setFirstCategory(req.body.first_category);
         var secondCategoryName = await setSecondCategory(req.body.second_category);
@@ -33,7 +33,7 @@ router.post("/", isVerified, async (req, res) => {
 
         const ConsignProductTemp = await ConsignProduct.find().sort({ "_id": -1 }).limit(1);
 
-        var tempIndex = ConsignProductTemp.id.substring(1, ConsignProductTemp.id.length);
+        var tempIndex = ConsignProductTemp[0].id.substring(1, ConsignProductTemp[0].id.length);
         tempIndex *= 1;
         var newConsignProductIndex = tempIndex + 1;
         var newConsignProductID = "C" + newConsignProductIndex;

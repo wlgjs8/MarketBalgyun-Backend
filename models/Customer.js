@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const moment = require('moment');
 
 const CustomerSchema = new Schema({
   name: {
@@ -69,6 +70,13 @@ const CustomerSchema = new Schema({
   account_owner: {
     type: String,
     trim: true,
+  },
+  // 가입날짜
+  date: {
+    type: Date,
+    default: () => {
+      return moment().add(9, 'hours').format("YYYY-MM-DD HH:mm:ss");
+    },
   },
 });
 
