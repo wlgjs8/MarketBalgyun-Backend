@@ -9,7 +9,7 @@ const { isVerified } = require('./middlewares');
 router.use(express.json());
 
 // 상품 판매 정보 POST, 상품 ID 와 판매 수량
-router.post("/", isVerified, async (req, res) => {
+router.post("/", async (req, res) => {
     var i = 0;
 
     var items = req.body.items;
@@ -19,17 +19,27 @@ router.post("/", isVerified, async (req, res) => {
     var sum_price = req.body.sum_price;
     var staff = req.body.staff;
 
-    var customer_name;
-    var customer_phone;
+    var customer_name = "비회원";
+    var customer_phone = "";
 
+    // 회원 비회원 구분
     if (req.body.customer_name && req.body.customer_phone) {
         customer_name = req.body.customer_name;
         customer_phone = req.body.customer_phone;
-    }
-    else {
-        customer_name = "비회원";
-        customer_phone = "";
-    }
+
+        // 구매자 포인트 적립
+        var pointCount = (sum_price - point) * 0.01;
+
+        // 구매자가 포인트로 일부 결제시, 포인트 차감
+        pointCount -= point;
+        pointCount = Math.round(pointCount / 10);
+        pointCount *= 10;
+
+        Customer.updateOne(
+            { phone: customer_phone },
+            { $inc: { point: pointCount } }
+        );
+    };
 
     while (i < items.length) {
         var id = items[i].id;
@@ -55,11 +65,12 @@ router.post("/", isVerified, async (req, res) => {
             card: card,
             cash: cash,
             point: point,
-            total: (apply_price * quantity),
-            customer: customer_name,
-            phone: customer_phone,
+            total: sum_price,
+            customer_name: customer_name,
+            customer_phone: customer_phone,
             staff: staff,
-            consigner: "",
+            consigner_name: "",
+            consigner_phone: "",
             bank: "",
             account: "",
             account_owner: "",
@@ -103,9 +114,10 @@ router.post("/", isVerified, async (req, res) => {
                     SaleLogSchemaTemp.second_category = consignProductTemp.second_category;
                     SaleLogSchemaTemp.third_category = consignProductTemp.third_category;
                     SaleLogSchemaTemp.productName = consignProductTemp.name;
-                    SaleLogSchemaTemp.consigner = ConsignerTemp.name;
+                    SaleLogSchemaTemp.consigner_name = ConsignerTemp.name;
+                    SaleLogSchemaTemp.consigner_phone = ConsignerTemp.phone;
                     SaleLogSchemaTemp.bank = ConsignerTemp.bank;
-                    SaleLogSchemaTemp.account = "'" + ConsignerTemp.account;
+                    SaleLogSchemaTemp.account = ConsignerTemp.account;
                     SaleLogSchemaTemp.account_owner = ConsignerTemp.account_owner;
                 }
                 // 위탁자 포인트 적립
@@ -125,23 +137,12 @@ router.post("/", isVerified, async (req, res) => {
             }
             else {
                 res.send(id + "의 상품이 없습니다.");
+                return;
             }
         }
         SaleLog.insertMany([SaleLogSchemaTemp]);
     }
 
-    // 구매자 포인트 적립
-    var pointCount = (sum_price - point) * 0.01;
-
-    // 구매자가 포인트로 일부 결제시, 포인트 차감
-    pointCount -= point;
-    pointCount = Math.round(pointCount / 10);
-    pointCount *= 10;
-
-    Customer.updateOne(
-        { phone: customer_phone },
-        { $inc: { point: pointCount } }
-    );
     res.send("상품 판매 완료");
 });
 
