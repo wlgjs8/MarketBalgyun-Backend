@@ -146,6 +146,9 @@ router.get("/", isVerified, async (req, res) => {
                 label: '재고',
                 value: 'quantity',
             }, {
+                label: '사연',
+                value: 'story',
+            }, {
                 label: '최대할인율',
                 value: 'max_discount',
             }, {

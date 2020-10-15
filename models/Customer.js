@@ -35,6 +35,7 @@ const CustomerSchema = new Schema({
   email: {
     type: String,
     trim: true,
+    required: true,
   },
   birthday: {
     type: String,

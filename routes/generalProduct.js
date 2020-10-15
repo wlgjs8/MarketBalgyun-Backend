@@ -10,8 +10,11 @@ router.use(express.json());
 
 // 카테고리에 해당하는 상품명 GET
 router.get("/", isVerified, async (req, res) => {
+  var UppercaseID = req.query.id;
+  UppercaseID = UppercaseID.toUpperCase();
+
   const searchGeneralCategoryName = await GeneralProduct.find({
-    id: { $regex: "^" + req.query.id },
+    id: { $regex: "^" + UppercaseID },
   });
   res.send(searchGeneralCategoryName);
 });
@@ -153,6 +156,16 @@ router.put("/", isVerified, async (req, res) => {
       await GeneralProduct.updateOne(
         { id: generalProductID },
         { $set: { quantity: req.body.quantity } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
+    // story
+    if (req.body.story) {
+      await GeneralProduct.updateOne(
+        { id: generalProductID },
+        { $set: { story: req.body.story } },
         function (err, res) {
           if (err) throw err;
         }
