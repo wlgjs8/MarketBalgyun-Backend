@@ -161,6 +161,16 @@ router.put("/", isVerified, async (req, res) => {
         }
       );
     }
+    // story
+    if (req.body.story) {
+      await GeneralProduct.updateOne(
+        { id: generalProductID },
+        { $set: { story: req.body.story } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
     // max_discount
     if (req.body.max_discount) {
       await GeneralProduct.updateOne(

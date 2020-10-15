@@ -43,6 +43,9 @@ const GeneralProductSchema = new Schema({
     default: 1,
     required: true,
   },
+  story: {
+    type: String,
+  },
   max_discount: {
     type: Number,
   },
