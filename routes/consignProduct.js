@@ -9,10 +9,13 @@ const { isVerified } = require('./middlewares');
 
 router.get("/", isVerified, async (req, res) => {
     try {
-        const searchID = req.query.id;
+        var UppercaseID = req.query.id;
+        const searchID = UppercaseID.toUpperCase();
+
         const consignProductTemp = await ConsignProduct.find({
             id: searchID,
         });
+
         if (consignProductTemp.length != 0) {
             consignProductJson = JSON.stringify(consignProductTemp);
             res.send(consignProductJson);

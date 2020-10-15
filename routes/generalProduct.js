@@ -10,8 +10,11 @@ router.use(express.json());
 
 // 카테고리에 해당하는 상품명 GET
 router.get("/", isVerified, async (req, res) => {
+  var UppercaseID = req.query.id;
+  UppercaseID = UppercaseID.toUpperCase();
+
   const searchGeneralCategoryName = await GeneralProduct.find({
-    id: { $regex: "^" + req.query.id },
+    id: { $regex: "^" + UppercaseID },
   });
   res.send(searchGeneralCategoryName);
 });
