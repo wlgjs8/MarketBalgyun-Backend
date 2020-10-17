@@ -3,6 +3,22 @@ var router = express.Router();
 const Customer = require("../models/Customer");
 router.use(express.json());
 const { isVerified } = require('./middlewares');
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+
+// 보내는 메일 주소
+const smtpTransport = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: process.env.NODEMAILER_USER,
+    pass: process.env.NODEMAILER_PW
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+var token, mailOptions, host, link;
 
 // 고객 전화번호 뒤 4자리로 검색
 router.get("/", isVerified, async (req, res) => {
@@ -31,17 +47,54 @@ router.get("/", isVerified, async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const customerTemp = await Customer.find({ phone: req.body.phone });
+
     if (customerTemp.length != 0) {
       res.send('이미 등록된 번호입니다.');
       return;
     }
     else {
-      Customer.insertMany([req.body]);
-      res.send("Posting Success");
+      token = crypto.tokenomBytes(20).toString("hex");
+      host = req.get('host');
+      // link = "http://" + req.get('host') +  "/verify?id=" + token;
+      link = "http://localhost:3000/verify?id=" + token;
+
+      mailOptions = {
+        from: process.env.NODEMAILER_USER,
+        to: req.body.email,
+        subject: "회원가입 인증 이메일입니다.",
+        text: "회원가입을 완료하시려면 아래의 URL을 클릭하여 주세요." +
+          "http://localhost:3000/customer/verify?id=" + token,
+      };
+      smtpTransport.sendMail(mailOptions, function (error, response) {
+        if (error) {
+          console.log(error);
+          res.end("error");
+        } else {
+          console.log("Message sent: " + response.message);
+          res.end("sent");
+        }
+      });
+
+      // Customer.insertMany([req.body]);
+      // res.send("Posting Success");
     }
   } catch (error) {
     console.log(error);
     return next(error);
+  }
+});
+
+router.get("/verify", (req, res) => {
+  if ((req.protocol + "://" + req.get('host')) == ("http://" + host)) {
+    if (req.query.id == token) {
+      console.log("Vertified");
+      res.send("Posting Success");
+      console.log(req.body);
+    }
+    else {
+      console.log("Email is not verified");
+      res.end("Not Verified");
+    }
   }
 });
 
