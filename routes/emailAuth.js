@@ -11,7 +11,7 @@ var token, mailOptions, host;
 
 // 보내는 메일 주소
 const smtpTransport = nodemailer.createTransport({
-    service: "Gmail",
+    service: "Naver",
     auth: {
         user: process.env.NODEMAILER_USER,
         pass: process.env.NODEMAILER_PW
