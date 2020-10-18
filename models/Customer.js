@@ -78,11 +78,6 @@ const CustomerSchema = new Schema({
   boolConsign: {
     type: Boolean,
     default: false,
-  },
-  boolEmailAuth: {
-    type: Boolean,
-    default: false,
-    required: true,
   }
 });
 
