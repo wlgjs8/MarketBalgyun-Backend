@@ -22,7 +22,7 @@ const smtpTransport = nodemailer.createTransport({
 });
 
 router.get("/verify", (req, res) => {
-    if ((req.protocol + "://" + req.get('host')) == ("http://" + host)) {
+    if ((req.protocol + "://" + req.get('host')) == ("https://" + host)) {
         if (req.query.id == token) {
             console.log("Email has been Vertified");
             res.send("이메일 인증 완료");
