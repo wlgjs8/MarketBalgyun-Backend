@@ -23,6 +23,7 @@ var showCSVRouter = require("./routes/showCSV");
 var consignProductRouter = require("./routes/consignProduct");
 var searchProductRouter = require("./routes/searchProduct");
 var saledProductRouter = require("./routes/saledProduct");
+var emailAuthRouter = require("./routes/emailAuth");
 
 var app = express();
 connect();
@@ -70,6 +71,7 @@ app.use("/showCSV", showCSVRouter);
 app.use("/consignProduct", consignProductRouter);
 app.use("/searchProduct", searchProductRouter);
 app.use("/saledProduct", saledProductRouter);
+app.use("/emailAuth", emailAuthRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
