@@ -23,22 +23,22 @@ const smtpTransport = nodemailer.createTransport({
 router.get("/verify", async (req, res) => {
     const tokenTemp = await Token.find({ token: req.query.id });
     const emailTemp = tokenTemp[0].email;
-    await Customer.updateOne(
-        { email: emailTemp },
-        { $set: { boolEmailAuth: true } },
-        function (err, res) {
-            if (err) throw err;
-        }
-    );
 
     if ((req.protocol + "://" + req.get('host')) == ("http://" + tokenTemp[0].host)) {
         if (tokenTemp[0].length != 0) {
+            await Customer.updateOne(
+                { email: emailTemp },
+                { $set: { boolEmailAuth: true } },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
             console.log("Email has been Vertified");
-            res.send("이메일 인증 완료");
+            return res.send("이메일 인증 완료");
         }
         else {
             console.log("Email is not verified");
-            res.end("이메일 인증 실패");
+            return res.end("이메일 인증 실패");
         }
     }
 });

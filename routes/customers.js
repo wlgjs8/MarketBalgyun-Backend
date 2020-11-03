@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const Customer = require("../models/Customer");
+const Token = require("../models/Token");
 router.use(express.json());
 const { isVerified } = require('./middlewares');
 
@@ -32,8 +33,9 @@ router.get("/", isVerified, async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const customerTemp = await Customer.find({ phone: req.body.phone });
+    const tokenTemp = await Token.find({ email: req.body.email });
 
-    if (!customerTemp[0].boolEmailAuth) {
+    if (!tokenTemp[0].boolEmailAuth) {
       return res.send("이메일 인증이 필요합니다.");
     }
 

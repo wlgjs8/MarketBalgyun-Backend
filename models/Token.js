@@ -11,6 +11,10 @@ const TokenSchema = new Schema({
     },
     host: {
         type: String,
+    },
+    boolEmailAuth: {
+        type: Boolean,
+        default: false,
     }
 });
 
