@@ -1,13 +1,12 @@
 var express = require("express");
 var router = express.Router();
 const Customer = require("../models/Customer");
+const Token = require("../models/Token");
 router.use(express.json());
 const { isVerified } = require('./middlewares');
 
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-
-var token, mailOptions, host;
 
 // 보내는 메일 주소
 const smtpTransport = nodemailer.createTransport({
@@ -21,9 +20,19 @@ const smtpTransport = nodemailer.createTransport({
     }
 });
 
-router.get("/verify", (req, res) => {
-    if ((req.protocol + "://" + req.get('host')) == ("https://" + host)) {
-        if (req.query.id == token) {
+router.get("/verify", async (req, res) => {
+    const tokenTemp = await Token.find({ token: req.query.id });
+    const emailTemp = tokenTemp[0].email;
+    await Customer.updateOne(
+        { email: emailTemp },
+        { $set: { boolEmailAuth: true } },
+        function (err, res) {
+            if (err) throw err;
+        }
+    );
+
+    if ((req.protocol + "://" + req.get('host')) == ("http://" + tokenTemp[0].host)) {
+        if (tokenTemp[0].length != 0) {
             console.log("Email has been Vertified");
             res.send("이메일 인증 완료");
         }
@@ -44,10 +53,17 @@ router.post("/", async (req, res) => {
         }
         else {
             // token = crypto.tokenomBytes(20).toString("hex");
-            token = crypto.randomBytes(20).toString("hex");
-            host = req.get('host');
+            var token = crypto.randomBytes(20).toString("hex");
+            var host = req.get('host');
 
-            mailOptions = {
+            var tokenTemp = {
+                token: token,
+                email: req.body.email,
+                host: host,
+            }
+            Token.insertMany([tokenTemp]);
+
+            var mailOptions = {
                 from: process.env.NODEMAILER_USER,
                 to: req.body.email,
                 subject: "회원가입 인증 이메일입니다.",
@@ -57,9 +73,9 @@ router.post("/", async (req, res) => {
             smtpTransport.sendMail(mailOptions, function (error, response) {
                 if (error) {
                     console.log(error);
-                    res.end("SendMail Error");
+                    return res.send("인증메일 보내기 실패");
                 } else {
-                    res.end("SendMail Success");
+                    return res.send("인증메일을 확인해주세요.");
                 }
             });
         }

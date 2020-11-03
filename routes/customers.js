@@ -37,13 +37,12 @@ router.post("/", async (req, res) => {
       return res.send("이메일 인증이 필요합니다.");
     }
 
-    if (customerTemp.length != 0) {
-      res.send('이미 등록된 번호입니다.');
-      return;
+    if (customerTemp[0].length != 0) {
+      return res.send('이미 등록된 번호입니다.');
     }
     else {
       Customer.insertMany([req.body]);
-      res.send("Posting Success");
+      return res.send("Posting Success");
     }
 
   } catch (error) {
