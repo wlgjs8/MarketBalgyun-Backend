@@ -294,14 +294,14 @@ router.get("/", isVerified, async (req, res) => {
                 label: "번호",
                 value: "phone",
             }, {
-                label: "취향",
-                value: "taste"
-            }, {
                 label: "SMS 수신여부",
                 value: "boolSMS"
             }, {
                 label: "강의 수강여부",
                 value: "boolLecture"
+            }, {
+                label: "취향",
+                value: "taste"
             }, {
                 label: "관심 카테고리",
                 value: "likeCategory"
