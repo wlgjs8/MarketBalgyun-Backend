@@ -26,7 +26,7 @@ router.get("/verify", async (req, res) => {
 
     if ((req.protocol + "://" + req.get('host')) == ("http://" + tokenTemp[0].host)) {
         if (tokenTemp[0].length != 0) {
-            await Customer.updateOne(
+            await Token.updateOne(
                 { email: emailTemp },
                 { $set: { boolEmailAuth: true } },
                 function (err, res) {
