@@ -12,7 +12,7 @@ const saleLogSchema = new Schema({
 	},
 	first_category: {
 		type: String,
-		required: true,
+		default: ""
 	},
 	second_category: {
 		type: String,

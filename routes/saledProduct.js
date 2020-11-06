@@ -37,8 +37,13 @@ router.post("/", isVerified, async (req, res) => {
 
         Customer.updateOne(
             { phone: customer_phone },
-            { $inc: { point: pointCount } }
+            { $inc: { point: pointCount } },
+            function (err, res) {
+                if (err) throw err;
+            }
         );
+
+        console.log("구매자 포인트 : " + pointCount);
     };
 
     while (i < items.length) {
@@ -128,13 +133,14 @@ router.post("/", isVerified, async (req, res) => {
                     pointPlus = Math.round(pointPlus / 10);
                     pointPlus *= 10;
 
+                    console.log("위탁자 포인트 : " + pointPlus);
                     Customer.updateOne(
                         { phone: consignProductTemp[0].phone },
                         { $inc: { point: pointPlus } },
                         function (err, res) {
                             if (err) throw err;
                         }
-                    )
+                    );
                 }
             }
             else {
