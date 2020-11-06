@@ -22,10 +22,12 @@ const smtpTransport = nodemailer.createTransport({
 
 router.get("/verify", async (req, res) => {
     const tokenTemp = await Token.find({ token: req.query.id });
+
+    if (tokenTemp.length < 1) {
+        return res.send("다시 이메일 인증해주세요");
+    }
     const emailTemp = tokenTemp[0].email;
 
-    console.log("1 : " + (req.protocol + "://" + req.get('host')));
-    console.log("2 : " + ("https://" + tokenTemp[0].host));
     if ((req.protocol + "://" + req.get('host')) == ("http://" + tokenTemp[0].host)) {
         if (tokenTemp[0].length != 0) {
             await Token.updateOne(
