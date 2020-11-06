@@ -26,9 +26,7 @@ router.get("/verify", async (req, res) => {
 
     console.log("1 : " + (req.protocol + "://" + req.get('host')));
     console.log("2 : " + ("https://" + tokenTemp[0].host));
-    // if ((req.protocol + "://" + req.get('host')) == ("http://" + tokenTemp[0].host)) {
-    if ((req.protocol + "://" + req.get('host')) == ("https://" + tokenTemp[0].host)) {
-
+    if ((req.protocol + "://" + req.get('host')) == ("http://" + tokenTemp[0].host)) {
         if (tokenTemp[0].length != 0) {
             await Token.updateOne(
                 { email: emailTemp },
