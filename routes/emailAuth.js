@@ -47,7 +47,7 @@ router.get("/verify", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isVerified, async (req, res) => {
     try {
         const customerTemp = await Customer.find({ email: req.body.email });
 
