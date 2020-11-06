@@ -30,7 +30,7 @@ router.get("/", isVerified, async (req, res) => {
 });
 
 // 신규 고객 정보 저장
-router.post("/", async (req, res) => {
+router.post("/", isVerified, async (req, res) => {
   try {
     const customerTemp = await Customer.find({ phone: req.body.phone });
     const tokenTemp = await Token.find({ email: req.body.email });
@@ -39,9 +39,10 @@ router.post("/", async (req, res) => {
       return res.send("이메일 인증이 필요합니다.");
     }
 
-    if (customerTemp[0].length != 0) {
+    if (customerTemp.length != 0) {
       return res.send('이미 등록된 번호입니다.');
     }
+
     else {
       Customer.insertMany([req.body]);
       return res.send("Posting Success");
