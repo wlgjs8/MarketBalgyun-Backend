@@ -35,14 +35,19 @@ router.post("/", isVerified, async (req, res) => {
     const customerTemp = await Customer.find({ phone: req.body.phone });
     const tokenTemp = await Token.find({ email: req.body.email });
 
-    if (!tokenTemp[0].boolEmailAuth) {
-      return res.send("이메일 인증이 필요합니다.");
+    try {
+      if (!tokenTemp[0].boolEmailAuth) {
+        return res.send("이메일 인증이 필요합니다.");
+      }
+    }
+    catch (err) {
+      console.log(err);
+      return next(err);
     }
 
     if (customerTemp.length != 0) {
       return res.send('이미 등록된 번호입니다.');
     }
-
     else {
       Customer.insertMany([req.body]);
       return res.send("Posting Success");
