@@ -35,14 +35,8 @@ router.post("/", isVerified, async (req, res) => {
     const customerTemp = await Customer.find({ phone: req.body.phone });
     const tokenTemp = await Token.find({ email: req.body.email });
 
-    try {
-      if (!tokenTemp[0].boolEmailAuth) {
-        return res.send("이메일 인증이 필요합니다.");
-      }
-    }
-    catch (err) {
-      console.log(err);
-      return next(err);
+    if (tokenTemp.length < 1) {
+      return res.send("이메일 인증이 필요합니다.");
     }
 
     if (customerTemp.length != 0) {
