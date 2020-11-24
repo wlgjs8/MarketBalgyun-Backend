@@ -297,8 +297,11 @@ router.get("/", isVerified, async (req, res) => {
                 label: "SMS 수신여부",
                 value: "boolSMS"
             }, {
-                label: "강의 수강여부",
+                label: "클래스",
                 value: "boolLecture"
+            }, {
+                label: "공간대여",
+                value: "boolSpace"
             }, {
                 label: "취향",
                 value: "taste"

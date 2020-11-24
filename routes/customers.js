@@ -218,6 +218,16 @@ router.put("/", isVerified, async (req, res) => {
         }
       );
     }
+    // boolSpace
+    if (req.body.boolSpace) {
+      Customer.updateOne(
+        { phone: customerPhone },
+        { $set: { boolSpace: req.body.boolSpace } },
+        function (err, res) {
+          if (err) throw err;
+        }
+      );
+    }
     const customerTemp = await Customer.find({
       phone: req.body.phone,
     });

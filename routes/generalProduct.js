@@ -59,7 +59,8 @@ router.post("/", isVerified, async (req, res) => {
     trader: req.body.trader,
     quantity: req.body.quantity,
     max_discount: req.body.max_discount,
-    place: req.body.place
+    place: req.body.place,
+    story: req.body.story
   }
   GeneralProduct.insertMany([GeneralProductSchemaTemp]);
   res.send(newGeneralProductID);

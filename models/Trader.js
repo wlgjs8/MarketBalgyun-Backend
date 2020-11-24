@@ -81,7 +81,6 @@ const TraderSchema = new Schema({
     type: Number,
     trim: true,
   }
-
 });
 
 module.exports = mongoose.model("Trader", TraderSchema);
