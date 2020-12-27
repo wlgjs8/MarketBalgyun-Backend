@@ -60,11 +60,15 @@ https://marketback.herokuapp.com/
 ## 클라이언트 페이지
 https://market-balgyun.herokuapp.com/  
 
-<a href="https://github.com/pjh4400/MarketBalgyun">Front-End 레포지토리</a>
+<a href="https://github.com/pjh4400/MarketBalgyun">Front-End 레포지토리</a>  
+
+#### 웹사이트 화면 예시
+<img src="https://user-images.githubusercontent.com/42201356/103176775-16e1a100-48b8-11eb-90ac-7ca6508d63d1.png" alt="웹사이트 화면 예시" width="50%" height="50%">
+
 
 ## Made By
 - [숭실대 소프트웨어학부 18 김지헌]
 - [숭실대 소프트웨어학부 18 변지현]
 - [숭실대 소프트웨어학부 18 박재희]
-- [숭실대 컴퓨터학과 18 손예진]
+- [숭실대 컴퓨터학부 18 손예진]
 
