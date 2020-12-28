@@ -48,6 +48,10 @@ IT 전공 대학생들이 자신의 전공을 활용하여 기업 맞춤형 솔�
 | Database | ![issue badge](https://img.shields.io/badge/mongoDB-4.4.0-yellowgreen) |
 
 
+
+### 프로젝트 구조도
+<img src="https://user-images.githubusercontent.com/42201356/103192044-9738ee00-491a-11eb-912d-3eed499bdc2f.png" alt="프로젝트 구조도" width="75%" height="75%">  
+
 ### 데이터베이스 설계
 <img src="https://user-images.githubusercontent.com/42201356/103176644-cd448680-48b6-11eb-8134-719581909191.png" alt="데이터베이스 설계">
 
