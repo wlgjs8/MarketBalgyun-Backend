@@ -24,7 +24,6 @@ const CustomerSchema = new Schema({
   },
   boolLecture: {
     type: Boolean,
-    required: true,
   },
   likeCategory: {
     type: String,
@@ -35,14 +34,13 @@ const CustomerSchema = new Schema({
   email: {
     type: String,
     trim: true,
-    required: true,
+    // required: true,
   },
   birthday: {
     type: String,
   },
   gender: {
     type: String,
-    required: true,
   },
   address: {
     type: String,

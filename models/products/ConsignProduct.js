@@ -10,7 +10,6 @@ var ConsignProductSchema = new Schema({
 	},
 	first_category: {
 		type: String,
-		required: true,
 		trim: true,
 	},
 	second_category: {
@@ -63,39 +62,34 @@ var ConsignProductSchema = new Schema({
 	},
 	consigner: {
 		type: String,
-		trim: true,
 		required: true,
+		trim: true,
 	},
 	phone: {
 		type: String,
 		trim: true,
-		required: true,
 	},
 	accountable: {
 		type: Boolean,
 		default: false,
-		required: true,
 	},
 	// 거래은행
 	bank: {
 		type: String,
 		trim: true,
 		default: "",
-		required: true,
 	},
 	// 계좌번호
 	account: {
 		type: String,
 		trim: true,
 		default: "",
-		required: true,
 	},
 	// 예금주
 	account_owner: {
 		type: String,
 		trim: true,
 		default: "",
-		required: true,
 	},
 });
 

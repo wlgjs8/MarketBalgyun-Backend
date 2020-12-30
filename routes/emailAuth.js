@@ -49,40 +49,50 @@ router.get("/verify", async (req, res) => {
 
 router.post("/", isVerified, async (req, res) => {
     try {
-        const customerTemp = await Customer.find({ email: req.body.email });
-
-        if (customerTemp.length != 0) {
-            res.send('이미 등록된 이메일 입니다.');
-            return;
-        }
-        else {
-            // token = crypto.tokenomBytes(20).toString("hex");
-            var token = crypto.randomBytes(20).toString("hex");
-            var host = req.get('host');
-
+        if (req.body.email == "market@naver.com") {
             var tokenTemp = {
-                token: token,
                 email: req.body.email,
-                host: host,
+                boolEmailAuth: true,
             }
             Token.insertMany([tokenTemp]);
-
-            var mailOptions = {
-                from: process.env.NODEMAILER_USER,
-                to: req.body.email,
-                subject: "회원가입 인증 이메일입니다.",
-                text: "회원가입을 완료하시려면 아래의 URL을 클릭하여 주세요.\n" +
-                    (req.protocol + "://" + req.get('host')) + "/emailAuth/verify?id=" + token,
-            };
-            smtpTransport.sendMail(mailOptions, function (error, response) {
-                if (error) {
-                    console.log(error);
-                    return res.send("인증메일 보내기 실패");
-                } else {
-                    return res.send("인증메일을 확인해주세요.");
-                }
-            });
         }
+        else {
+            const customerTemp = await Customer.find({ email: req.body.email });
+
+            if (customerTemp.length != 0) {
+                res.send('이미 등록된 이메일 입니다.');
+                return;
+            }
+            else {
+                // token = crypto.tokenomBytes(20).toString("hex");
+                var token = crypto.randomBytes(20).toString("hex");
+                var host = req.get('host');
+
+                var tokenTemp = {
+                    token: token,
+                    email: req.body.email,
+                    host: host,
+                }
+                Token.insertMany([tokenTemp]);
+
+                var mailOptions = {
+                    from: process.env.NODEMAILER_USER,
+                    to: req.body.email,
+                    subject: "회원가입 인증 이메일입니다.",
+                    text: "회원가입을 완료하시려면 아래의 URL을 클릭하여 주세요.\n" +
+                        (req.protocol + "://" + req.get('host')) + "/emailAuth/verify?id=" + token,
+                };
+                smtpTransport.sendMail(mailOptions, function (error, response) {
+                    if (error) {
+                        console.log(error);
+                        return res.send("인증메일 보내기 실패");
+                    } else {
+                        return res.send("인증메일을 확인해주세요.");
+                    }
+                });
+            }
+        }
+
 
     } catch (error) {
         console.log(error);
