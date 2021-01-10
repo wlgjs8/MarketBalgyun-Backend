@@ -7,7 +7,7 @@ module.exports = () => {
     }
     mongoose.connect(
       //"mongodb://admin:admin@localhost:27017/admin",
-      "mongodb+srv://market_admin:market_admin@marketcluster.kgeyg.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority",
+      process.env.DB_URL,
       {
         //dbName: "nodejs",
         dbName: "market",
