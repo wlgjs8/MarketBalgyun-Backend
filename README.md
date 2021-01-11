@@ -5,6 +5,7 @@
 IT 전공 대학생들이 자신의 전공을 활용하여 기업 맞춤형 솔루션을 제공하는 프로젝트입니다.  
 &nbsp; 본 프로젝트는 Front-End와 Back-End(Web API 서버)로 구성된 웹 프로젝트이며 본 레포지토리는 Back-End 레포지토리입니다.
 
+
 ## 마켓 발견
 <img src="https://user-images.githubusercontent.com/42201356/103173485-a417fc00-489e-11eb-9c3d-3fcb69bf4ac3.png" alt="마켓발견" width="45%" height="45%">
 
@@ -42,32 +43,41 @@ IT 전공 대학생들이 자신의 전공을 활용하여 기업 맞춤형 솔�
 | | tool |
 | ------ | ------ |
 | 개발언어 | ![issue badge](https://img.shields.io/badge/Node.js-14.15.3-brightgreen) |
-| FrameWork | ![issue badge](https://img.shields.io/badge/Express-4.16.1-blue) |
-| API | ![issue badge](https://img.shields.io/badge/jwt-8.5.1-orange) |
+| FrameWork | ![issue badge](https://img.shields.io/badge/React-4.16.1-blue) |
+| build | ![issue badge](https://img.shields.io/badge/webpack-4.3.0-orange) |
+| library | ![issue badge](https://img.shields.io/badge/Redux-4.0.5-yellowgreen) |
 | 개발환경 | Windows |
-| Database | ![issue badge](https://img.shields.io/badge/mongoDB-4.4.0-yellowgreen) |
 
 
 
 ### 프로젝트 구조도
 <img src="https://user-images.githubusercontent.com/42201356/103192044-9738ee00-491a-11eb-912d-3eed499bdc2f.png" alt="프로젝트 구조도" width="75%" height="75%">  
-
-### 데이터베이스 설계
-<img src="https://user-images.githubusercontent.com/42201356/103176644-cd448680-48b6-11eb-8134-719581909191.png" alt="데이터베이스 설계">
-
-
-  + 일반 상품 등록시 카테고리에 기반하여 6자리 이상의 고유의 ID를 발급받으며, 위탁상품은 구분을 위해 'C'로 시작하는 고유 ID를 부여 받음  
   
 ## Web API 서버
-https://marketback.herokuapp.com/
+https://marketback.herokuapp.com/  
+
+<a href="https://github.com/wlgjs8/MarketBalgyun-Backend">Back-End 레포지토리</a>  
 
 ## 클라이언트 페이지
 https://market-balgyun.herokuapp.com/  
 
-<a href="https://github.com/pjh4400/MarketBalgyun">Front-End 레포지토리</a>  
+#### 웹사이트 화면 예시  
 
-#### 웹사이트 화면 예시
-<img src="https://user-images.githubusercontent.com/42201356/103176775-16e1a100-48b8-11eb-90ac-7ca6508d63d1.png" alt="웹사이트 화면 예시" width="50%" height="50%">
+#### 로그인 화면
+<img src="https://user-images.githubusercontent.com/42201356/103192733-14fdf900-491d-11eb-92ae-2349c61d2d07.png" alt="로그인 화면" width="50%" height="50%">  
+
+#### 메인 화면
+<img src="https://user-images.githubusercontent.com/42201356/103176775-16e1a100-48b8-11eb-90ac-7ca6508d63d1.png" alt="웹사이트 화면 예시" width="50%" height="50%">  
+
+#### 상품 등록  
+<img src="https://user-images.githubusercontent.com/42201356/103192914-d3ba1900-491d-11eb-9a07-bc438aba3414.png" alt="상품 등록 페이지1" width="50%" hegith="50%">  
+
+
+<img src="https://user-images.githubusercontent.com/42201356/103193059-75da0100-491e-11eb-9d2b-edd7ae0889a6.png" alt="상품 등록 페이지2" width="50%" height="50%">  
+
+
+#### 상품 검색
+<img src="https://user-images.githubusercontent.com/42201356/103193214-1defca00-491f-11eb-8782-f46f5c6a1588.png" alt="상품 검색" width="50%" height="50%">  
 
 
 ## Made By
